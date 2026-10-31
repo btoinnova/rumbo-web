@@ -1130,37 +1130,39 @@
   .btn.btn-peligro { background: transparent; color: var(--danger); border: 1.5px solid var(--danger); }
   .btn.btn-peligro:hover:not(:disabled) { background: rgba(180, 35, 24, 0.08); }
 
-  /* ---------- Splash (decisión de Alberto, 23-oct-2026) ----------
-     La carita aparece primero (viene del splash del sistema, en la MISMA medida y lugar) y no se mueve ni cambia de tamaño;
-     debajo aparecen "Rumbo" y el eslogan, y mientras carga un auto avanza dejando puntitos naranjas, como la ruta del logo.
-     --sb / --nb (barra de estado y de navegación, en dp) los pone MainActivity: el splash del sistema se centra en la
-     ventana completa y el WebView no. Sin ellos (web), queda centrado en la página. */
+  /* ---------- Splash del pasajero EXACTO a la maqueta (diseno/apps/capturas/splash-3-roles.png), decisión de Alberto 31-oct-2026 ----------
+     Fase 1 (viene del splash del sistema): SOLO la carita, en la MISMA medida y lugar (--sb / --nb los pone MainActivity; sin ellos, centrada en la página) sobre #11304A.
+     Fase 2 (.fase2, 800 ms después de verse): la carita se funde y entra la escena de la maqueta: lockup horizontal grande con halo arriba, ciudad 3D iluminada,
+     «Ingresando •••» sobre la ciudad y, al pie, «Elige tu rumbo.» entre dos filetes y «by BTo Innova soluciones» sutil. Todo estático salvo los tres puntos. */
   /* En la app nativa el splash del HTML espera los bordes que manda MainActivity (misma posición que el del sistema): sin salto. */
-  html.nativo:not(.bordes-ok) .splash .splash-centro, html.nativo:not(.bordes-ok) .splash .splash-bajo, html.nativo:not(.bordes-ok) .splash .by { visibility: hidden; }
+  html.nativo:not(.bordes-ok) .splash .splash-centro, html.nativo:not(.bordes-ok) .splash .by { visibility: hidden; }
   .splash { position: fixed; inset: 0; z-index: 100; background: #11304A; color: #fff; text-align: center; transition: opacity 0.35s ease; }
-  .splash .splash-centro { position: absolute; left: 50%; top: calc(50% + (var(--nb, 0px) - var(--sb, 0px)) / 2); width: 132px; transform: translate(-50%, -50%); }
+  .splash .splash-centro { position: absolute; left: 50%; top: calc(50% + (var(--nb, 0px) - var(--sb, 0px)) / 2); width: 132px; transform: translate(-50%, -50%); transition: opacity .4s ease; }
   .splash #splashLogo { display: block; width: 132px; height: auto; }
-  .splash .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 340px; height: 340px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .26), rgba(20, 184, 196, .10) 55%, rgba(20, 184, 196, 0)); z-index: -1; pointer-events: none; opacity: 0; animation: splashHalo 1.2s ease-out .15s forwards; }
-  @keyframes splashHalo { from { opacity: 0; } to { opacity: 1; } }
-  .splash .splash-bajo { position: absolute; left: 50%; top: calc(100% + 26px); transform: translateX(-50%); width: 280px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .splash .splash-palabra { width: 150px; height: auto; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .12s forwards; }
-  .splash .splash-titulo { display: none; }
-  .splash .splash-texto { position: absolute; left: -90px; right: -90px; bottom: calc(100% + 20px); font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: 0; color: #fff; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .2s forwards; }
-  .splash .splash-carga { position: relative; width: 132px; height: 22px; margin-top: 8px; opacity: 0; animation: splashAparece .3s ease .5s forwards; }
-  .splash .splash-puntitos { position: absolute; left: 4px; right: 56px; top: 50%; display: flex; justify-content: space-between; transform: translateY(-50%); }
-  .splash .splash-puntitos i { width: 6px; height: 6px; border-radius: 50%; background: #EF6D19; opacity: 0; animation: splashPuntito 1.6s linear infinite; }
-  .splash .splash-puntitos i:nth-child(1) { animation-delay: .15s; } .splash .splash-puntitos i:nth-child(2) { animation-delay: .42s; }
-  .splash .splash-puntitos i:nth-child(3) { animation-delay: .69s; } .splash .splash-puntitos i:nth-child(4) { animation-delay: .96s; }
-  .splash .splash-puntitos i:nth-child(5) { animation-delay: 1.23s; }
-  .splash .splash-auto { position: absolute; left: 0; top: 0; width: 52px; height: 20px; fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; animation: splashAuto 1.6s linear infinite; }
-  @keyframes splashAparece { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  @keyframes splashAuto { 0% { transform: translateX(0); opacity: 1; } 85% { transform: translateX(82px); opacity: 1; } 100% { transform: translateX(82px); opacity: 0; } }
-  @keyframes splashPuntito { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+  .splash .splash-titulo, .splash .splash-texto { display: none; }
+  .splash.fase2 .splash-centro { opacity: 0; }
+  .splash::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-splash-pasajero.webp) center top / cover no-repeat; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+  .splash.fase2::before { opacity: 1; }
+  .splash-marca { position: absolute; top: 96px; left: 50%; width: min(78%, 330px); transform: translateX(-50%); aspect-ratio: 803 / 309; transition: opacity .5s ease .1s; }
+  .splash-marca img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 14px rgba(95, 211, 219, .55)); }
+  .splash-marca::before { content: ""; position: absolute; left: -18%; right: -18%; top: -60%; bottom: -60%; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .45), rgba(20, 184, 196, 0)); }
+  .splash-cargando { position: absolute; left: 0; right: 0; bottom: 143px; margin: 0; font-size: 17px; font-weight: 700; color: #D5E1EA; text-shadow: 0 1px 8px rgba(7, 24, 42, .95); letter-spacing: .02em; transition: opacity .5s ease .2s; }
+  .splash-cargando i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #5FD3DB; margin: 0 2px 2px; animation: splashPunto 1.2s infinite; }
+  .splash-cargando i:nth-child(2) { animation-delay: .15s; } .splash-cargando i:nth-child(3) { animation-delay: .3s; }
+  @keyframes splashPunto { 0%, 100% { opacity: .45; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
+  .splash-eslogan { position: absolute; left: 0; right: 0; bottom: 62px; margin: 0; padding: 7px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 17px; font-weight: 600; line-height: 1.3; letter-spacing: .01em; color: #fff; background: linear-gradient(90deg, rgba(7, 24, 42, 0), rgba(7, 24, 42, .78) 16%, rgba(7, 24, 42, .78) 84%, rgba(7, 24, 42, 0)); transition: opacity .5s ease .3s; }
+  .splash-eslogan::before, .splash-eslogan::after { content: ""; flex: 1 1 14px; max-width: 38px; height: 1px; background: rgba(183, 198, 210, .75); }
+  .splash-eslogan .r { color: #5FD3DB; }
+  /* Fase 1 = SOLO la carita (igual que el splash nativo): lo demás entra con la fase 2. */
+  .splash:not(.fase2) .splash-marca, .splash:not(.fase2) .splash-cargando, .splash:not(.fase2) .splash-eslogan { opacity: 0; }
+  /* «by» sutil: en la fase 1 queda donde lo deja el splash del sistema y baja suave a su lugar de la maqueta. */
+  .splash .by { transition: bottom .6s ease, font-size .6s ease, color .6s ease; }
+  .splash.fase2 .by { bottom: max(22px, env(safe-area-inset-bottom)); font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, .66); text-shadow: 0 1px 8px rgba(7, 24, 42, .95); z-index: 5; }
+  .splash.fase2 .by::before { content: ""; position: absolute; left: 0; right: 0; bottom: calc(-1 * max(22px, env(safe-area-inset-bottom))); height: 96px; z-index: -1; background: linear-gradient(180deg, rgba(7, 24, 42, 0), rgba(7, 24, 42, .92) 55%); pointer-events: none; }
   @media (prefers-reduced-motion: reduce) {
-    .splash .splash-palabra, .splash .splash-texto, .splash .splash-carga { animation: none; opacity: 1; }
-    .splash .splash-centro::before { animation: none; opacity: 1; }
-    .splash .splash-auto { animation: none; transform: translateX(82px); }
-    .splash .splash-puntitos i { animation: none; opacity: 1; }
+    .splash::before { opacity: 1; transition: none; }
+    .splash .splash-centro, .splash-marca, .splash-cargando, .splash-eslogan, .splash .by { transition: none; }
+    .splash-cargando i { animation: none; opacity: 1; }
   }
   /* By BTo Innova soluciones (regla de marca): al pie del splash, a la misma altura que en el splash del sistema (80 dp sobre el borde de la ventana). El logo es azul oscuro: va sobre un recuadro claro. */
   .splash .by { position: absolute; left: 0; right: 0; bottom: calc(80px - var(--nb, 58px) + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: center; gap: .45em; }
@@ -1378,6 +1380,67 @@
     body.pas-pantalla #segHoja .estado-box { font-size: 20px; }
     body.pas-pantalla #segHoja .eta { padding: 6px 10px; }
   }
+  /* Menú y pantallas hijas como la maqueta (pasajero): menú del perfil en tarjetas hielo, títulos 22/800 petróleo, tarjetas y filas hielo radio 16-18, chips 48 px,
+     botones 60 px radio 18, campos 52 px, fondo blanco y sin la barra vieja en Mi cuenta / Mis viajes. Solo teléfono; mismos ids, handlers y textos (los legales no se tocan).
+     Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
+    .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
+    .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
+    .menu-lateral-quien strong { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
+    .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
+    .menu-lateral-item { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    .menu-lateral-item::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
+    .menu-lateral-item:active { background: #E3F6F8; }
+    .menu-punto.contador { margin-left: 8px; }
+    .menu-pie { margin-top: 14px; padding-top: 0; border-top: 0; }
+    .menu-pie-item { min-height: 48px; background: none; border-radius: 12px; font-size: 15px; font-weight: 600; color: #08626A; }
+    .menu-pie-item::after { display: none; }
+    .pagina-cab, .cuenta-cab { gap: 10px; margin: 0 0 16px; }
+    .pagina-cab h3, .cuenta-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    .pagina-cab button, .cuenta-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
+    .modal-opc.pagina, .modal-opc.pagina .modal-opc-hoja { background: #fff; }
+    .modal-opc.pagina .modal-opc-hoja { padding-left: 20px; padding-right: 20px; }
+    body.cta-solo { background: #fff; }
+    body.cta-solo .topbar { display: none; }
+    body.cta-solo #vistaCuenta { padding-top: max(14px, env(safe-area-inset-top)); }
+    .modal-opc.pagina .card, #vistaCuenta .card { background: #F2F4F5; border: 0; border-radius: 18px; box-shadow: none; padding: 16px; }
+    #vistaCuenta .card-title { font-size: 17px; font-weight: 800; color: #11304A; }
+    .modal-opc.pagina .nota, .modal-opc.pagina .tyc-p, #vistaCuenta .nota { color: #4E5A6C; }
+    .msg-fila, .viaje-fila { background: #F2F4F5; border: 0; border-radius: 16px; padding: 14px 16px; }
+    .msg-fila:active, .viaje-fila.viaje-tocar:active { background: #E3F6F8; }
+    .modal-opc.pagina .lugar-item { margin-bottom: 8px; padding: 12px 14px; background: #F2F4F5; border: 0; border-radius: 16px; }
+    .modal-opc.pagina .lugar-info strong { font-size: 17px; font-weight: 800; color: #0A2236; }
+    .pago-opcion { min-height: 64px; background: #F2F4F5; border: 2px solid transparent; border-radius: 18px; }
+    .pago-opcion strong { font-weight: 800; color: #0A2236; }
+    .pago-opcion.elegida { border-color: #14B8C4; background: #E3F6F8; }
+    .modal-opc.pagina .btn, #vistaCuenta .btn { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
+    .modal-opc.pagina .btn.btn-chico { min-height: 48px; width: auto; padding: 0 16px; border-radius: 14px; background: #E3F6F8; color: #08626A; font-size: 15px; box-shadow: none; }
+    .modal-opc.pagina .chip-opc, .modal-opc.pagina .lugar-accion-btn { min-height: 48px; }
+    .modal-opc.pagina .campo input, #vistaCuenta .campo input, .modal-opc.pagina .campo textarea, #vistaCuenta .campo textarea { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+    .modal-opc.pagina .campo select { min-height: 52px !important; border-radius: 14px !important; border: 1.5px solid #D9DFE3 !important; font-weight: 600; }
+  }
+  /* Sin movimiento lateral (pedido de Alberto, 31-oct-2026): la hoja inferior, su contenedor, el menú y la página NO se arrastran de lado. Con overflow-y: auto el eje X
+     queda en «auto» y un texto largo lo vuelve desplazable; aquí se cierra y el gesto se limita a vertical. A PROPÓSITO siguen horizontales: el deslizador «Iniciar/Finalizar viaje»
+     (.tv-accion), las filas arrastrables de paradas y las tablas/chips de admin con su propio desplazamiento. El arrastre VERTICAL de la hoja (asa) no se toca. */
+  @media (max-width: 899px) {
+    body { overflow-x: hidden; }
+    .wiz-hoja, #segHoja, #panelPedidos, #panelEnCurso, .hoja-cuerpo, #panelAjustes, .menu-lateral, .modal-opc-hoja { overflow-x: hidden; }
+    .wiz-hoja, #segHoja, #panelPedidos, #panelEnCurso, .hoja-cuerpo { touch-action: pan-y; }
+  }
+  /* Botón principal calipso «D» (Alberto, 31-oct-2026: A+B+C combinados con criterio): texto #04121F (A), degradado sutil con filo de luz que respeta el radio (B), borde inferior sólido de 3 px que se
+     hunde al presionar (A+B), deshabilitado con color propio (A) y un halo turquesa más amplio pero contenido + destello lento solo en botones activos (C). El halo no usa naranja ni sube de .55 de alfa:
+     el naranja del mapa y del tirador sigue siendo el único acento cálido. Misma altura, radio y texto que antes. Va antes de «Rediseño etapa 2»; la especificidad (.btn.btn-primario) le gana a ese bloque. */
+  :root { --btn-d-grad: linear-gradient(180deg, #32CCD7 0%, #14B8C4 52%, #0FA3AF 100%); }
+  .btn.btn-primario, button.btn-primario, #avisoWebInstalar { position: relative; overflow: hidden; background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94, 0 14px 26px -10px rgba(20, 184, 196, .55); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-primario:active:not(:disabled), button.btn-primario:active:not(:disabled), #avisoWebInstalar:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #14B8C4, #0FA3AF); box-shadow: inset 0 2px 4px rgba(7, 24, 42, .25), 0 0 0 #0C8A94, 0 4px 10px -6px rgba(20, 184, 196, .5); }
+  .btn.btn-primario:disabled, button.btn-primario:disabled, #avisoWebInstalar:disabled { opacity: 1; background: #BCE6EA; color: #4F7D85; box-shadow: none; transform: none; }
+  .btn.btn-primario::after, button.btn-primario::after, #avisoWebInstalar::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 34%; background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .34), rgba(255, 255, 255, 0)); transform: skewX(-18deg); pointer-events: none; animation: btnDestello 10s ease-in-out 1s infinite; }
+  .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, #avisoWebInstalar:disabled::after { display: none; }
+  @keyframes btnDestello { 0% { left: -40%; } 18% { left: 120%; } 100% { left: 120%; } }
+  @media (prefers-reduced-motion: reduce) { .btn.btn-primario::after, button.btn-primario::after, #avisoWebInstalar::after { animation: none; display: none; } }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro, pastillas con punto y hoja del pasajero. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. */
   .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
   .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
@@ -1419,16 +1482,28 @@
 </div>
 <div class="splash" id="splashIngresando">
   <div class="splash-centro">
-    <div class="splash-texto" id="splashTexto">Elige tu</div>
+    <div class="splash-texto" id="splashTexto"></div>
     <img src="img/logo-carita.png" alt="" id="splashLogo">
-    <div class="splash-bajo">
-      <img src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo" class="splash-palabra">
-      <div class="splash-titulo" id="splashTitulo"></div>
-      <div class="splash-carga" aria-hidden="true"><span class="splash-puntitos"><i></i><i></i><i></i><i></i><i></i></span><svg class="splash-auto" viewBox="0 -4 160 62" aria-hidden="true"><path d="M154 42 L140 42 A14 14 0 0 0 112 42 L46 42 A14 14 0 0 0 18 42 L6 42 L5 32 Q5 24 9 19 L14 10 Q22 0 38 -1 L88 -1 Q96 -1 102 3 L138 18 L148 19 Q154 21 154 28 Z"/><path d="M22 17 L27 6 Q29 3 36 3 L57 3 L57 17 Z"/><path d="M61 3 L88 3 Q93 3 97 6 L118 17 L61 17 Z"/><path d="M119 19 L125 19" stroke-width="3"/><path d="M143 23 L149 27" stroke-width="2"/><path d="M6 24 L10 23" stroke-width="2"/><circle cx="32" cy="42" r="11"/><circle cx="32" cy="42" r="3.5"/><circle cx="126" cy="42" r="11"/><circle cx="126" cy="42" r="3.5"/></svg></div>
-    </div>
+    <div class="splash-titulo" id="splashTitulo"></div>
   </div>
+  <div class="splash-marca" role="img" aria-label="Rumbo"><img src="img/logo-rumbo-wordmark.png" alt=""></div>
+  <p class="splash-cargando" role="status">Ingresando <i></i><i></i><i></i></p>
+  <p class="splash-eslogan" id="splashEslogan"><span>Elige tu <span class="r">rumbo</span>.</span></p>
   <div class="by">by BTo Innova soluciones</div>
 </div>
+<script>
+  /* Splash: fase 2 a los 800 ms de verse (en la app nativa, cuando MainActivity ya mandó los bordes: misma posición que el splash del sistema). Movimiento reducido: de inmediato. */
+  (function () {
+    var s = document.getElementById("splashIngresando");
+    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 800); }
+    var h = document.documentElement;
+    if (h.classList.contains("nativo") && !h.classList.contains("bordes-ok")) {
+      var o = new MutationObserver(function () { if (h.classList.contains("bordes-ok")) { o.disconnect(); ir(); } });
+      o.observe(h, { attributes: true, attributeFilter: ["class"] });
+    } else ir();
+    window.__splashFase2 = function () { s.classList.remove("fase2"); setTimeout(ir, 30); };   // mostrarSplash lo vuelve a usar
+  })();
+</script>
 <script>
   /* Se decide ANTES de dibujar el resto: con sesión, la pantalla de espera
      cubre todo desde el primer instante; sin sesión, se quita al tiro. */
@@ -2674,6 +2749,7 @@
     if (logo) document.getElementById("splashLogo").src = logo;
     document.getElementById("splashTexto").textContent = texto;
     el.hidden = false; el.classList.remove("oculta");
+    if (window.__splashFase2) window.__splashFase2();
     splashDesde = Date.now();
     setTimeout(ocultarSplash, 4000);
   }
@@ -2875,7 +2951,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 84;
+  var APP_VERSION = 85;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -5556,6 +5632,7 @@
           // En cada sondeo: pasa de "va hacia ti" a "en viaje" cuando el
           // conductor toca "Iniciar viaje".
           viajeIniciadoActual = !!res.viaje_iniciado;
+          dibujarRutaViaje();   // si la ruta ya está en el mapa, cambia de turquesa a naranja al iniciarse el viaje
           var llegoAntes = conductorLlegoActual;
           conductorLlegoActual = !!res.conductor_llego;
           llegadaRecogidaMs = (res.espera_desde || res.llegada_recogida_en) ? Date.parse(res.espera_desde || res.llegada_recogida_en) || 0 : 0;
@@ -5990,17 +6067,33 @@
     vistaPreviaTimer = setTimeout(ocultarVistaPrevia, 5000);
   }
 
+  // Límites verticales de la burbuja en el pasajero: bajo la barra de arriba y NUNCA detrás de la hoja ni de la barra de abajo.
+  function limitesBurbujaPas(alto, arriba, nav, hoja, tam) {
+    var min = arriba + 8, max = alto - nav - hoja - tam - 12;
+    if (max < min) max = min;
+    return { min: min, max: max };
+  }
+  function clamparBurbujaY(y, lim) { return Math.min(Math.max(lim.min, y), lim.max); }
+
   // Burbuja arrastrable: se suelta y se pega al borde más cercano; un toque
   // sin arrastrar abre la ventana. La posición se recuerda en el teléfono.
   (function () {
     var b = document.getElementById("burbujaChat");
-    var inicio = null, movio = false;
+    var inicio = null, movio = false, ultimoLibre = null;
     function aplicar(p) {
       if (!p) return;
       b.style.left = Math.min(Math.max(8, p.x), window.innerWidth - 68) + "px";
       b.style.right = "auto";
-      // En el pasajero queda siempre justo sobre la ventana (que sube y baja): solo se elige el lado, nunca la altura.
-      if (document.body.classList.contains("pas-pantalla")) return;
+      // Pasajero: por defecto queda sobre la ventana (que sube y baja, CSS); si la persona la arrastró en vertical (libre) se respeta, sin pasar detrás de la hoja.
+      if (document.body.classList.contains("pas-pantalla")) {
+        if (p.libre && typeof p.y === "number") {
+          var cs = getComputedStyle(document.body);
+          var lim = limitesBurbujaPas(window.innerHeight, parseFloat(cs.getPropertyValue("--topbar-h")) || 58, parseFloat(cs.getPropertyValue("--nav-h")) || 0, parseFloat(cs.getPropertyValue("--hoja-vis")) || 0, 60);
+          b.style.top = clamparBurbujaY(p.y, lim) + "px"; b.style.bottom = "auto";
+          ultimoLibre = p;
+        } else { b.style.top = ""; b.style.bottom = ""; ultimoLibre = null; }
+        return;
+      }
       b.style.top = Math.min(Math.max(8, p.y), window.innerHeight - 140) + "px";
       b.style.bottom = "auto";
     }
@@ -6017,7 +6110,7 @@
       if (!movio && Math.abs(dx) + Math.abs(dy) < 8) return;
       movio = true;
       ocultarVistaPrevia();
-      aplicar({ x: inicio.bx + dx, y: inicio.by + dy });
+      aplicar({ x: inicio.bx + dx, y: inicio.by + dy, libre: document.body.classList.contains("pas-pantalla") });   // mientras se arrastra sigue el dedo también en vertical
     });
     function soltar() {
       if (!inicio) return;
@@ -6025,6 +6118,7 @@
       if (!movio) return;
       var r = b.getBoundingClientRect();
       var p = { x: r.left + r.width / 2 < window.innerWidth / 2 ? 12 : window.innerWidth - 72, y: r.top };
+      if (document.body.classList.contains("pas-pantalla")) p.libre = true;   // el pasajero la puede dejar a cualquier altura (sobre la hoja)
       aplicar(p);
       try { localStorage.setItem("rumbo_burbuja_chat", JSON.stringify(p)); } catch (e) {}
     }
@@ -6032,8 +6126,9 @@
     b.addEventListener("pointercancel", soltar);   // gesto interrumpido (llamada, gesto del sistema)
     // Al rotar el teléfono la burbuja no debe quedar fuera de la pantalla.
     window.addEventListener("resize", function () {
-      if (b.style.left) aplicar({ x: parseFloat(b.style.left), y: parseFloat(b.style.top) });
+      if (b.style.left) aplicar({ x: parseFloat(b.style.left), y: parseFloat(b.style.top), libre: !!ultimoLibre });
     });
+    window.__ajustarBurbuja = function () { if (ultimoLibre) aplicar(ultimoLibre); };   // la hoja subió o bajó: que no quede tapada
     b.addEventListener("click", function (ev) {
       if (movio) { ev.preventDefault(); movio = false; return; }
       abrirVentanaChat();
@@ -6266,12 +6361,17 @@
   // Devuelve un objeto con setMap(), igual que una Polyline: el resto del
   // código lo borra con lineaRuta.setMap(null) como antes.
   // (El nombre se conserva porque lo llaman varios lugares; desde la etapa 3 del rediseño la ruta es turquesa de la marca: halo ancho + trazo + núcleo claro, la «sonrisa» luminosa de la maqueta.)
-  function dibujarRutaNaranja(mapaDestino, puntos) {
-    var capas = [
+  function dibujarRutaNaranja(mapaDestino, puntos, enCurso) {
+    // Turquesa mientras el conductor va a buscar al pasajero; NARANJA (misma geometría) con el viaje EN CURSO. Halo en naranja oscuro para que se lea también sobre el mapa claro.
+    var capas = (enCurso ? [
+      { c: "#C2410C", o: 0.5, w: 16, z: 1 },
+      { c: "#EF6D19", o: 1, w: 7, z: 2 },
+      { c: "#FFB07A", o: 1, w: 3, z: 3 }
+    ] : [
       { c: "#14B8C4", o: 0.28, w: 16, z: 1 },
       { c: "#14B8C4", o: 1, w: 7, z: 2 },
       { c: "#5FD3DB", o: 1, w: 3, z: 3 }
-    ].map(function (k) { return new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: k.c, strokeOpacity: k.o, strokeWeight: k.w, zIndex: k.z }); });
+    ]).map(function (k) { return new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: k.c, strokeOpacity: k.o, strokeWeight: k.w, zIndex: k.z }); });
     return { setMap: function (m) { capas.forEach(function (l) { l.setMap(m); }); } };
   }
   // Marcadores de la marca: punto naranja = de dónde sales, rombo turquesa = adónde vas.
@@ -6447,10 +6547,16 @@ function svgAuto(rumbo, color, tipo) {
 
   var lineaRuta = null;
   function dibujarRutaViaje() {
-    if (!mapa || lineaRuta || !rutaViajeCodificada || !google.maps.geometry) return;
+    if (!mapa || !rutaViajeCodificada || !google.maps.geometry) return;
+    // El viaje se inició (o cambió el estado): la misma ruta se vuelve a pintar con el color nuevo, sin volver a encuadrar el mapa.
+    var recolorear = false;
+    if (lineaRuta && lineaRuta.enCurso !== viajeIniciadoActual) { lineaRuta.setMap(null); lineaRuta = null; recolorear = true; }
+    if (lineaRuta) return;
     var puntos = google.maps.geometry.encoding.decodePath(rutaViajeCodificada);
     if (!puntos.length) return;
-    lineaRuta = dibujarRutaNaranja(mapa, puntos);
+    lineaRuta = dibujarRutaNaranja(mapa, puntos, viajeIniciadoActual);
+    lineaRuta.enCurso = viajeIniciadoActual;
+    if (recolorear) return;
     var limites = new google.maps.LatLngBounds();
     puntos.forEach(function (pt) { limites.extend(pt); });
     mapa.fitBounds(limites, paddingMapa());
@@ -6618,6 +6724,7 @@ function svgAuto(rumbo, color, tipo) {
     var visHoja = m[hojaEstado];
     if (hojaEstado === "medio" && document.getElementById("vistaEstado").style.display !== "none") visHoja = Math.min(visHoja, 470);   // seguimiento: la hoja media solo muestra ETA, conductor y vehículo; el resto del alto es para ver el auto y la ruta
     fijarAlturaHoja(visHoja);
+    if (window.__ajustarBurbuja) window.__ajustarBurbuja();
     try {
       if (window.google && google.maps) {
         if (mapaCotizar) google.maps.event.trigger(mapaCotizar, "resize");
