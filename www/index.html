@@ -59,6 +59,20 @@
     --r-card: 14px;
     --r-input: 12px;
     --r-btn: 12px;
+    /* Rediseño (maquetas de diseno/apps, etapa 0): tokens NUEVOS, aún sin uso; nada cambia a la vista. Quedan fuera --naranja, --naranja-texto, --r-card y --r-btn de la maqueta porque ya existen arriba con otro valor. */
+    --noche: #07182A; --noche-2: #0B2238; --petroleo: #11304A; --petroleo-2: #16405F;
+    --turq: #14B8C4; --turq-2: #0EA5B0; --turq-claro: #5FD3DB; --turq-tinte: #E3F6F8; --turq-texto: #08626A;
+    --naranja-tinte: #FDEBDD;
+    --ambar: #FFD479; --ambar-tinte: #FFF1D0; --ambar-texto: #7A4B00;
+    --ok-tinte: #DDF5E8; --ok-texto: #0B6B3A; --alerta: #C2362B; --alerta-tinte: #FBE6E3;
+    --hielo: #F2F4F5; --ink: #0A2236; --sub: #4E5A6C; --sub-noche: #B7C6D2; --linea: #D9DFE3;
+    --r-hoja: 28px; --r-campo: 16px; --r-chip: 99px;
+    --sombra-hoja: 0 -18px 50px -10px rgba(0,0,0,.55); --sombra-card: 0 10px 30px -14px rgba(7,24,42,.35);
+    --luz-turq: 0 10px 30px -8px rgba(20,184,196,.55), 0 2px 0 rgba(255,255,255,.35) inset;
+    --vidrio: rgba(11,34,56,.72);
+    --ease: cubic-bezier(.16,1,.3,1); --d1: .2s; --d2: .45s; --d3: .7s;
+    --t-h1: 28px; --t-h2: 22px; --t-cuerpo: 16px; --t-apoyo: 15px; --t-cifra: 44px;
+    --alto-btn: 60px; --alto-btn-sec: 52px; --alto-min: 48px;
   }
   /* Por ahora la app es de tema único (claro): fondo blanco/gris perlado
      con tarjetas blancas flotando con sombra — sin alternar según el
@@ -410,6 +424,63 @@
   .viaje-ruta { font-size: 14px; font-weight: 600; color: var(--text); }
   .viaje-detalle { font-size: 14px; color: var(--text-2); margin-top: 2px; }
 
+  /* Pantalla individual por documento: título, paso, indicaciones, caras con su estado y los datos manuales. */
+  .dp { position: fixed; inset: 0; z-index: 85; background: var(--bg); display: flex; flex-direction: column; }
+  .dp-cab { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .dp-cab h2 { margin: 0; font-size: 20px; }
+  .dp-volver { width: 48px; height: 48px; border: 0; border-radius: 12px; background: var(--surface-2); font-size: 28px; line-height: 1; color: var(--text); }
+  .dp-cuerpo { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .dp-paso { margin: 0; font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .02em; }
+  .dp-ayuda { margin: 0; padding-left: 22px; font-size: 16px; line-height: 1.5; color: var(--text); display: flex; flex-direction: column; gap: 6px; }
+  .dp-cara { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .dp-cara-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 16px; }
+  .dp-nota { margin: 0; font-size: 15px; color: var(--text-2); overflow-wrap: anywhere; }
+  .dp-mini { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; background: var(--surface-2); }
+  .dp .campo { margin: 0; }
+  .dp .campo input, .dp .campo select { width: 100%; font-size: 16px; min-height: 48px; }
+  .dp-check { display: flex; align-items: center; gap: 12px; font-size: 16px; min-height: 48px; padding: 4px 2px; }
+  .dp-check input { width: 24px; height: 24px; flex: none; accent-color: var(--primary); }
+  .dp-pie { padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; gap: 8px; }
+  .dp .btn { min-height: 52px; font-size: 16px; }
+  .dp .badge, .ident-cab .badge { font-size: 15px; padding: 4px 12px; }
+  .dp .pedido-aviso { font-size: 16px; line-height: 1.4; padding: 12px; margin: 0; }
+  .dp .campo-label { font-size: 16px; color: var(--text); }
+  .cam-marco.hoja { left: 14%; right: 14%; aspect-ratio: 3 / 4; }
+  /* Insignias de estado y botón de acción de las pantallas de documentos (mismo aspecto que en la app del conductor). */
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); color: var(--text-2); }
+  .badge-verde { background: #E6F4EA; color: #1B6B3A; }
+  .badge-azul { background: var(--primary-soft); color: var(--primary-soft-ink); }
+  .badge-ambar { background: #FFF3D6; color: #7A540C; }
+  .badge-rojo { background: var(--danger-soft); color: var(--danger); }
+  .pedido-aviso { font-size: 15px; color: var(--danger); background: var(--danger-soft); border-radius: 12px; padding: 8px 10px; }
+  .btn-ok { background: var(--accent); color: #fff; }
+  .btn-ok:hover:not(:disabled) { filter: brightness(.95); }
+  .btn-chico { min-height: 44px; }
+  /* Cámara con marco: el documento entra en el rectángulo (cédula y licencia ~1,59:1); la selfie, en el óvalo. */
+  .cam-doc { position: fixed; inset: 0; z-index: 95; background: #0b1620; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; color: #fff; }
+  .cam-visor { position: relative; width: 100%; max-width: 480px; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 14px; background: #000; }
+  .cam-visor video { width: 100%; height: 100%; object-fit: cover; }
+  .cam-marco { position: absolute; left: 8%; right: 8%; top: 50%; transform: translateY(-50%); aspect-ratio: 1.59 / 1; border: 3px solid #fff; border-radius: 10px; box-shadow: 0 0 0 999px rgba(0,0,0,.5); }
+  .cam-marco.rostro { left: 20%; right: 20%; aspect-ratio: 3 / 4; border-radius: 50%; }
+  .cam-marco.rostro::before { content: ""; position: absolute; left: 12%; right: 12%; top: 38%; border-top: 2px dashed rgba(255,255,255,.7); }   /* línea de los ojos, horizontal */
+  .cam-marco.rostro::after { content: ""; position: absolute; left: 50%; top: 12%; bottom: 12%; border-left: 2px dashed rgba(255,255,255,.7); }   /* eje del rostro */
+  .cam-doc p { margin: 0; font-size: 16px; text-align: center; max-width: 480px; }
+  .cam-botones { display: flex; gap: 10px; width: 100%; max-width: 480px; }
+  .cam-botones .btn { flex: 1; }
+  .cam-cuenta { font-size: 44px; font-weight: 700; line-height: 1; }
+  /* Verifica tu identidad (Mi cuenta): una fila por documento, estado a la derecha. */
+  .ident-fila { padding: 12px 0; border-top: 1px solid var(--border); }
+  .ident-fila:first-of-type { border-top: none; }
+  .ident-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .ident-cab strong { font-size: 16px; }
+  .ident-estado { flex: none; font-size: 14px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); color: var(--text-2); }
+  .ident-estado.validada { background: #E6F4EA; color: #1B6B3A; }
+  .ident-estado.revision { background: var(--primary-soft); color: var(--primary-soft-ink); }
+  .ident-estado.objetada { background: var(--danger-soft); color: var(--danger); }
+  .ident-motivo { margin: 6px 0 0; font-size: 15px; color: var(--danger); }
+  .ident-fila .campo { margin: 10px 0 0; }
+  .ident-fila .btn { margin-top: 10px; }
+
   /* ---------- Botones ---------- */
   .btn {
     width: 100%; border: none; border-radius: var(--r-btn); cursor: pointer;
@@ -485,6 +556,7 @@
   .cambio-banner.ok { border-color: var(--accent); background: #EAF7EF; color: var(--accent); }
   .ed-fila { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
   .ed-fila input { flex: 1; min-width: 0; }
+  .ed-fila .btn { width: auto; flex: none; min-height: 44px; padding: 6px 14px; }
   .ed-precio { margin: 10px 0; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, #F1F5F6); font-size: 14px; line-height: 1.4; }
   .ed-precio strong { font-size: 16px; }
   .estado-box.confirmado { border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
@@ -658,6 +730,30 @@
   body.pas-pantalla.arrastrando .burbuja-chat { transition: none; }
   body.pas-pantalla { overflow: hidden; }
   body.pas-pantalla .topbar { position: relative; z-index: 30; }
+  /* Header flotante (teléfono): pastilla de vidrio «Rumbo» sobre el mapa + círculos de ubicación y perfil (maqueta «pasajero-secuencia-pedir-viaje»).
+     El mapa ya ocupa toda la pantalla; el saludo por nombre vive en el menú (cabecera del menú lateral). Escritorio: barra de tope a tope, sin cambios. */
+  @media (max-width: 899px) {
+    body.pas-pantalla .topbar {
+      position: fixed; top: 0; left: 0; right: 0; margin: 0; z-index: 30; gap: 10px;
+      padding: max(14px, env(safe-area-inset-top)) 16px 0; background: transparent; border: 0; border-radius: 0; pointer-events: none;
+    }
+    body.pas-pantalla .topbar > * { pointer-events: auto; }
+    body.pas-pantalla .brand {
+      height: 44px; padding: 0 16px 0 8px; gap: 8px; border-radius: 999px; flex: none;
+      background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .12); box-shadow: 0 2px 10px rgba(0, 0, 0, .28);
+    }
+    body.pas-pantalla .brand-mark { width: 32px; height: 32px; }
+    body.pas-pantalla .brand-texto { min-height: 0; }
+    body.pas-pantalla .brand-wordmark { height: 18px; }
+    body.pas-pantalla .brand-sub { display: none; }
+    body.pas-pantalla .brand-movil { display: none; }
+    body.pas-pantalla .btn-menu-cond, body.pas-pantalla .btn-circ-mapa {
+      width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .12); color: #fff; cursor: pointer; flex: none;
+      background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); place-items: center;
+    }
+    body.pas-pantalla .btn-circ-mapa { display: grid; }
+    body.en-seguimiento .btn-circ-mapa { display: none; }
+  }
   body.pas-pantalla .wiz { height: auto !important; min-height: 0; display: block; }
   body.pas-pantalla .wiz-mapa { position: fixed; left: 0; right: 0; top: 0; bottom: var(--nav-h, 0px); z-index: 1; margin: 0; }
   body.pas-pantalla #mapaCotizar, body.pas-pantalla #mapaConductor { height: 100%; min-height: 0 !important; border-radius: 0; border: none; }
@@ -744,6 +840,7 @@
     background: rgba(255, 255, 255, 0.14); color: #fff; display: flex; align-items: center; justify-content: center;
   }
   .btn-menu-cond:active { background: rgba(255, 255, 255, 0.26); }
+  .btn-circ-mapa { display: none; }
   .menu-lateral-fondo { position: fixed; inset: 0; z-index: 85; background: rgba(10, 20, 40, 0.5); }
   .menu-lateral-fondo[hidden] { display: none; }
   .menu-lateral {
@@ -820,12 +917,18 @@
 
   /* ---------- Seguimiento: mapa grande + hoja (patrón de referentes de mercado) ---------- */
   .wiz-mapa { position: relative; }
+  /* Fondo «ciudad 3D de noche» (decisión de Alberto, 30-oct-2026): es el FONDO de la app, NO el mapa. Imagen estática (sin movimiento), suavizada al ~70 %.
+     Solo donde no hay nada que ver en el mapa: el inicio antes de calcular y «buscando conductor». Nunca tapa el mapa real del seguimiento (ni del admin). */
+  .fondo-ciudad { display: none; position: absolute; inset: 0; z-index: 2; background: #07182A; pointer-events: none; }
+  .fondo-ciudad::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-ciudad.webp) center top / cover no-repeat; opacity: .7; }
+  body.fondo-inicio:not(.ver-mapa) .fondo-ciudad { display: block; }
+  .radar-buscando::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-ciudad.webp) center top / cover no-repeat; opacity: .7; }
   .radar-buscando {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     border-radius: var(--r-card); background: var(--surface-2); border: 1px solid var(--border); overflow: hidden;
   }
   .radar-buscando span {
-    position: absolute; width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--naranja);
+    position: absolute; width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--naranja); box-shadow: 0 0 8px rgba(239, 109, 25, .55);
     opacity: 0; animation: radar 2.4s ease-out infinite;
   }
   .radar-buscando span:nth-child(2) { animation-delay: .8s; }
@@ -1037,6 +1140,8 @@
   .splash { position: fixed; inset: 0; z-index: 100; background: #11304A; color: #fff; text-align: center; transition: opacity 0.35s ease; }
   .splash .splash-centro { position: absolute; left: 50%; top: calc(50% + (var(--nb, 0px) - var(--sb, 0px)) / 2); width: 132px; transform: translate(-50%, -50%); }
   .splash #splashLogo { display: block; width: 132px; height: auto; }
+  .splash .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 340px; height: 340px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .26), rgba(20, 184, 196, .10) 55%, rgba(20, 184, 196, 0)); z-index: -1; pointer-events: none; opacity: 0; animation: splashHalo 1.2s ease-out .15s forwards; }
+  @keyframes splashHalo { from { opacity: 0; } to { opacity: 1; } }
   .splash .splash-bajo { position: absolute; left: 50%; top: calc(100% + 26px); transform: translateX(-50%); width: 280px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .splash .splash-palabra { width: 150px; height: auto; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .12s forwards; }
   .splash .splash-titulo { display: none; }
@@ -1053,6 +1158,7 @@
   @keyframes splashPuntito { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
     .splash .splash-palabra, .splash .splash-texto, .splash .splash-carga { animation: none; opacity: 1; }
+    .splash .splash-centro::before { animation: none; opacity: 1; }
     .splash .splash-auto { animation: none; transform: translateX(82px); }
     .splash .splash-puntitos i { animation: none; opacity: 1; }
   }
@@ -1154,6 +1260,140 @@
   .rb-pop-botones button { min-width: 96px; padding: 11px 16px; border-radius: 12px; font: 600 15px system-ui, sans-serif; cursor: pointer; border: 0; }
   .rb-pop-si { background: #11304A; color: #fff; }
   .rb-pop-no { background: #E8EEF3; color: #11304A; }
+  /* Rediseño etapa 4 (pasajero): seguimiento con el mensaje de estado y el PIN ARRIBA, sobre el mapa y siempre a la vista; la hoja de abajo lleva primero conductor/vehículo y la ruta.
+     Solo estilos: los nodos se reubican (mismos ids y handlers). En escritorio flotan sobre el mapa, a la derecha del panel. */
+  .seg-top { display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+  .seg-top > * { pointer-events: auto; }
+  .seg-top .estado-box { margin: 0; background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); border-radius: 16px; padding: 12px 14px; font-size: 17px; font-weight: 700; }
+  .seg-top .pin-inicio { margin: 0; display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; padding: 10px 14px; background: #fff; border: 2px solid var(--turq); border-radius: 16px; box-shadow: var(--sombra-card); text-align: left; }
+  .seg-top .pin-inicio[hidden] { display: none; }
+  .seg-top .pin-et { grid-column: 1; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: none; }
+  #pinInicioNum { grid-column: 2; grid-row: 1 / span 3; font-size: 40px; line-height: 1; font-weight: 800; letter-spacing: .14em; margin: 0; padding-left: 2px; }
+  .seg-top .pin-ayuda { grid-column: 1; font-size: 13px; line-height: 1.3; }
+  .seg-top .btn-link { grid-column: 1; justify-self: start; min-height: 32px; font-size: 13px; }
+  @media (max-width: 899px) {
+    body.pas-pantalla .seg-top { position: fixed; left: 0; right: 0; top: calc(var(--topbar-h, 91px) + 12px); z-index: 26; padding: 0 12px; }
+    body.pas-pantalla #segHoja { display: flex; flex-direction: column; }
+    body.pas-pantalla #segHoja > * { flex: none; }
+    #segHoja > .hoja-asa { order: -2; }
+    #etaConductor { order: -1; margin-bottom: 10px; }
+    #tarjetaConductorAsignado { order: -1; }
+    #cardRecorrido { order: -1; }
+  }
+  @media (min-width: 900px) {
+    body.pas-pantalla .seg-top { position: fixed; left: 440px; width: 400px; top: calc(var(--topbar-h, 72px) + 12px); z-index: 26; }
+  }
+  /* El aviso «Instala la app Rumbo…» (solo en la web): enlace como botón turquesa y «Ahora no» como botón claro, no los del navegador. */
+  #avisoWeb { padding: 14px; }
+  #avisoWebInstalar { display: flex !important; align-items: center; justify-content: center; min-height: 48px; margin-top: 10px !important; border-radius: var(--r-btn); background: var(--turq); color: var(--noche); text-decoration: none; font-weight: 700; box-shadow: var(--luz-turq); }
+  #avisoWebCerrar { width: 100%; min-height: 44px; margin-top: 8px !important; background: transparent; border: 1.5px solid var(--linea); border-radius: var(--r-btn); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
+  .precio-valor .pv-num { font-variant-numeric: tabular-nums; }
+  .precio-valor .pv-un { font-size: .4em; font-weight: 700; color: var(--sub); letter-spacing: .02em; }
+  /* Rediseño etapa 3: con el mapa siempre oscuro, el fondo mientras carga también (antes #17212B solo de noche). */
+  body.mapa-noche #mapaCotizar, body.mapa-noche #mapaConductor, body.mapa-noche .radar-buscando { background: var(--noche); border-color: var(--petroleo-2); }
+  /* Paridad con la maqueta (pasajero), 390 px: valores medidos en diseno/apps/pasajero-inicio.html (título 22/800 #0A2236, chips 48 px con borde gris, ruta en tarjeta hielo,
+     botón 60 px radio 18, asa 44x5). Solo teléfono; no cambia ids ni handlers. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.pas-pantalla .wiz-hoja { padding: 0 20px calc(12px + env(safe-area-inset-bottom)); }
+    body.pas-pantalla .hoja-asa { margin: 0 -20px; }
+    body.pas-pantalla .hoja-asa span { width: 44px; height: 5px; border-radius: 3px; background: #D9DFE3; }
+    body.pas-pantalla .wiz-titulo { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; margin: 0 0 12px; }
+    body.pas-pantalla .wiz-hoja .chip-opc { min-height: 48px; padding: 0 13px; font-size: 15px; font-weight: 700; border: 1.5px solid #D9DFE3; background: #fff; color: #0A2236; }
+    body.pas-pantalla .wiz-chips-fijos .chip-opc { background: #E3F6F8; border: 1.5px solid #14B8C4; color: #08626A; box-shadow: none; padding: 0 8px; font-size: 15px; }
+    body.pas-pantalla .wiz-hoja .ruta { background: #F2F4F5; border-radius: 16px; padding: 6px 10px 6px 6px; }
+    body.pas-pantalla .wiz-hoja .ruta-input-wrap input { border: 0; background: transparent; box-shadow: none; border-radius: 0; font-size: 17px; font-weight: 700; padding: 13px 40px 13px 4px; color: #0A2236; }
+    body.pas-pantalla .wiz-hoja .precio-card { border: 1px solid #D9DFE3; border-radius: 16px; box-shadow: none; }
+    body.pas-pantalla .wiz-hoja .precio-valor { font-size: 44px; font-weight: 800; letter-spacing: -.03em; }
+    body.pas-pantalla .acepta-arriendo { font-size: 12px; line-height: 1.4; color: #4E5A6C; }
+    body.pas-pantalla .wiz-hoja #origen { box-shadow: inset 0 -1px 0 #D9DFE3; }   /* filete entre origen y destino, como en la maqueta */
+    body.pas-pantalla .wiz-hoja .ruta-input-wrap input::placeholder { color: #6C7A8A; font-weight: 600; }
+    body.pas-pantalla .wiz-pie .btn-primario { min-height: 60px; font-size: 18px; font-weight: 800; border-radius: 18px; }
+    body.pas-pantalla .wiz-hoja .btn-agregar-parada { font-size: 16px; font-weight: 800; color: #08626A; min-height: 48px; margin-top: 2px; padding: 4px 6px; }
+  }
+  /* Seguimiento como la maqueta (pasajero): título «Tu conductor viene» + chip de minutos, conductor con avatar y patente ámbar, PIN en casillas oscuras,
+     acciones Mensaje · Compartir y «Cancelar viaje» en rojo. El mapa real queda libre arriba. Solo teléfono; mismos ids y handlers.
+     «Llamar» NO existe: el pasajero no recibe el teléfono del conductor. */
+  @media (max-width: 899px) {
+    body.pas-pantalla #segHoja { display: flex; flex-direction: column; }
+    body.pas-pantalla #segHoja > * { order: 50; }
+    body.pas-pantalla #segHoja .hoja-asa { order: 0; }
+    body.pas-pantalla #segHoja #cardFin, body.pas-pantalla #segHoja #cardPago, body.pas-pantalla #segHoja #btnPagarMp, body.pas-pantalla #segHoja #pagoGuardada, body.pas-pantalla #segHoja #notaPago { order: 1; }
+    body.pas-pantalla #segHoja #segCab { order: 2; }
+    body.pas-pantalla #segHoja #cambioBanner, body.pas-pantalla #segHoja #esperaRecogida { order: 3; }
+    body.pas-pantalla #segHoja #avisoWeb { order: 60; margin-top: 12px; }   /* la invitación a instalar la app va al final de la hoja, no antes del conductor y el PIN */
+    body.pas-pantalla #segHoja #estadoDetalle, body.pas-pantalla #segHoja #distanciaConductor, body.pas-pantalla #segHoja #avisoDerivado { order: 4; }
+    body.pas-pantalla #segHoja #tarjetaConductorAsignado { order: 5; }
+    body.pas-pantalla #segHoja #pinInicio { order: 6; }
+    body.pas-pantalla #segHoja #accionesSeg { order: 7; }
+    body.pas-pantalla #segHoja #pasosViaje { order: 8; }
+    body.pas-pantalla #segHoja #btnEditarViaje { order: 9; }
+    body.pas-pantalla #segHoja #btnCancelarViaje { order: 10; }
+    body.pas-pantalla #segHoja .seg-cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; }
+    body.pas-pantalla #segHoja .estado-box { flex: 1; min-width: 0; margin: 0; padding: 0; background: transparent; border: 0; box-shadow: none; font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
+    body.pas-pantalla #segHoja .estado-box::before { display: none; }
+    body.pas-pantalla #segHoja .eta { flex: none; margin: 0; padding: 8px 14px; border-radius: 18px; background: #E3F6F8; color: #08626A; font-weight: 800; text-align: right; box-shadow: none; border: 0; }
+    body.pas-pantalla #segHoja .eta > :first-child { font-size: 17px; font-weight: 800; }
+    body.pas-pantalla #segHoja .eta > :nth-child(2) { font-size: 12px; font-weight: 600; }
+    body.pas-pantalla .conductor-banner { display: flex; align-items: center; gap: 14px; background: transparent; border: 0; box-shadow: none; padding: 0; margin: 0 0 12px; }
+    body.pas-pantalla .conductor-banner .cab-cond { display: none; }
+    body.pas-pantalla .conductor-banner .nombre { font-size: 19px; font-weight: 800; color: #0A2236; }
+    body.pas-pantalla .conductor-banner .nombre span { color: #EF6D19 !important; font-weight: 700 !important; }
+    body.pas-pantalla .conductor-banner .patente { display: inline-block; margin-top: 4px; padding: 3px 10px; border-radius: 8px; background: #FFD479; color: #2a1b00; font-weight: 800; letter-spacing: .08em; font-size: 15px; border: 0; }
+    body.pas-pantalla .cond-av { flex: none; width: 52px; height: 52px; border-radius: 50%; background: #11304A; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 20px; box-shadow: inset 0 0 0 2px #14B8C4; }
+    body.pas-pantalla #pinInicio { margin: 0 0 4px; padding: 0; background: transparent; border: 0; box-shadow: none; }
+    body.pas-pantalla #pinInicio .pin-et { font-size: 16px; font-weight: 700; color: #0A2236; text-transform: none; letter-spacing: 0; }
+    body.pas-pantalla #pinInicioNum { display: flex; width: 100%; align-self: stretch; gap: 10px; margin: 8px 0; letter-spacing: 0; }
+    body.pas-pantalla #pinInicioNum i { flex: 1; height: 64px; display: grid; place-items: center; font-style: normal; font-size: 28px; font-weight: 800; color: #fff; background: #11304A; border-radius: 16px; box-shadow: inset 0 -3px 0 #14B8C4; }
+    body.pas-pantalla .acciones-seg { grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 4px; }
+    body.pas-pantalla .acciones-seg .btn { flex-direction: column; gap: 4px; min-height: 64px; font-size: 15px; font-weight: 800; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; border-radius: 18px; box-shadow: none; }
+    body.pas-pantalla #btnCancelarViaje { color: #C2362B; background: transparent; border: 0; font-weight: 800; min-height: 48px; box-shadow: none; margin-bottom: 0; }
+    body.pas-pantalla #btnCompartirViaje { display: none !important; }   /* lo reemplaza «Compartir» de la fila de acciones (mismo handler) */
+  }
+  /* Cierre como la maqueta (pasajero): sonrisa naranja, título 22/800, cifra 44/800, calificación en baldosas con estrellas naranjas, comentario y «Enviar» 60 px.
+     Se conserva el paso de PAGO (efectivo / tarjeta). Solo teléfono; mismos ids y handlers. */
+  @media (max-width: 899px) {
+    body.pas-pantalla .fin-icono { width: 56px; height: 56px; background: transparent; color: #EF6D19; }
+    body.pas-pantalla .fin-icono svg { width: 48px; height: 48px; }
+    body.pas-pantalla .fin-titulo { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: #0A2236; }
+    body.pas-pantalla .fin-total { font-size: 44px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #0A2236; }
+    body.pas-pantalla #cardCalificar { background: transparent; border: 0; box-shadow: none; padding: 0; }
+    body.pas-pantalla #cardCalificar .card-title { font-size: 18px; font-weight: 800; color: #0A2236; }
+    body.pas-pantalla .estrellas { gap: 8px; justify-content: space-between; }
+    body.pas-pantalla .estrella { flex: 1; max-width: 68px; width: 64px; height: 64px; border-radius: 16px; background: #F2F4F5; border: 0; font-size: 30px; color: #C5CDD3; }
+    body.pas-pantalla .estrella.activa { color: #EF6D19; }
+    body.pas-pantalla #comentarioCalificar { border: 1.5px solid #D9DFE3; border-radius: 16px; background: #fff; padding: 14px 16px; font-size: 16px; }
+    body.pas-pantalla #btnEnviarCalificacion { min-height: 60px; font-size: 18px; font-weight: 800; border-radius: 18px; width: 100%; }
+    body.en-cierre #segHoja #accionesSeg { display: none !important; }
+    body.en-cierre #segHoja .estado-box { font-size: 16px; font-weight: 700; }
+    body.en-cierre #segHoja #avisoWeb { order: 90; margin-top: 16px; }   /* la invitación a instalar va después de calificar */
+    body.pas-pantalla .pago-op { min-height: 64px; border-radius: 16px; }
+    body.pas-pantalla .pago-op strong { font-size: 16px; font-weight: 800; }
+    body.pas-pantalla .pago-op small { font-size: 13px; }
+    body.pas-pantalla .pago-op[aria-pressed="true"] { border: 2px solid #14B8C4; background: #E3F6F8; color: #08626A; }
+    body.pas-pantalla #btnNuevoPin { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #08626A; }
+    body.pas-pantalla #pinInicio .pin-ayuda { font-size: 13px; color: #4E5A6C; }
+    body.pas-pantalla #segHoja #btnEditarViaje { background: transparent; border: 0; color: #08626A; min-height: 48px; font-weight: 700; }
+  }
+  @media (max-width: 380px) {
+    body.pas-pantalla #segHoja .estado-box { font-size: 20px; }
+    body.pas-pantalla #segHoja .eta { padding: 6px 10px; }
+  }
+  /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro, pastillas con punto y hoja del pasajero. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. */
+  .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
+  .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
+  .btn-primario:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn.btn-secundario { background: var(--hielo); color: var(--ink); border: 1.5px solid var(--linea); }
+  .btn.btn-secundario:hover:not(:disabled) { background: var(--turq-tinte); }
+  .badge { font-size: 13px; }
+  .badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
+  .badge-verde { background: var(--ok-tinte); color: var(--ok-texto); }
+  .badge-ambar { background: var(--ambar-tinte); color: var(--ambar-texto); }
+  .badge-azul { background: var(--turq-tinte); color: var(--turq-texto); }
+  .badge-rojo { background: var(--alerta-tinte); color: var(--alerta); }
+  @media (max-width: 899px) {
+    body.pas-pantalla .wiz-hoja { border-radius: var(--r-hoja) var(--r-hoja) 0 0; box-shadow: var(--sombra-hoja), 0 0 0 1px var(--border); }
+    body.pas-pantalla .hoja-asa { border-radius: var(--r-hoja) var(--r-hoja) 0 0; }
+  }
 </style>
 <script>try {
   // __splashVis = cuándo se hace visible el splash del HTML (para que dure 4 s completos DESDE ahí, no desde que arrancó la app).
@@ -1179,10 +1419,10 @@
 </div>
 <div class="splash" id="splashIngresando">
   <div class="splash-centro">
-    <div class="splash-texto" id="splashTexto">Tu nuevo</div>
+    <div class="splash-texto" id="splashTexto">Elige tu</div>
     <img src="img/logo-carita.png" alt="" id="splashLogo">
     <div class="splash-bajo">
-      <img src="img/rumbo-palabra-blanco.png" alt="Rumbo" class="splash-palabra">
+      <img src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo" class="splash-palabra">
       <div class="splash-titulo" id="splashTitulo"></div>
       <div class="splash-carga" aria-hidden="true"><span class="splash-puntitos"><i></i><i></i><i></i><i></i><i></i></span><svg class="splash-auto" viewBox="0 -4 160 62" aria-hidden="true"><path d="M154 42 L140 42 A14 14 0 0 0 112 42 L46 42 A14 14 0 0 0 18 42 L6 42 L5 32 Q5 24 9 19 L14 10 Q22 0 38 -1 L88 -1 Q96 -1 102 3 L138 18 L148 19 Q154 21 154 28 Z"/><path d="M22 17 L27 6 Q29 3 36 3 L57 3 L57 17 Z"/><path d="M61 3 L88 3 Q93 3 97 6 L118 17 L61 17 Z"/><path d="M119 19 L125 19" stroke-width="3"/><path d="M143 23 L149 27" stroke-width="2"/><path d="M6 24 L10 23" stroke-width="2"/><circle cx="32" cy="42" r="11"/><circle cx="32" cy="42" r="3.5"/><circle cx="126" cy="42" r="11"/><circle cx="126" cy="42" r="3.5"/></svg></div>
     </div>
@@ -1230,13 +1470,16 @@
     <div class="brand">
       <span class="brand-mark"><img src="img/logo-rumbo.png" width="72" height="72" alt="" aria-hidden="true"></span>
       <span class="brand-texto">
-        <span class="brand-marca"><img class="brand-wordmark" src="img/rumbo-palabra-blanco.png" alt="Rumbo"><span class="brand-movil">móvil</span></span>        <span class="brand-sub" id="brandSubPasajero">Pasajero</span>
+        <span class="brand-marca"><img class="brand-wordmark" src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo"><span class="brand-movil">móvil</span></span>        <span class="brand-sub" id="brandSubPasajero">Pasajero</span>
       </span>
     </div>
     <span class="topbar-spacer"></span>
     <!-- Menú lateral (como en la app del conductor): cuenta, lugares y ayuda. -->
+    <button type="button" class="btn-circ-mapa" id="btnMiUbicacionMapa" aria-label="Centrar el mapa en mi ubicación">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>
+    </button>
     <button type="button" class="btn-menu-cond" id="btnMenuP" aria-label="Abrir el menú" aria-haspopup="true" aria-expanded="false">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-3.8 3.7-5.8 7-5.8s6.2 2 7 5.8"/></svg>
     </button>
   </header>
 
@@ -1253,7 +1496,7 @@
         que reutilizan los mismos campos de siempre (mismos id). -->
    <div class="wiz" id="wiz">
 
-    <div class="wiz-mapa"><div id="mapaCotizar"></div></div>
+    <div class="wiz-mapa"><div class="fondo-ciudad" aria-hidden="true"></div><div id="mapaCotizar"></div></div>
 
     <div class="wiz-hoja" id="hojaPaso1">
       <div class="hoja-asa" data-asa role="button" tabindex="0" aria-label="Subir o bajar la ventana"><span></span></div>
@@ -1477,10 +1720,10 @@
      <div class="modal-opc-hoja">
        <h3 id="modalEditarTit">Editar viaje</h3>
        <p class="nota" style="margin:0 0 10px;">Cambia el destino o agrega paradas. Para seguir más allá, agrega tu destino actual como parada.</p>
-       <div class="campo"><label class="campo-label" for="edOrigen">Salida</label><input type="text" id="edOrigen" autocomplete="off"></div>
+       <div class="campo ruta-input-wrap"><label class="campo-label" for="edOrigen">Salida</label><input type="text" id="edOrigen" autocomplete="off"></div>
        <div id="edParadas"></div>
        <button type="button" class="btn btn-chico" id="edAgregarParada" style="margin:0 0 10px;">+ Agregar parada</button>
-       <div class="campo"><label class="campo-label" for="edDestino">Destino</label><input type="text" id="edDestino" autocomplete="off"></div>
+       <div class="campo ruta-input-wrap"><label class="campo-label" for="edDestino">Destino</label><input type="text" id="edDestino" autocomplete="off"></div>
        <div class="ed-precio" id="edPrecio" style="display:none;"></div>
        <p class="nota" id="edMsg" style="margin:6px 0;"></p>
        <button type="button" class="btn btn-secundario" id="edCalcular" style="margin-bottom:8px;">Calcular nuevo precio</button>
@@ -1548,6 +1791,7 @@
    <!-- Seguimiento, patrón de referentes de mercado: mapa grande arriba (con un radar mientras se
         busca conductor) y una hoja que sube con el estado, el conductor y el cobro. -->
    <div class="wiz seg" id="seg">
+    <div class="seg-top" id="segTop"></div>
     <div class="wiz-mapa">
       <div class="radar-buscando" id="radarBuscando" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
       <div id="mapaConductor"></div>
@@ -1556,7 +1800,7 @@
     <div class="hoja-asa" data-asa role="button" tabindex="0" aria-label="Subir o bajar la ventana"><span></span></div>
     <!-- Al terminar el viaje: pantalla propia y bien visible con el valor del viaje (no una línea chica en la ventana). -->
     <div class="fin-viaje" id="cardFin" style="display:none;" aria-live="polite">
-      <div class="fin-icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <div class="fin-icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 Q12 20 21 8"/></svg></div>
       <div class="fin-titulo" id="finTitulo">Has llegado a tu destino</div>
       <div class="fin-sub" id="finLabel">El pago por el viaje es:</div>
       <div class="fin-total" id="finTotal"></div>
@@ -1650,6 +1894,11 @@
       <ol class="recorrido" id="listaRecorrido"></ol>
     </section>
     <button type="button" class="btn btn-chico" id="btnEditarViaje" style="display:none;width:100%;margin-bottom:8px;">Editar viaje</button>
+    <div class="acciones-seg" id="accionesSeg" style="display:none;">
+      <button type="button" class="btn" id="btnSegMensaje" aria-label="Escribirle un mensaje a tu conductor"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-4 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg><span>Mensaje</span></button>
+      <button type="button" class="btn" id="btnSegCompartir" aria-label="Compartir mi viaje en vivo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="17" cy="6" r="2.6"/><circle cx="17" cy="18" r="2.6"/><path d="M8.3 10.8l6.4-3.4M8.3 13.2l6.4 3.4"/></svg><span>Compartir</span></button>
+    </div>
+    <button type="button" class="btn btn-secundario" id="btnCancelarViaje" style="display:none;width:100%;margin-bottom:8px;">Cancelar viaje</button>
     <button type="button" class="btn btn-chico" id="btnCompartirViaje" style="display:none;width:100%;margin-bottom:16px;">Compartir mi viaje en vivo</button>
     <!-- Al terminar el viaje: si el monto final es mayor que lo cotizado
          (el conductor midió más tiempo o distancia reales), se explica acá. -->
@@ -1791,6 +2040,18 @@
       <div id="listaViajes"><p class="nota" style="margin:0;">Aquí verás tus viajes terminados.</p></div>
     </section>
 
+    <div class="ajustes-grupo solo-sesion" style="display:none;">Verifica tu identidad</div>
+    <section class="card plegable" id="cardIdentidad" style="display:none;">
+      <div class="card-head" role="button" tabindex="0">
+        <svg class="ico ico-sm" aria-hidden="true"><use href="#i-persona"/></svg>
+        <span class="card-title">Cédula y fotos de tu rostro</span>
+      </div>
+      <p class="nota" id="identResumen" style="margin:0 0 6px;">Cargando...</p>
+            <div id="identLista"></div>
+      <button class="btn btn-secundario" id="btnEliminarFotosIdentidad" type="button" style="margin-top:10px;">Eliminar mis fotos de identidad</button>
+      <p class="nota" id="identMsg" style="margin:8px 2px 0;"></p>
+    </section>
+
     <div class="ajustes-grupo solo-sesion" style="display:none;">Seguridad y privacidad</div>
     <section class="card plegable" id="cardClavePasajero" style="display:none;" data-enter="btnCambiarClavePasajero">
       <div class="card-head" role="button" tabindex="0"><span class="card-title">Cambiar clave</span></div>
@@ -1808,7 +2069,7 @@
 
     <section class="card plegable" id="cardPrivacidad" style="display:none;">
       <div class="card-head" role="button" tabindex="0"><span class="card-title">Tus datos y privacidad</span></div>
-      <p class="nota" style="margin:0 0 14px;">Descarga o borra tus datos. Al borrar se elimina tu perfil, mensajes y ubicación; de los viajes solo quedan monto y fecha, sin nombre ni direcciones (obligación tributaria).</p>
+      <p class="nota" style="margin:0 0 14px;">Descarga o borra tus datos. Al borrar se eliminan tu perfil, tu tarjeta guardada, tus mensajes y ubicación, los comprobantes de transferencia, tus fotos de identidad y el nombre y el texto de tus reclamos. De los viajes solo quedan monto, fechas y forma de pago, sin nombre, teléfonos, PIN ni direcciones (obligación tributaria).</p>
       <button class="btn btn-medio" id="btnExportarDatos" type="button" style="margin-bottom:10px;">Descargar mis datos</button>
       <button class="btn btn-medio" id="btnCerrarSesionPasajero" type="button" style="margin-bottom:10px;">Cerrar sesión</button>
       <p class="by-pie">by BTo Innova soluciones</p>
@@ -2058,6 +2319,8 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
     document.body.classList.toggle("en-cotizar", cual === "cotizar" || cual === "seguimiento");   // encabezado y pie compactos
     document.body.classList.toggle("pas-pantalla", cual === "cotizar" || cual === "seguimiento");  // mapa completo + ventana arrastrable
+    document.body.classList.toggle("en-seguimiento", cual === "seguimiento");   // el header flotante solo trae el círculo de ubicación al pedir
+    actualizarFondoCiudad();
     if (cual !== "cotizar" && cual !== "seguimiento") document.body.classList.remove("hoja-bajo", "hoja-medio", "hoja-alto");
     if (cual === "seguimiento") ajustarWiz();
     if (cual === "cotizar") {
@@ -2113,14 +2376,22 @@
   function alinearSugerencias() {
     var inp = document.activeElement;
     if (!inp || inp.tagName !== "INPUT" || !inp.closest || !inp.closest(".ruta-input-wrap, .parada-input-wrap")) return;
-    var r = inp.getBoundingClientRect();
+    var r = inp.getBoundingClientRect(), yPac = r.bottom;
+    // El historial (recientesRapidos) se pega justo debajo del campo con el foco; las sugerencias de Google quedan debajo del historial.
+    var rec = document.getElementById("recientesRapidos");
+    if (rec && rec.style.display !== "none" && (inp.id === "origen" || inp.id === "destino")) {
+      rec.style.position = "fixed"; rec.style.margin = "0"; rec.style.zIndex = "99999"; rec.style.overflowY = "auto";
+      rec.style.left = Math.round(r.left) + "px"; rec.style.top = Math.round(r.bottom + 2) + "px"; rec.style.width = Math.round(r.width) + "px";
+      rec.style.maxHeight = Math.max(96, Math.round((window.innerHeight - r.bottom) * 0.5)) + "px";
+      yPac = rec.getBoundingClientRect().bottom + 4;
+    }
     [].forEach.call(document.querySelectorAll(".pac-container"), function (c) {
       if (c.style.display === "none" || !c.querySelector(".pac-item")) return;
       c.style.setProperty("position", "fixed", "important");
       c.style.setProperty("left", Math.round(r.left) + "px", "important");
-      c.style.setProperty("top", Math.round(r.bottom) + "px", "important");
+      c.style.setProperty("top", Math.round(yPac) + "px", "important");
       c.style.setProperty("width", Math.round(r.width) + "px", "important");
-      c.style.setProperty("max-height", Math.max(96, Math.round(window.innerHeight - r.bottom - 8)) + "px", "important");
+      c.style.setProperty("max-height", Math.max(96, Math.round(window.innerHeight - yPac - 8)) + "px", "important");
     });
   }
   function seguirSugerencias(si) {
@@ -2241,6 +2512,19 @@
     }, function () { /* sin permiso: se queda centrado en Santiago */ }, { maximumAge: 30000, timeout: 8000 });
   }
 
+  // Círculo de ubicación del header flotante: centra el mapa de la cotización en la persona (con permiso de ubicación).
+  function centrarEnMiUbicacion() {
+    document.body.classList.add("ver-mapa"); actualizarFondoCiudad();   // pidió ver el mapa: se descubre el mapa real
+    if (!mapaCotizar || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var yo = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      if (marcadoresCotizar.yo) marcadoresCotizar.yo.setPosition(yo);
+      else marcadoresCotizar.yo = new google.maps.Marker({ map: mapaCotizar, position: yo, title: "Tu ubicación", icon: iconoPersona() });
+      mapaCotizar.setZoom(15); centrarMapaVisible(mapaCotizar, yo, false);
+    }, function () { rbAlerta("No pudimos ver tu ubicación. Revisa el permiso de ubicación del teléfono."); }, { maximumAge: 30000, timeout: 8000 });
+  }
+  document.getElementById("btnMiUbicacionMapa").addEventListener("click", centrarEnMiUbicacion);
+
   // cual: "origen", "destino", o el id de una parada ("parada1", "parada2"...).
   // Google no informa el punto exacto de cada parada dentro del trazado (el
   // backend solo pide el polígono completo, no el desglose por tramos), así
@@ -2256,9 +2540,9 @@
   function pintarMarcadorCotizar(cual, pos) {
     if (!mapaCotizar) return;
     if (!marcadoresCotizar[cual]) {
-      marcadoresCotizar[cual] = new google.maps.Marker({
-        map: mapaCotizar, label: etiquetaMarcadorCotizar(cual)
-      });
+      marcadoresCotizar[cual] = new google.maps.Marker(cual === "origen" ? { map: mapaCotizar, icon: iconoOrigenMarca(), title: "Salida", zIndex: 2 }
+        : cual === "destino" ? { map: mapaCotizar, icon: iconoDestinoMarca(), title: "Destino", zIndex: 2 }
+        : { map: mapaCotizar, label: etiquetaMarcadorCotizar(cual) });
     }
     marcadoresCotizar[cual].setPosition(pos);
     ajustarEncuadreCotizar();
@@ -2308,7 +2592,12 @@
   // disfrazado de cero es peor que un precio ausente.
   function fmt(n) {
     if (typeof n !== "number" || !isFinite(n)) return "—";
-    return "$" + Math.round(n).toLocaleString("es-CL");
+    return Math.round(n).toLocaleString("es-CL") + " pesos";
+  }
+  // Precio héroe de la cotización: la cifra grande y «pesos» chico al lado (como la maqueta).
+  function pintarPrecioHeroe(el, total) {
+    if (typeof total !== "number" || !isFinite(total)) { el.textContent = "—"; return; }
+    el.innerHTML = '<span class="pv-num">' + Math.round(total).toLocaleString("es-CL") + '</span> <small class="pv-un">pesos</small>';
   }
 
   // Tope de espera: con mala señal una llamada colgada ya no deja "Calculando…"/"Enviando…" eternos (rechaza y cae en el catch).
@@ -2549,6 +2838,11 @@
   function rbAlerta(texto, tipo) { rbPop.alerta(texto, tipo); }
   // Un solo texto para fallas de red (antes se mostraba el error técnico del navegador, p. ej. "Failed to fetch").
   var TEXTO_SIN_CONEXION = "Sin conexión. Revisa tu internet y reintenta.";
+  // Un fallo de red del navegador ("Failed to fetch") no se le muestra tal cual a nadie: se traduce al aviso de siempre.
+  function textoErrorRed(err) {
+    var m = String((err && err.message) || "");
+    return !m || /Failed to fetch|NetworkError|Load failed|Network request failed|timeout|abort/i.test(m) ? TEXTO_SIN_CONEXION : m;
+  }
   function rbConfirmar(texto, opciones) { return rbPop.confirmar(texto, opciones); }
   function rbPedir(texto, opciones) { return rbPop.pedir(texto, opciones); }
   (function () {
@@ -2581,7 +2875,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 83;
+  var APP_VERSION = 84;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -2655,21 +2949,21 @@
     var sesion = obtenerSesionPasajero();
     var hayCuenta = !!(sesion && sesion.token);
     document.getElementById("cardCuenta").style.display = hayCuenta ? "none" : "block";
-    ["cardSesion", "cardViajes", "cardClavePasajero", "cardPrivacidad"].forEach(function (id) {
+    ["cardSesion", "cardViajes", "cardClavePasajero", "cardPrivacidad", "cardIdentidad"].forEach(function (id) {
       document.getElementById(id).style.display = hayCuenta ? "block" : "none";
     });
     [].forEach.call(document.querySelectorAll(".ajustes-grupo.solo-sesion"), function (el) { el.style.display = hayCuenta ? "block" : "none"; });
-    if (hayCuenta) { cargarMisViajes(); iniciarPush(); restaurarViajeActivo(); }
+    if (hayCuenta) { cargarMisViajes(); cargarIdentidad(); iniciarPush(); restaurarViajeActivo(); }
     var brandSub = document.getElementById("brandSubPasajero");
     // Junto al logo: la plataforma y el saludo (cabe en una línea, también con el encabezado compacto).
     brandSub.textContent = hayCuenta
       ? "Hola " + (sesion.pasajero.nombre || "").split(" ")[0]
       : "Bienvenido";
     // Cabecera del menú lateral: nombre e inicial.
-    document.getElementById("menuNombre").textContent = hayCuenta ? (sesion.pasajero.nombre || "Pasajero") : "Pasajero";
+    document.getElementById("menuNombre").textContent = hayCuenta ? (String(sesion.pasajero.nombre || "").trim().split(/\s+/)[0] || "Pasajero") : "Pasajero";
     document.getElementById("menuAvatar").textContent = hayCuenta ? (String(sesion.pasajero.nombre || "P").trim().charAt(0).toUpperCase() || "P") : "P";
     if (hayCuenta) {
-      document.getElementById("sesionTexto").textContent = "Conectado como " + sesion.pasajero.nombre;
+      document.getElementById("sesionTexto").textContent = "Conectado como " + (String(sesion.pasajero.nombre || "").trim().split(/\s+/)[0] || "pasajero");
       document.getElementById("cuentaNombre").value = sesion.pasajero.nombre || "";
       document.getElementById("cuentaTelefono").value = sesion.pasajero.telefono || "";
       document.getElementById("cuentaEmail").value = sesion.pasajero.email || "";
@@ -2759,6 +3053,405 @@
      mira la pantalla). "Repetir viaje" precarga origen/destino y lleva al
      cotizador; no dispara el pedido solo, el pasajero confirma el precio
      como cualquier otro viaje (puede haber cambiado desde entonces). */
+  function achicarFoto(archivo) {
+    return new Promise(function (ok, mal) {
+      var lector = new FileReader();
+      lector.onerror = function () { mal(new Error("no se pudo leer la foto")); };
+      lector.onload = function () {
+        var img = new Image();
+        img.onerror = function () { mal(new Error("no se pudo abrir la foto")); };
+        img.onload = function () {
+          var max = 1600, e = Math.min(1, max / Math.max(img.width, img.height));
+          var c = document.createElement("canvas");
+          c.width = Math.round(img.width * e); c.height = Math.round(img.height * e);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          ok(c.toDataURL("image/jpeg", 0.82));
+        };
+        img.src = lector.result;
+      };
+      lector.readAsDataURL(archivo);
+    });
+  }
+  function pedirAutorizacion(texto) {
+    return new Promise(function (listo) {
+      var raiz = document.createElement("div");
+      raiz.className = "rb-pop"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
+      raiz.innerHTML = '<div class="rb-pop-caja autorizacion"><p class="rb-pop-texto"></p>' +
+        '<label class="rb-pop-check"><input type="checkbox"> Leí y acepto las condiciones de esta autorización</label>' +
+        '<div class="rb-pop-botones"><button type="button" class="rb-pop-no">Cancelar</button><button type="button" class="rb-pop-si" disabled>Autorizo</button></div></div>';
+      raiz.querySelector(".rb-pop-texto").textContent = texto;
+      var check = raiz.querySelector("input"), si = raiz.querySelector(".rb-pop-si");
+      check.addEventListener("change", function () { si.disabled = !check.checked; });
+      function fin(v) { raiz.remove(); listo(v); }
+      si.addEventListener("click", function () { if (check.checked) fin(true); });
+      raiz.querySelector(".rb-pop-no").addEventListener("click", function () { fin(false); });
+      document.body.appendChild(raiz);
+    });
+  }
+  function tomarFotoConMarco(d) {
+    return new Promise(function (listo, fallo) {
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) { fallo(new Error("sin cámara")); return; }
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1920 } }, audio: false }).then(function (flujo) {
+        var raiz = document.createElement("div");
+        raiz.className = "cam-doc"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
+        raiz.innerHTML = '<p class="cam-texto"></p><div class="cam-visor"><video playsinline muted autoplay></video><div class="cam-marco' + (d.marco === "hoja" ? " hoja" : "") + '"></div></div>' +
+          '<div class="cam-botones"><button type="button" class="btn btn-secundario" data-cam="no">Cancelar</button><button type="button" class="btn btn-medio" data-cam="si">Tomar foto</button></div>';
+        raiz.querySelector(".cam-texto").textContent = d.texto || "Pon el documento dentro del marco. Que se lea todo y no haya reflejos.";
+        var video = raiz.querySelector("video");
+        video.srcObject = flujo;
+        function cerrar(v) { flujo.getTracks().forEach(function (t) { t.stop(); }); raiz.remove(); listo(v); }
+        raiz.addEventListener("click", function (ev) {
+          var b = ev.target.closest("button[data-cam]");
+          if (!b) return;
+          if (b.dataset.cam === "no") { cerrar(null); return; }
+          if (!video.videoWidth) { raiz.querySelector(".cam-texto").textContent = "La cámara se está preparando, espera un segundo…"; return; }
+          var c = document.createElement("canvas");
+          c.width = video.videoWidth; c.height = video.videoHeight;
+          c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+          c.toBlob(function (blob) { cerrar(blob); }, "image/jpeg", 0.9);
+        });
+        document.body.appendChild(raiz);
+      }).catch(function (e) { fallo(e); });
+    });
+  }
+  // Revisión automática de la foto del rostro al tomarla (Alberto, 28-oct-2026): poca luz, sombra en un lado de la cara o fondo oscuro.
+  // Umbrales ajustables; son una primera barrera (la revisión de Rumbo sigue después del envío). lum = luminancia 0-255 por píxel.
+  var LUZ_MIN = 70, SOMBRA_MAX = 0.35, FONDO_MIN = 90;
+  function docsLuzRostro(lum, ancho, alto, conSombra) {
+    function media(x0, x1, y0, y1) { var t = 0, c = 0; for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) { t += lum[y * ancho + x]; c++; } return c ? t / c : 0; }
+    var ya = Math.floor(alto * 0.2), yb = Math.floor(alto * 0.8), xa = Math.floor(ancho * 0.3), xb = Math.floor(ancho * 0.7), xm = Math.floor(ancho / 2);
+    var izq = media(xa, xm, ya, yb), der = media(xm, xb, ya, yb), cara = (izq + der) / 2;
+    if (cara < LUZ_MIN) return "Hay poca luz. Ponte frente a una ventana o a una lámpara.";
+    if (conSombra && Math.abs(izq - der) / Math.max(izq, der, 1) > SOMBRA_MAX) return "Hay una sombra en un lado de tu cara. Busca una luz que te dé de frente.";
+    var fondo = (media(0, Math.floor(ancho * 0.15), 0, alto) + media(Math.floor(ancho * 0.85), ancho, 0, alto)) / 2;
+    if (fondo < FONDO_MIN) return "El fondo se ve oscuro. Ponte frente a una pared clara.";
+    return "";
+  }
+  var PASOS_ROSTRO = {
+    SELFIE: "Mira de frente a la cámara",
+    SELFIE_IZQ: "Gira la cara hacia tu izquierda, sin exagerar, y mira de reojo a la cámara",
+    SELFIE_DER: "Gira la cara hacia tu derecha, sin exagerar, y mira de reojo a la cámara"
+  };
+  function tomarRostrosGuiado(tipos) {
+    return new Promise(function (listo, fallo) {
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) { fallo(new Error("sin cámara")); return; }
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 1920 } }, audio: false }).then(function (flujo) {
+        var raiz = document.createElement("div");
+        raiz.className = "cam-doc"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
+        raiz.innerHTML = '<p class="cam-texto">Fondo claro, luz de frente, sin sombras. Sin gorro, sin lentes sobre la cabeza ni lentes oscuros. Si manejas con lentes ópticos, úsalos. Te guiamos en cada foto.</p><div class="cam-visor"><video playsinline muted autoplay></video><div class="cam-marco rostro"></div></div>' +
+          '<div class="cam-cuenta" aria-live="polite"></div><div class="cam-botones"><button type="button" class="btn btn-secundario" data-cam="no">Cancelar</button><button type="button" class="btn btn-medio" data-cam="si">Empezar</button></div>';
+        var video = raiz.querySelector("video"), texto = raiz.querySelector(".cam-texto"), cuenta = raiz.querySelector(".cam-cuenta"), btnSi = raiz.querySelector('[data-cam="si"]');
+        video.srcObject = flujo;
+        var fotos = {}, vivo = true, reloj = null, intentos = {};
+        function cerrar(v) { vivo = false; clearTimeout(reloj); flujo.getTracks().forEach(function (t) { t.stop(); }); raiz.remove(); listo(v); }
+        function sacar(tipo, cb) {
+          var c = document.createElement("canvas");
+          c.width = video.videoWidth; c.height = video.videoHeight;
+          c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+          var aviso = "";
+          try {   // revisión automática de luz, sombra y fondo sobre una copia chica (48 x 64)
+            var m = document.createElement("canvas"); m.width = 48; m.height = 64;
+            var mc = m.getContext("2d"); mc.drawImage(c, 0, 0, 48, 64);
+            var px = mc.getImageData(0, 0, 48, 64).data, lum = [];
+            for (var i = 0; i < px.length; i += 4) lum.push(0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]);
+            aviso = docsLuzRostro(lum, 48, 64, tipo === "SELFIE");
+          } catch (e) { /* sin análisis: la revisión de Rumbo decide */ }
+          c.toBlob(function (blob) { cb(blob, aviso); }, "image/jpeg", 0.9);
+        }
+        function paso(i) {
+          if (!vivo) return;
+          if (i >= tipos.length) { cerrar(fotos); return; }
+          texto.textContent = PASOS_ROSTRO[tipos[i]] + " (" + (i + 1) + " de " + tipos.length + ")";
+          var n = 3;
+          (function tic() {
+            if (!vivo) return;
+            cuenta.textContent = n;
+            if (n > 0) { n--; reloj = setTimeout(tic, 1000); return; }
+            cuenta.textContent = "";
+            sacar(tipos[i], function (blob, aviso) {
+              // Con un aviso de luz se repite esa foto una vez; si insiste, pasa y la revisión de Rumbo decide (no se traba a nadie).
+              if (aviso && !intentos[tipos[i]]) {
+                intentos[tipos[i]] = 1; texto.textContent = aviso + " Vamos otra vez."; reloj = setTimeout(function () { paso(i); }, 3000);
+                return;
+              }
+              fotos[tipos[i]] = blob; paso(i + 1);
+            });
+          })();
+        }
+        raiz.addEventListener("click", function (ev) {
+          var b = ev.target.closest("button[data-cam]");
+          if (!b) return;
+          if (b.dataset.cam === "no") { cerrar(null); return; }
+          if (!video.videoWidth) { texto.textContent = "La cámara se está preparando, espera un segundo…"; return; }
+          btnSi.disabled = true;
+          paso(0);
+        });
+        document.body.appendChild(raiz);
+      }).catch(function (e) { fallo(e); });
+    });
+  }
+
+  /* ---------- Verifica tu identidad (Mi cuenta): una pantalla por documento (cédula y rostro), el mismo código del conductor ---------- */
+  var DOCS_CONSENTIMIENTO = "Autorizo a Rumbo, marca y aplicación de BTo Innova SpA (RUT 78.533.592-9), a tratar las imágenes de mi cédula de identidad y fotografías de mi rostro, datos personales sensibles, solo para verificar que soy el titular de la cuenta en el servicio Rumbo, sin usarlas para otros fines. Las revisa personal autorizado de Rumbo; no se usa reconocimiento facial automático. Las imágenes se eliminan dentro de los 30 días siguientes a su revisión y se conserva solo el resultado y su fecha. Puedo pedir que las eliminen antes escribiendo por Ayuda o borrando mi cuenta.";
+  var DOCS_CONSENTIMIENTO_ANTECEDENTES = "";
+  var DOCS_BADGE = { FALTA: "badge-gris", EN_REVISION: "badge-azul", VALIDADO: "badge-verde", POR_VENCER: "badge-ambar", VENCIDO: "badge-rojo", RECHAZADO: "badge-rojo" };
+  var DOCS_TEXTO_ESTADO = { FALTA: "Falta", EN_REVISION: "En revisión", VALIDADO: "Validado", POR_VENCER: "Por vencer", VENCIDO: "Vencido", RECHAZADO: "Rechazado" };
+  var docsDatos = null;
+  function escapar(x) { return String(x == null ? "" : x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function leerPdf() { return Promise.reject(new Error("este documento se sube como foto")); }   // el pasajero no sube PDF
+  function tokenPasajero() { var s = obtenerSesionPasajero(); return s && s.token ? s.token : ""; }
+  function cargarDocumentos() { return cargarIdentidad(); }
+  /* ---------- Pantalla individual por documento (Alberto, 28-oct-2026): cada documento tiene su pantalla con indicaciones y toma sus caras en secuencia con marco ---------- */
+  var DOCS_GRUPOS = [
+    { id: "CEDULA", zona: "PERSONA", nombre: "Cédula de identidad", tipos: ["CEDULA_FRENTE", "CEDULA_REVERSO"], caras: ["Parte de adelante", "Parte de atrás"], marco: "tarjeta",
+      ayuda: ["Usa tu cédula vigente, no una copia.", "Ponla dentro del marco, con buena luz y sin reflejos.", "Que se lean todos los datos. Primero la parte de adelante y luego la de atrás."] },
+    { id: "LICENCIA", zona: "PERSONA", nombre: "Licencia de conducir", tipos: ["LICENCIA_FRENTE", "LICENCIA_REVERSO"], caras: ["Parte de adelante", "Parte de atrás"], marco: "tarjeta",
+      ayuda: ["Usa tu licencia vigente, no una copia.", "Ponla dentro del marco, con buena luz y sin reflejos.", "Por atrás está la tabla de clases: que se lea completa.", "Después escribe tu clase y el vencimiento."] },
+    { id: "ANTECEDENTES", zona: "PERSONA", nombre: "Certificado de antecedentes", tipos: ["ANTECEDENTES"], caras: [""], marco: "",
+      ayuda: ["Descárgalo gratis en registrocivil.cl, como certificado de antecedentes para fines especiales.", "Te llega en PDF a tu correo. Guárdalo en tu teléfono o computador y elígelo aquí.", "Vale 6 meses. Escribe el folio y el código de verificación como aparecen."] },
+    { id: "ROSTRO", zona: "PERSONA", nombre: "Fotos de tu rostro", tipos: ["SELFIE", "SELFIE_IZQ", "SELFIE_DER"], caras: ["De frente", "Mirando a tu izquierda", "Mirando a tu derecha"], marco: "rostro",
+      ayuda: ["Fondo claro y liso, con luz de frente y sin sombras en la cara.", "Sin gorro ni nada sobre la cabeza, y sin lentes oscuros.", "Si usas lentes ópticos, póntelos.", "Te guiamos en cada una de las 3 fotos, sin video."] },
+    { id: "PADRON", zona: "VEHICULO", nombre: "Padrón del vehículo", tipos: ["PADRON"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el padrón completo, con la patente a la vista.", "Sobre una superficie plana, con buena luz y sin reflejos."] },
+    { id: "PERMISO_CIRCULACION", zona: "VEHICULO", nombre: "Permiso de circulación", tipos: ["PERMISO_CIRCULACION"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el permiso vigente completo.", "Que se vea la fecha de vencimiento.", "Sobre una superficie plana, con buena luz y sin reflejos."] },
+    { id: "SOAP", zona: "VEHICULO", nombre: "Seguro obligatorio (SOAP)", tipos: ["SOAP"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el certificado vigente completo.", "Que se vea la fecha de vencimiento.", "Sobre una superficie plana, con buena luz y sin reflejos."] },
+    { id: "REVISION_TECNICA", zona: "VEHICULO", nombre: "Revisión técnica", tipos: ["REVISION_TECNICA"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el certificado vigente completo.", "Que se vea la fecha de vencimiento.", "Sobre una superficie plana, con buena luz y sin reflejos."] }
+  ];
+  var DOCS_PRIORIDAD = ["RECHAZADO", "VENCIDO", "FALTA", "EN_REVISION", "POR_VENCER", "VALIDADO"];
+  // El estado del documento es el de su cara más urgente.
+  function estadoGrupoDoc(estados) {
+    for (var i = 0; i < DOCS_PRIORIDAD.length; i++) if (estados.indexOf(DOCS_PRIORIDAD[i]) !== -1) return DOCS_PRIORIDAD[i];
+    return "FALTA";
+  }
+  function docsGrupos(docs) {
+    return DOCS_GRUPOS.map(function (g) {
+      var caras = g.tipos.map(function (t, i) {
+        var d = docs.filter(function (x) { return x.tipo === t; })[0] || { tipo: t, estado: "FALTA", nombre: t, vence: "" };
+        return { tipo: t, cara: g.caras[i], doc: d };
+      });
+      return { def: g, caras: caras, estado: estadoGrupoDoc(caras.map(function (c) { return c.doc.estado; })) };
+    });
+  }
+  function textoBotonDoc(estado) { return { FALTA: "Subir", RECHAZADO: "Tomar de nuevo", VENCIDO: "Subir de nuevo", POR_VENCER: "Reemplazar", VALIDADO: "Reemplazar" }[estado] || ""; }
+  // Caras que hay que tomar: las que faltan, las rechazadas y las vencidas.
+  function carasPorTomar(grupo) {
+    return grupo.caras.filter(function (c) { var e = c.doc.estado; return e === "FALTA" || e === "RECHAZADO" || e === "VENCIDO"; }).map(function (c) { return c.tipo; });
+  }
+  // Lo que el servidor exige y todavía no está: devuelve el aviso, o "" si ya se puede enviar.
+  // El motivo del admin se muestra dentro de una frase: sin punto final para no duplicarlo.
+  function docMotivo(m) { return String(m || "").trim().replace(/[.\s]+$/, ""); }
+  function docsFaltaDato(grupo, fotos, valores) {
+    var sin = carasPorTomar(grupo).filter(function (t) { return !fotos[t]; });
+    if (sin.length) {
+      var c = grupo.caras.filter(function (x) { return x.tipo === sin[0]; })[0];
+      return "Falta la foto: " + (c.cara ? grupo.def.nombre.toLowerCase() + ", " + c.cara.toLowerCase() : grupo.def.nombre.toLowerCase()) + ".";
+    }
+    if (!Object.keys(fotos).length) return "Toma la foto antes de enviar.";
+    for (var i = 0; i < grupo.caras.length; i++) {
+      var ca = grupo.caras[i];
+      if (!fotos[ca.tipo]) continue;
+      if (ca.doc.vence === "FECHA" && !valores[ca.tipo]) return "Indica el vencimiento: " + grupo.def.nombre.toLowerCase() + ".";
+      if (ca.tipo === "LICENCIA_FRENTE" && !valores.clase) return "Indica la clase de tu licencia.";
+      if (ca.doc.vence === "EMISION_6M") {
+        if (!valores.emision) return "Indica la fecha de emisión del certificado.";
+        if (!valores.folio || !valores.codigo) return "Indica el folio y el código de verificación del certificado.";
+      }
+    }
+    return "";
+  }
+
+  function licenciaExigeLentes() {
+    var l = ((docsDatos && docsDatos.documentos) || []).filter(function (x) { return x.tipo === "LICENCIA_FRENTE"; })[0];
+    return !!(l && l.codigo === "LENTES");
+  }
+  var pantallaDoc = null;   // la pantalla abierta: {id, raiz, fotos:{tipo: Blob}, urls:{tipo: url}, valores:{...}}
+  function grupoAbierto() {
+    return docsGrupos((docsDatos && docsDatos.documentos) || []).filter(function (g) { return pantallaDoc && g.def.id === pantallaDoc.id; })[0];
+  }
+  function abrirPantallaDoc(id) {
+    cerrarPantallaDoc();
+    var raiz = document.createElement("section");
+    raiz.className = "dp"; raiz.id = "dpPantalla"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
+    document.body.appendChild(raiz);
+    pantallaDoc = { id: id, raiz: raiz, fotos: {}, urls: {}, valores: {} };
+    raiz.addEventListener("click", clicPantallaDoc);
+    raiz.addEventListener("input", function (ev) { var k = ev.target.getAttribute && ev.target.getAttribute("data-dp-campo"); if (k && ev.target.type !== "checkbox" && pantallaDoc) pantallaDoc.valores[k] = ev.target.value.trim(); });
+    raiz.addEventListener("change", function (ev) {
+      var t = ev.target;
+      if (t.id === "dpPdf" && pantallaDoc) {
+        var f = t.files && t.files[0]; t.value = "";
+        if (!f) return;
+        if (!/pdf/i.test(f.type) && !/\.pdf$/i.test(f.name)) { rbAlerta("Elige el PDF del certificado."); return; }
+        pantallaDoc.fotos.ANTECEDENTES = f; pintarPantallaDoc();
+      } else if (t.getAttribute && t.getAttribute("data-dp-campo") && pantallaDoc) pantallaDoc.valores[t.getAttribute("data-dp-campo")] = t.type === "checkbox" ? (t.checked ? "SI" : "NO") : t.value.trim();
+    });
+    pintarPantallaDoc();
+    var cuerpo = raiz.querySelector(".dp-cuerpo"); if (cuerpo) cuerpo.scrollTop = 0;
+  }
+  function cerrarPantallaDoc() {
+    if (!pantallaDoc) return;
+    Object.keys(pantallaDoc.urls).forEach(function (t) { try { URL.revokeObjectURL(pantallaDoc.urls[t]); } catch (e) {} });
+    pantallaDoc.raiz.remove(); pantallaDoc = null;
+  }
+  function dpValor(k) { return escapar((pantallaDoc && pantallaDoc.valores[k]) || ""); }
+  function pintarPantallaDoc() {
+    var pd = pantallaDoc, grupo = pd && grupoAbierto();
+    if (!grupo) { cerrarPantallaDoc(); return; }
+    var cuerpoAnt = pd.raiz.querySelector(".dp-cuerpo"), scroll = cuerpoAnt ? cuerpoAnt.scrollTop : 0;
+    var pend = carasPorTomar(grupo), tomadas = Object.keys(pd.fotos).length, esRostro = grupo.def.id === "ROSTRO", esPdf = !!grupo.caras[0].doc.pdf;
+    var faltan = pend.filter(function (t) { return !pd.fotos[t]; });
+    var pasos = Math.max(pend.length, tomadas, 1), paso = Math.min(tomadas + 1, pasos);
+    var h = '<div class="dp-cab"><button type="button" class="dp-volver" data-dp-cerrar aria-label="Volver">&#8249;</button><h2>' + escapar(grupo.def.nombre) + '</h2></div><div class="dp-cuerpo">';
+    h += '<p class="dp-paso">' + (pasos > 1 ? "Paso " + paso + " de " + pasos : "Un solo paso") + '</p><ul class="dp-ayuda">' + grupo.def.ayuda.concat(esRostro && licenciaExigeLentes() ? ["Tu licencia exige lentes: póntelos para las 3 fotos."] : []).map(function (t) { return "<li>" + escapar(t) + "</li>"; }).join("") + "</ul>";
+    grupo.caras.forEach(function (c) {
+      var e = c.doc.estado, foto = pd.fotos[c.tipo], rotulo = c.cara || grupo.def.nombre;
+      h += '<div class="dp-cara"><div class="dp-cara-cab"><strong>' + escapar(rotulo) + '</strong><span class="badge ' + (foto ? "badge-azul" : DOCS_BADGE[e]) + '">' + (foto ? "Lista para enviar" : DOCS_TEXTO_ESTADO[e]) + '</span></div>';
+      if (e === "RECHAZADO" && c.doc.motivo) h += '<div class="pedido-aviso">Hay que repetir esta foto: ' + escapar(docMotivo(c.doc.motivo)) + '. Tómala de nuevo.</div>';
+      if (foto && !esPdf && pd.urls[c.tipo]) h += '<img class="dp-mini" alt="Foto tomada" src="' + pd.urls[c.tipo] + '">';
+      if (foto && esPdf) h += '<p class="dp-nota">PDF elegido: ' + escapar(foto.name) + '</p>';
+      if (e === "EN_REVISION" && !foto) h += '<p class="dp-nota">Rumbo la está revisando.</p>';
+      else if (esPdf) h += '<label class="btn btn-secundario" for="dpPdf">' + (foto ? "Elegir otro PDF" : "Elegir el PDF") + '</label><input type="file" id="dpPdf" accept="application/pdf" hidden>';
+      else if (!esRostro) h += '<button type="button" class="btn btn-secundario" data-dp-tomar="' + c.tipo + '">' + (foto ? "Repetir la foto" : (e === "VALIDADO" || e === "POR_VENCER" ? "Reemplazar" : e === "RECHAZADO" ? "Tomar de nuevo" : "Tomar foto")) + '</button>';
+      h += '</div>';
+    });
+    // Datos manuales que el servidor exige para lo que se está enviando.
+    var campos = "";
+    grupo.caras.forEach(function (c) {
+      var activo = !!pd.fotos[c.tipo] || pend.indexOf(c.tipo) !== -1;
+      if (!activo) return;
+      if (c.doc.vence === "FECHA") campos += '<div class="campo"><label class="campo-label" for="dpV' + c.tipo + '">Vencimiento de ' + escapar(grupo.def.nombre.toLowerCase()) + '</label><input type="date" id="dpV' + c.tipo + '" data-dp-campo="' + c.tipo + '" value="' + dpValor(c.tipo) + '"></div>';
+      if (c.tipo === "LICENCIA_FRENTE") campos += '<label class="dp-check"><input type="checkbox" data-dp-campo="lentes"' + (pd.valores.lentes === "SI" ? " checked" : "") + '> Mi licencia exige lentes</label>';
+      if (c.tipo === "LICENCIA_FRENTE") campos += '<div class="campo"><label class="campo-label" for="dpClase">Clase de tu licencia</label><select id="dpClase" data-dp-campo="clase">' + ["", "B", "A1", "A2", "A3", "A4", "A5", "C", "D", "E", "F"].map(function (o) { return '<option value="' + o + '"' + (pd.valores.clase === o ? " selected" : "") + '>' + (o || "Elige tu clase") + '</option>'; }).join("") + '</select></div>';
+      if (c.doc.vence === "EMISION_6M") campos += '<div class="campo"><label class="campo-label" for="dpEmision">Fecha de emisión</label><input type="date" id="dpEmision" data-dp-campo="emision" value="' + dpValor("emision") + '"></div>' +
+        '<div class="campo"><label class="campo-label" for="dpFolio">Folio</label><input type="text" id="dpFolio" inputmode="numeric" autocomplete="off" data-dp-campo="folio" value="' + dpValor("folio") + '"></div>' +
+        '<div class="campo"><label class="campo-label" for="dpCodigo">Código de verificación</label><input type="text" id="dpCodigo" autocomplete="off" data-dp-campo="codigo" value="' + dpValor("codigo") + '"></div>';
+    });
+    h += campos + '</div><div class="dp-pie">';
+    if (!esPdf && faltan.length) h += '<button type="button" class="btn btn-ok" data-dp-empezar>' + (esRostro ? "Empezar: " + faltan.length + (faltan.length === 1 ? " foto" : " fotos") : (tomadas ? "Seguir: " : "Tomar foto: ") + (grupo.caras.filter(function (c) { return c.tipo === faltan[0]; })[0].cara || grupo.def.nombre).toLowerCase()) + '</button>';
+    if (esRostro && !faltan.length && !tomadas && !pend.length) h += '<button type="button" class="btn btn-secundario" data-dp-todas>Reemplazar mis 3 fotos</button>';
+    if (tomadas && !faltan.length) h += '<button type="button" class="btn btn-ok" data-dp-enviar>Enviar a revisión</button>';
+    h += '<button type="button" class="btn btn-chico" data-dp-cerrar>' + (faltan.length || tomadas ? "Cancelar" : "Cerrar") + '</button></div>';
+    pd.raiz.innerHTML = h;
+    pd.raiz.setAttribute("aria-label", grupo.def.nombre); var v = pd.raiz.querySelector(".dp-volver"); if (v && !scroll) v.focus();
+    var cuerpo = pd.raiz.querySelector(".dp-cuerpo"); if (cuerpo) cuerpo.scrollTop = scroll;
+  }
+  function dpGuardarFoto(tipo, foto) {
+    var pd = pantallaDoc; if (!pd) return;
+    if (pd.urls[tipo]) { try { URL.revokeObjectURL(pd.urls[tipo]); } catch (e) {} delete pd.urls[tipo]; }
+    pd.fotos[tipo] = foto;
+    try { if (!foto.name) pd.urls[tipo] = URL.createObjectURL(foto); } catch (e) {}
+  }
+  // Toma las caras en secuencia con marco (adelante → atrás); el rostro va en su captura guiada de 3 fotos. Solo cámara en vivo.
+  function dpTomar(tipos) {
+    var grupo = grupoAbierto(); if (!grupo || !tipos.length) return;
+    var avisoCamara = function () { rbAlerta("No pudimos abrir la cámara. Activa el permiso de cámara de Rumbo en los ajustes del teléfono y vuelve a intentarlo."); };
+    if (grupo.def.id === "ROSTRO") {
+      tomarRostrosGuiado(tipos).then(function (fotos) { if (!fotos) return; Object.keys(fotos).forEach(function (t) { dpGuardarFoto(t, fotos[t]); }); pintarPantallaDoc(); }).catch(avisoCamara);
+      return;
+    }
+    tipos.reduce(function (p, t) {
+      return p.then(function (seguir) {
+        if (seguir === false) return false;
+        var c = grupo.caras.filter(function (x) { return x.tipo === t; })[0];
+        return tomarFotoConMarco({ tipo: t, marco: grupo.def.marco, texto: (tipos.length > 1 ? "Foto " + (tipos.indexOf(t) + 1) + " de " + tipos.length + ". " : "") + grupo.def.nombre + (c.cara ? ", " + c.cara.toLowerCase() : "") + ". Pon el documento dentro del marco, que se lea todo y sin reflejos." }).then(function (foto) {
+          if (!foto) return false;
+          dpGuardarFoto(t, foto); pintarPantallaDoc(); return true;
+        });
+      });
+    }, Promise.resolve(true)).catch(avisoCamara);
+  }
+  async function clicPantallaDoc(ev) {
+    var b = ev.target.closest("button");
+    if (!b || !pantallaDoc) return;
+    var grupo = grupoAbierto();
+    if (b.hasAttribute("data-dp-cerrar")) { if (Object.keys(pantallaDoc.fotos).length && !(await rbConfirmar("Si sales, se pierden las fotos tomadas. ¿Salir?"))) return; cerrarPantallaDoc(); return; }
+    if (b.dataset.dpTomar) { dpTomar([b.dataset.dpTomar]); return; }
+    if (b.hasAttribute("data-dp-empezar")) { dpTomar(carasPorTomar(grupo).filter(function (t) { return !pantallaDoc.fotos[t]; })); return; }
+    if (b.hasAttribute("data-dp-todas")) { dpTomar(grupo.def.tipos); return; }
+    if (b.hasAttribute("data-dp-enviar")) dpEnviar(b);
+  }
+  function dpEnviar(boton) {
+    var pd = pantallaDoc, grupo = grupoAbierto();
+    if (!pd || !grupo) return;
+    var falta = docsFaltaDato(grupo, pd.fotos, pd.valores);
+    if (falta) { rbAlerta(falta); return; }
+    var sensible = grupo.caras.some(function (c) { return pd.fotos[c.tipo] && c.doc.sensible; });
+    var texto = sensible ? DOCS_CONSENTIMIENTO : (grupo.def.id === "ANTECEDENTES" ? DOCS_CONSENTIMIENTO_ANTECEDENTES : "");
+    (texto ? pedirAutorizacion(texto) : Promise.resolve(true)).then(function (autoriza) {
+      if (!autoriza) return;
+      var tipos = grupo.def.tipos.filter(function (t) { return pd.fotos[t]; }), total = tipos.length, enviadas = 0, errores = [];
+      boton.disabled = true; boton.textContent = "Enviando...";
+      return tipos.reduce(function (p, t) {
+        return p.then(function () {
+          if (errores.length) return;
+          var c = grupo.caras.filter(function (x) { return x.tipo === t; })[0];
+          return (c.doc.pdf ? leerPdf(pd.fotos[t]) : achicarFoto(pd.fotos[t])).then(function (dataUrl) {
+            var cuerpo = { accion: "subir_documento_pasajero", pasajero_token: tokenPasajero(), tipo: t, archivo_data_url: dataUrl, consentimiento: c.doc.consentimiento ? true : undefined };
+            if (c.doc.vence === "FECHA") cuerpo.vence_en = pd.valores[t];
+            if (t === "LICENCIA_FRENTE") { cuerpo.clase = pd.valores.clase; cuerpo.lentes = pd.valores.lentes === "SI" ? true : undefined; }
+            if (c.doc.vence === "EMISION_6M") { cuerpo.emitido_en = pd.valores.emision; cuerpo.folio = pd.valores.folio; cuerpo.codigo = pd.valores.codigo; }
+            return apiPost(cuerpo);
+          }).then(function (res) {
+            if (res && res.ok) { enviadas++; delete pd.fotos[t]; if (pd.urls[t]) { try { URL.revokeObjectURL(pd.urls[t]); } catch (e) {} delete pd.urls[t]; } }
+            else errores.push({ tipo: t, texto: (res && res.error) || "No se pudo enviar." });
+          });
+        });
+      }, Promise.resolve()).then(function () {
+        if (!errores.length) {
+          cerrarPantallaDoc();
+          rbAlerta(grupo.def.nombre + " enviado a revisión. Te avisamos cuando Rumbo lo valide.", "ok");
+          cargarDocumentos();
+          return;
+        }
+        var cara = grupo.caras.filter(function (x) { return x.tipo === errores[0].tipo; })[0];
+        rbAlerta("Se enviaron " + enviadas + " de " + total + " fotos. Quedó sin enviar: " + (cara.cara ? cara.cara.toLowerCase() : grupo.def.nombre.toLowerCase()) + ". " + errores[0].texto);
+        var recarga = cargarDocumentos();
+        return (recarga && recarga.then ? recarga : Promise.resolve()).then(pintarPantallaDoc);
+      });
+    }).catch(function (err) {
+      if (boton) { boton.disabled = false; boton.textContent = "Enviar a revisión"; }
+      rbAlerta(err && /PDF|foto/.test(err.message) ? "No se pudo enviar: " + err.message + "." : TEXTO_SIN_CONEXION);
+    });
+  }
+
+  DOCS_GRUPOS = DOCS_GRUPOS.filter(function (g) { return g.id === "CEDULA" || g.id === "ROSTRO"; });   // el pasajero verifica solo su identidad
+
+  function cargarIdentidad() {
+    if (!obtenerSesionPasajero()) return Promise.resolve();
+    return apiPost({ accion: "mis_documentos_pasajero", pasajero_token: tokenPasajero() }).then(function (res) {
+      if (!res || !res.ok) { document.getElementById("identResumen").textContent = "No pudimos cargar tus documentos. Intenta de nuevo en un momento."; return; }
+      docsDatos = res; pintarIdentidad();
+      if (pantallaDoc) pintarPantallaDoc();
+    }).catch(function () { document.getElementById("identResumen").textContent = "Sin conexión. Revisa tu internet para ver tus documentos."; });
+  }
+  function pintarIdentidad() {
+    var grupos = docsGrupos((docsDatos && docsDatos.documentos) || []), lista = document.getElementById("identLista");
+    var listos = grupos.filter(function (g) { return g.estado === "VALIDADO" || g.estado === "POR_VENCER"; }).length;
+    document.getElementById("identResumen").textContent = listos === grupos.length ? "Tu identidad está verificada." : "Verificados: " + listos + " de " + grupos.length + ". Así tu conductor sabe que eres tú.";
+    lista.textContent = "";
+    grupos.forEach(function (g) {
+      var fila = document.createElement("div"); fila.className = "ident-fila";
+      var cab = document.createElement("div"); cab.className = "ident-cab";
+      var nom = document.createElement("strong"); nom.textContent = g.def.nombre;
+      var est = document.createElement("span"); est.className = "badge " + DOCS_BADGE[g.estado]; est.textContent = DOCS_TEXTO_ESTADO[g.estado];
+      cab.appendChild(nom); cab.appendChild(est); fila.appendChild(cab);
+      g.caras.forEach(function (c) {
+        if (c.doc.estado === "RECHAZADO" && c.doc.motivo) { var m = document.createElement("p"); m.className = "ident-motivo"; m.textContent = (c.cara ? c.cara + ": " : "") + docMotivo(c.doc.motivo) + ". Tómala de nuevo."; fila.appendChild(m); }
+      });
+      if (g.estado === "EN_REVISION") { var n = document.createElement("p"); n.className = "nota"; n.style.margin = "6px 0 0"; n.textContent = "Rumbo lo está revisando."; fila.appendChild(n); }
+      var texto = (g.estado === "FALTA" && !g.caras[0].doc.pdf) ? "Tomar foto" : textoBotonDoc(g.estado);
+      if (texto) { var b = document.createElement("button"); b.type = "button"; b.className = "btn " + (g.estado === "VALIDADO" || g.estado === "POR_VENCER" ? "btn-secundario" : "btn-medio"); b.dataset.docAbrir = g.def.id; b.textContent = texto; fila.appendChild(b); }
+      lista.appendChild(fila);
+    });
+  }
+  document.getElementById("identLista").addEventListener("click", function (ev) {
+    var b = ev.target.closest("button[data-doc-abrir]");
+    if (b) abrirPantallaDoc(b.dataset.docAbrir);
+  });
+
   function cargarMisViajes() {
     var sesion = obtenerSesionPasajero();
     var cont = document.getElementById("listaViajes");
@@ -3150,6 +3843,11 @@
     accionCuenta({ accion: "cerrar_sesion_pasajero" }, "privacidadMsg", function () { salirDeCuentaPasajero(); });
   });
 
+  document.getElementById("btnEliminarFotosIdentidad").addEventListener("click", async function () {
+    if (!(await rbConfirmar("Se eliminarán tus fotos de identidad. Podrás subirlas de nuevo cuando quieras."))) return;
+    accionCuenta({ accion: "eliminar_imagenes_identidad_pasajero" }, "identMsg", function () { cargarIdentidad(); });
+  });
+
   document.getElementById("btnBorrarCuenta").addEventListener("click", async function () {
     if (!(await rbConfirmar("¿Borrar tus datos? No se puede deshacer."))) return;
     var clave = await rbPedir("Para confirmar, escribe tu clave:", { clave: true });
@@ -3328,7 +4026,7 @@
     totalCotizadoActual = total;   // es el que se le muestra: se manda al pedir para detectar cambios
 
     document.getElementById("outTipoTarifa").textContent = (d.fueraDeSantiago ? "Fuera de Santiago" : "En ciudad") + " · " + (d.nivel === "FUERTE" ? "Punta fuerte" : d.punta ? "Punta" : "Valle");
-    document.getElementById("total").textContent = fmt(total);
+    pintarPrecioHeroe(document.getElementById("total"), total);
 
     // Un solo ítem por dato: distancia y tiempo muestran el valor POR
     // TRAMO (ida y vuelta son simétricas, mismo km/min en cada sentido),
@@ -3635,13 +4333,13 @@
   });
   document.getElementById("lugarEditorCancelar").addEventListener("click", function () { document.getElementById("lugarEditor").hidden = true; });
   document.getElementById("lugarEditorGuardar").addEventListener("click", function () {
-    if (!lugarElegido) { document.getElementById("lugarEditorMsg").textContent = "Elige una dirección de la lista."; return; }
+    if (!lugarElegido) { rbAlerta("Elige una dirección de la lista."); return; }
     var x = leerLugares();
     if (lugarEditando === "otro") {
       var nombre = document.getElementById("lugarEditorNombreInput").value.trim().slice(0, 24);
-      if (!nombre) { document.getElementById("lugarEditorMsg").textContent = "Ponle un nombre."; return; }
+      if (!nombre) { rbAlerta("Ponle un nombre."); return; }
       var lista = Array.isArray(x.otros) ? x.otros : [];
-      if (lista.length >= 5) { document.getElementById("lugarEditorMsg").textContent = "Máximo 5 lugares con nombre: quita uno para agregar otro."; return; }
+      if (lista.length >= 5) { rbAlerta("Máximo 5 lugares con nombre: quita uno para agregar otro."); return; }
       lista.push({ nombre: nombre, direccion: lugarElegido.direccion, lat: lugarElegido.lat, lng: lugarElegido.lng });
       x.otros = lista;
     } else x[lugarEditando] = lugarElegido;
@@ -3654,18 +4352,37 @@
   /* Recientes a la mano: al enfocar un campo vacío se listan hasta 4 direcciones usadas (las más frecuentes primero) justo
      debajo de los campos. Tocar una la pone en ESE campo, con su marcador. */
   function ocultarRecientesRapidos() { document.getElementById("recientesRapidos").style.display = "none"; }
+  function normalizarTexto(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); }
+  /* Historial para un campo (origen o destino): Casa y Trabajo guardados primero, luego lo más usado. Lo escrito FILTRA por «contiene», sin tildes ni
+     mayúsculas, sobre la dirección y el nombre del lugar; si el texto es el que ya tenía el campo al enfocar (p. ej. el origen del GPS) no filtra y se
+     ofrece todo. No repite la dirección que ya está en el OTRO campo. */
+  function recientesPara(texto, actual, otro, max) {
+    var lugares = leerLugares(), items = [];
+    [["casa", "Casa"], ["trabajo", "Trabajo"]].forEach(function (c) { var l = lugares[c[0]]; if (l && l.direccion) items.push({ nombre: c[1], direccion: l.direccion, lat: l.lat, lng: l.lng }); });
+    (Array.isArray(lugares.otros) ? lugares.otros : []).forEach(function (l) { if (l && l.direccion) items.push({ nombre: l.nombre, direccion: l.direccion, lat: l.lat, lng: l.lng }); });
+    lugaresOtros().forEach(function (d) { items.push({ direccion: d.direccion, lat: d.lat, lng: d.lng }); });
+    var q = normalizarTexto(texto), filtra = q && q !== normalizarTexto(actual), vistos = {}, otroN = normalizarTexto(otro);
+    return items.filter(function (d) {
+      var k = normalizarTexto(d.direccion);
+      if (vistos[k] || (otroN && k === otroN)) return false;
+      vistos[k] = true;
+      return !filtra || k.indexOf(q) >= 0 || normalizarTexto(d.nombre).indexOf(q) >= 0;
+    }).slice(0, max || 6);
+  }
+  var valorAlEnfocar = { origen: "", destino: "" };
   function pintarRecientesRapidos(id) {
     var cont = document.getElementById("recientesRapidos"), input = document.getElementById(id);
-    var usadas = [document.getElementById("origen").value.trim(), document.getElementById("destino").value.trim()];
-    var lista = lugaresOtros().filter(function (d) { return usadas.indexOf(d.direccion) < 0; }).slice(0, 4);
-    if (!lista.length || input.value.trim()) { ocultarRecientesRapidos(); return; }
+    var lista = recientesPara(input.value, valorAlEnfocar[id], document.getElementById(id === "origen" ? "destino" : "origen").value.trim(), 6);
+    if (!lista.length) { ocultarRecientesRapidos(); return; }
+    // La hoja del pasajero lleva transform: un «fixed» dentro de ella se mide contra la hoja, no contra la pantalla. Igual que las sugerencias de Google, el historial vive en <body>.
+    if (document.body && cont.parentNode !== document.body) document.body.appendChild(cont);
     cont.innerHTML = "";
     var tit = document.createElement("div"); tit.className = "rec-tit"; tit.textContent = "Direcciones recientes";
     cont.appendChild(tit);
     lista.forEach(function (d) {
       var b = document.createElement("button"); b.type = "button"; b.className = "rec-item";
       b.innerHTML = '<svg class="ico ico-sm" aria-hidden="true"><use href="#i-reloj"/></svg>';
-      var t = document.createElement("span"); t.textContent = d.direccion; t.title = d.direccion;
+      var t = document.createElement("span"); t.textContent = (d.nombre ? d.nombre + " · " : "") + d.direccion; t.title = d.direccion;
       b.appendChild(t);
       // pointerdown no quita el foco al campo (el teclado y las sugerencias siguen en su sitio hasta elegir).
       b.addEventListener("pointerdown", function (ev) { ev.preventDefault(); });
@@ -3679,11 +4396,12 @@
       cont.appendChild(b);
     });
     cont.style.display = "block";
+    alinearSugerencias();   // el historial va justo debajo del campo y las sugerencias de Google debajo del historial
   }
   ["origen", "destino"].forEach(function (id) {
     var input = document.getElementById(id);
-    input.addEventListener("focus", function () { pintarRecientesRapidos(id); });
-    input.addEventListener("input", function () { if (input.value.trim()) ocultarRecientesRapidos(); else pintarRecientesRapidos(id); });
+    input.addEventListener("focus", function () { valorAlEnfocar[id] = input.value; pintarRecientesRapidos(id); });
+    input.addEventListener("input", function () { pintarRecientesRapidos(id); });
     input.addEventListener("blur", function () { setTimeout(function () { if (document.activeElement !== input) ocultarRecientesRapidos(); }, 250); });
   });
 
@@ -4057,11 +4775,12 @@
 
     var paradas = obtenerParadas();
 
-    api({
+    Promise.all([api({
       accion: "calcular_ruta", dispositivo: idDispositivo(), origen: origen, destino: destino, departureTime: departureTime,
       hora: hora, paradas: paradas.join("|"),
       origen_ll: llDe("origen"), destino_ll: llDe("destino"), paradas_ll: obtenerParadasLl()
-    }).then(function (res) {
+    }), cargarTarifas()]).then(function (r) {
+      var res = r[0];
       if (!res.ok) throw new Error(res.error || "sin datos");
       rutaActual = {
         km: res.km, minutos: res.minutos, peaje: res.peaje, peajeOpcional: Number(res.peaje_opcional) || 0, fueraDeSantiago: res.fueraDeSantiago,
@@ -4088,7 +4807,7 @@
       irAPaso(2);
       actualizarBotonPedir();
     }).catch(function (err) {
-      textoEl.textContent = "Revisa las direcciones y calcula de nuevo (" + err.message + ").";
+      textoEl.textContent = /Sin conexión/.test(textoErrorRed(err)) ? textoErrorRed(err) : "Revisa las direcciones y calcula de nuevo (" + err.message + ").";
       textoEl.className = "nota error";
       // No dejar a la vista un precio de un cálculo anterior que ya no aplica.
       document.getElementById("tarjetaPrecio").style.display = "none";
@@ -4220,7 +4939,7 @@
       guardarViajeLocal(res.total);
       iniciarPolling();
     }).catch(function (err) {
-      pedirTexto.textContent = "Intenta solicitar de nuevo (" + err.message + ").";
+      pedirTexto.textContent = /Sin conexión/.test(textoErrorRed(err)) ? textoErrorRed(err) : "Intenta solicitar de nuevo (" + err.message + ").";
       pedirTexto.className = "nota error";
       btn.disabled = false;
     });
@@ -4361,7 +5080,27 @@
   // Aproximación: línea recta × 1,4 (las calles no son rectas) a ~27 km/h
   // urbanos. Es una estimación, por eso va con "≈". Con el viaje ya iniciado
   // no se muestra: ahí el tiempo depende de la ruta, no de la distancia a ti.
+  // El mensaje de estado va ARRIBA (sobre el mapa); el bloque ETA de la hoja no debe repetirlo. Se quita de cada línea lo que el estado ya dice
+  // (comparando sin tildes ni mayúsculas): «llegó» queda solo arriba, «está llegando» conserva «Sal a su encuentro», «Viaje confirmado · cuándo» conserva el cuándo.
+  function sinRepetir(texto, estado) {
+    var n = normalizarTexto(texto), e = normalizarTexto(estado);
+    if (!n) return "";
+    if (e && e.indexOf(n) >= 0) return "";
+    if (e && n.indexOf(e) === 0) return String(texto).slice(String(estado).length).replace(/^\s*[·\-–:,]\s*/, "").trim();
+    return texto;
+  }
+  function quitarRepetidoEta() {
+    var el = document.getElementById("etaConductor"), estado = document.getElementById("estadoBox").textContent;
+    if (el.style.display === "none") return;
+    var quedan = 0;
+    [].slice.call(el.children).forEach(function (p) { var t = sinRepetir(p.textContent, estado); p.textContent = t; p.style.display = t ? "" : "none"; if (t) quedan++; });
+    if (!quedan) el.style.display = "none";
+  }
   function pintarEta() {
+    pintarEtaBase();
+    quitarRepetidoEta();
+  }
+  function pintarEtaBase() {
     var el = document.getElementById("etaConductor");
     var titulo, detalle;
     if (viajeIniciadoActual && faseViajeActual === "espera") {
@@ -4486,6 +5225,8 @@
     }
     var b = document.getElementById("cambioBanner");
     if (b) { b.textContent = cambioAvisoTexto; b.className = "cambio-banner " + cambioAvisoClase; b.style.display = cambioAvisoTexto ? "block" : "none"; }
+    var bc = document.getElementById("btnCancelarViaje");   // solo mientras ningún conductor lo haya confirmado
+    if (bc) bc.style.display = !!pedidoActualId && !viajeCerrado && res.estado === "PENDIENTE" ? "block" : "none";
     var e = document.getElementById("btnEditarViaje");
     if (e) {
       // Solo antes de llegar al destino: en la espera o el regreso de un viaje de ida y vuelta el servidor no lo permite.
@@ -4497,7 +5238,7 @@
   var edAutocompletado = {};
   function filaEditar(valor) {
     var cont = document.getElementById("edParadas");
-    var fila = document.createElement("div"); fila.className = "ed-fila";
+    var fila = document.createElement("div"); fila.className = "ed-fila parada-input-wrap";
     var id = "edp" + Date.now() + Math.floor(Math.random() * 1000);
     var inp = document.createElement("input"); inp.type = "text"; inp.id = id; inp.value = valor || ""; inp.placeholder = "Parada intermedia"; inp.setAttribute("autocomplete", "off");
     var q = document.createElement("button"); q.type = "button"; q.className = "btn btn-chico"; q.textContent = "Quitar"; q.style.flex = "none";
@@ -4535,6 +5276,19 @@
     return apiPost(Object.assign({ accion: "proponer_cambio_pasajero", pasajero_token: sesion.token, pedido_id: pedidoActualId }, d, extra || {}));
   }
   document.getElementById("btnEditarViaje").addEventListener("click", abrirEditarViaje);
+  document.getElementById("btnCancelarViaje").addEventListener("click", async function () {
+    var s = obtenerSesionPasajero(), b = this;
+    if (!pedidoActualId || !s || !s.token) return;
+    if (!(await rbConfirmar("¿Cancelar tu viaje? No se te cobrará nada."))) return;
+    b.disabled = true;
+    apiPost({ accion: "cancelar_pedido_pasajero", pasajero_token: s.token, pedido_id: pedidoActualId }).then(function (res) {
+      b.disabled = false;
+      if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo cancelar el viaje."); return; }
+      viajeInvalido(false);
+      mostrarPestana("cotizar");
+      rbAlerta("Cancelaste tu viaje. No se te cobró nada.", "ok");
+    }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
+  });
   document.getElementById("edAgregarParada").addEventListener("click", function () { filaEditar(""); edInvalidarPrecio(); });
   document.getElementById("edCalcular").addEventListener("click", function () {
     var msg = document.getElementById("edMsg"), btn = this, d = edDatos();
@@ -4649,9 +5403,9 @@
     var ultimo = puntosRutaActuales.length - 1;
     puntosRutaActuales.forEach(function (pt, i) {
       var esOrigen = i === 0, esDestino = i === ultimo;
-      var icono = {
-        path: google.maps.SymbolPath.CIRCLE, scale: esOrigen || esDestino ? 8 : 11,
-        fillColor: esOrigen ? "#16A34A" : esDestino ? "#16333F" : "#B45309", fillOpacity: 1,
+      var icono = esDestino ? iconoDestinoMarca() : {
+        path: google.maps.SymbolPath.CIRCLE, scale: esOrigen ? 9 : 11,
+        fillColor: esOrigen ? "#EF6D19" : "#B45309", fillOpacity: 1,
         strokeColor: "#FFFFFF", strokeWeight: 2.5
       };
       var opciones = { map: mapa, position: { lat: pt.lat, lng: pt.lng }, icon: icono, zIndex: 0,
@@ -4686,6 +5440,12 @@
   }
 
   var conductorAsignadoPintado = "";
+  /* «★ 4,9 (12)»: la cantidad solo se escribe si el servidor la manda (antes salía «(undefined)»). */
+  function textoCalifConductor(promedio, cantidad) {
+    var p = Number(promedio), n = Number(cantidad);
+    if (!(p > 0)) return "";
+    return "★ " + p.toFixed(1).replace(".0", "").replace(".", ",") + (n > 0 ? " (" + n + ")" : "");
+  }
   function pintarConductorAsignado(c) {
     aplicarVehiculoConductor(c);   // el auto del mapa = el del conductor asignado
     var clave = [c.conductor_id, c.vehiculo_patente, c.vehiculo_foto_url].join("|");
@@ -4699,9 +5459,13 @@
       ponerFotoVehiculo(img, c.vehiculo_foto_url, c.conductor_id);
       tarjeta.appendChild(img);
     }
+    var av = document.createElement("div");
+    av.className = "cond-av"; av.setAttribute("aria-hidden", "true");
+    av.textContent = String(c.nombre || "R").trim().charAt(0).toUpperCase() || "R";
+    tarjeta.appendChild(av);
     var textos = document.createElement("div");
     var cabecera = document.createElement("div");
-    cabecera.className = "vehiculo";
+    cabecera.className = "vehiculo cab-cond";
     cabecera.textContent = "Tu conductor y vehículo";
     textos.appendChild(cabecera);
     var titulo = document.createElement("div");
@@ -4710,7 +5474,7 @@
     if (c.calificacion_promedio) {
       var estrella = document.createElement("span");
       estrella.style.cssText = "color:var(--text-3);font-weight:400;font-size:14px;margin-left:6px;";
-      estrella.textContent = "★ " + c.calificacion_promedio.toFixed(1).replace(".0", "") + " (" + c.calificacion_cantidad + ")";
+      estrella.textContent = textoCalifConductor(c.calificacion_promedio, c.calificacion_cantidad);
       titulo.appendChild(estrella);
     }
     textos.appendChild(titulo);
@@ -4724,6 +5488,7 @@
     }
     tarjeta.appendChild(textos);
     tarjeta.style.display = "flex";
+    document.getElementById("accionesSeg").style.display = "grid";   // Mensaje · Compartir, con el conductor ya confirmado
     // La ventana del chat muestra con quién se habla y en qué auto viene.
     document.getElementById("ventanaChatTitulo").textContent = c.nombre || "Tu conductor";
     document.getElementById("ventanaChatSub").textContent =
@@ -4743,12 +5508,27 @@
   }
 
   // PIN de inicio: solo mientras el viaje está confirmado y sin iniciar (el servidor lo manda únicamente al pasajero).
+  // Seguimiento: el mensaje de estado y el PIN van ARRIBA, sobre el mapa y fuera de la hoja (el ETA queda al tope de la hoja). Se reubican los mismos nodos (mismos ids y handlers).
+  // Seguimiento como la maqueta: el estado («Tu conductor viene») y el ETA van juntos arriba de la HOJA (mismos nodos, mismos ids y handlers); el mapa real queda libre.
+  (function () {
+    var cab = document.createElement("div"); cab.id = "segCab"; cab.className = "seg-cab";
+    var eb = document.getElementById("estadoBox"); eb.parentNode.insertBefore(cab, eb);
+    cab.appendChild(document.getElementById("estadoBox")); cab.appendChild(document.getElementById("etaConductor"));
+  })();
+  try { new ResizeObserver(function () { aplicarHojaP(); }).observe(document.getElementById("segTop")); } catch (e) {}   // al aparecer o irse el PIN cambia lo que tapa: se vuelve a medir
+  // PIN en casillas oscuras (una por dígito); solo dígitos, nada de HTML ajeno.
+  function htmlPinCasillas(pin) { return String(pin || "").replace(/\D/g, "").split("").map(function (d) { return "<i>" + d + "</i>"; }).join(""); }
+  function ponerPinCasillas(pin) {
+    var n = document.getElementById("pinInicioNum");
+    n.innerHTML = htmlPinCasillas(pin);
+    n.setAttribute("aria-label", "PIN " + String(pin || "").replace(/\D/g, "").split("").join(" "));
+  }
   function pintarPinInicio(res) {
     var caja = document.getElementById("pinInicio");
     var pin = res.estado === "CONFIRMADO" && !res.viaje_iniciado ? String(res.pin_inicio || "") : "";
     caja.hidden = !pin;
     if (!pin) return;
-    document.getElementById("pinInicioNum").textContent = pin;
+    ponerPinCasillas(pin);
     // Con el conductor ya en la puerta, el aviso pasa a primer plano.
     document.getElementById("pinInicioAyuda").textContent = res.conductor_llego
       ? "Tu conductor llegó. Dile este PIN antes de subir."
@@ -4761,7 +5541,7 @@
     apiPost({ accion: "nuevo_pin", pasajero_token: sesion.token, pedido_id: pedidoActualId }).then(function (r) {
       b.disabled = false;
       if (!r.ok) { rbAlerta(r.error); return; }
-      document.getElementById("pinInicioNum").textContent = r.pin_inicio;
+      ponerPinCasillas(r.pin_inicio);
       rbAlerta("Tu PIN nuevo es " + r.pin_inicio + ". Díselo al conductor.", "ok");
     }).catch(function (e) { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
   });
@@ -5038,6 +5818,7 @@
     var nota = document.getElementById("notaPago");
     ultimoCierre = res;
     dejarDeCompartirUbicacion();
+    if (document.body) document.body.classList.add("en-cierre");   // el viaje terminó: sin acciones de seguimiento
     if (mapaTimer) { clearInterval(mapaTimer); mapaTimer = null; }
     document.getElementById("distanciaConductor").textContent = ""; // ya llegó: la distancia no aplica
     mostrarFinDeViaje(res);
@@ -5269,6 +6050,8 @@
   }
   document.getElementById("chatTexto").addEventListener("input", ajustarAltoChat);
 
+  document.getElementById("btnSegMensaje").addEventListener("click", function () { abrirVentanaChat(); });
+  document.getElementById("btnSegCompartir").addEventListener("click", function () { document.getElementById("btnCompartirViaje").click(); });
   function abrirChat() {
     document.getElementById("cardChat").style.display = "block";
     // Los mensajes nuevos llegan con sincronizarViaje (sin temporizador aparte).
@@ -5347,7 +6130,7 @@
       if (!res.ok) { input.value = texto; ajustarAltoChat(); rbAlerta("Mensaje no enviado: " + res.error); return; }
       pintarMensaje(res.mensaje, true);
       ultimoMensajeEn = res.mensaje.creado_en;
-    }).catch(function () { input.value = texto; ajustarAltoChat(); })
+    }).catch(function () { input.value = texto; ajustarAltoChat(); rbAlerta(TEXTO_SIN_CONEXION); })
       .then(function () { enviandoChat = false; boton.disabled = false; });
   }
 
@@ -5437,6 +6220,24 @@
     { featureType: "water", elementType: "geometry", stylers: [{ color: "#0B1824" }] },
     { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#5C7C99" }] }
   ]);
+  /* Rediseño etapa 3 (Nivel A de diseno/apps/APPS-DIRECCION.md §3): mapa oscuro de la marca (calles #14405E sobre #071C2F, parques apagados),
+     siempre, de día y de noche. Con MAPA_SIEMPRE_OSCURO = false vuelve el mapa claro de día / oscuro de noche por la altura del sol. */
+  var ESTILO_MAPA_MARCA = ESTILO_MAPA.concat([
+    { elementType: "geometry", stylers: [{ color: "#071C2F" }] },
+    { elementType: "labels.text.fill", stylers: [{ color: "#B7C6D2" }] },
+    { elementType: "labels.text.stroke", stylers: [{ color: "#071C2F" }] },
+    { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#16405F" }] },
+    { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#0B2238" }] },
+    { featureType: "poi.park", elementType: "geometry", stylers: [{ visibility: "on" }, { color: "#0C3C43" }] },
+    { featureType: "poi.park", elementType: "labels", stylers: [{ visibility: "off" }] },
+    { featureType: "road", elementType: "geometry", stylers: [{ color: "#14405E" }] },
+    { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#B7C6D2" }] },
+    { featureType: "road.arterial", elementType: "geometry", stylers: [{ color: "#1B5278" }] },
+    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#23688F" }] },
+    { featureType: "water", elementType: "geometry", stylers: [{ color: "#05121F" }] },
+    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#5C7C99" }] }
+  ]);
+  var MAPA_SIEMPRE_OSCURO = true;
   function alturaDelSol(fecha, lat, lng) {
     var rad = Math.PI / 180;
     var dia = (fecha.getTime() - Date.UTC(fecha.getUTCFullYear(), 0, 1)) / 86400000;   // día del año, con fracción
@@ -5449,9 +6250,9 @@
     return 90 - Math.acos(Math.max(-1, Math.min(1, cz))) / rad;
   }
   function esDeNoche(fecha, lat, lng) { return alturaDelSol(fecha, lat, lng) < -3; }
-  function estiloMapaActual() { return esDeNoche(new Date(), -33.45, -70.66) ? ESTILO_MAPA_NOCHE : ESTILO_MAPA; }
+  function estiloMapaActual() { return MAPA_SIEMPRE_OSCURO ? ESTILO_MAPA_MARCA : esDeNoche(new Date(), -33.45, -70.66) ? ESTILO_MAPA_NOCHE : ESTILO_MAPA; }
   function refrescarEstiloMapas() {
-    var noche = esDeNoche(new Date(), -33.45, -70.66), est = noche ? ESTILO_MAPA_NOCHE : ESTILO_MAPA;
+    var noche = MAPA_SIEMPRE_OSCURO || esDeNoche(new Date(), -33.45, -70.66), est = estiloMapaActual();
     document.body.classList.toggle("mapa-noche", noche);
     try {
       if (typeof mapaCotizar !== "undefined" && mapaCotizar) mapaCotizar.setOptions({ styles: est });
@@ -5464,11 +6265,18 @@
 
   // Devuelve un objeto con setMap(), igual que una Polyline: el resto del
   // código lo borra con lineaRuta.setMap(null) como antes.
+  // (El nombre se conserva porque lo llaman varios lugares; desde la etapa 3 del rediseño la ruta es turquesa de la marca: halo ancho + trazo + núcleo claro, la «sonrisa» luminosa de la maqueta.)
   function dibujarRutaNaranja(mapaDestino, puntos) {
-    var borde = new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: NARANJO_BORDE, strokeOpacity: 0.45, strokeWeight: 10, zIndex: 1 });
-    var linea = new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: NARANJO, strokeOpacity: 1, strokeWeight: 6, zIndex: 2 });
-    return { setMap: function (m) { borde.setMap(m); linea.setMap(m); } };
+    var capas = [
+      { c: "#14B8C4", o: 0.28, w: 16, z: 1 },
+      { c: "#14B8C4", o: 1, w: 7, z: 2 },
+      { c: "#5FD3DB", o: 1, w: 3, z: 3 }
+    ].map(function (k) { return new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: k.c, strokeOpacity: k.o, strokeWeight: k.w, zIndex: k.z }); });
+    return { setMap: function (m) { capas.forEach(function (l) { l.setMap(m); }); } };
   }
+  // Marcadores de la marca: punto naranja = de dónde sales, rombo turquesa = adónde vas.
+  function iconoOrigenMarca() { return { path: google.maps.SymbolPath.CIRCLE, scale: 9, fillColor: "#EF6D19", fillOpacity: 1, strokeColor: "#FFFFFF", strokeWeight: 3 }; }
+  function iconoDestinoMarca() { return { path: "M 0 -11 L 11 0 L 0 11 L -11 0 Z", scale: 1, fillColor: "#14B8C4", fillOpacity: 1, strokeColor: "#FFFFFF", strokeWeight: 3 }; }
 
   // Auto visto desde arriba (frente hacia arriba = norte), girado 'rumbo'
   // grados. Como imagen SVG para poder tener sombra, vidrios y focos.
@@ -5693,6 +6501,7 @@ function svgAuto(rumbo, color, tipo) {
     if (mapaTimer) clearInterval(mapaTimer);
     if (chatTimer) clearInterval(chatTimer);
     dejarDeCompartirUbicacion();
+    document.body.classList.remove("en-cierre");
     document.getElementById("btnPagarMp").style.display = "none";
     document.getElementById("notaPago").style.display = "none";
     document.getElementById("btnNuevoPedido").style.display = "none";   // vuelve a ocultarse hasta que termine el próximo viaje
@@ -5709,6 +6518,7 @@ function svgAuto(rumbo, color, tipo) {
     rutaViajeCodificada = "";
     conductorAsignadoPintado = "";
     document.getElementById("tarjetaConductorAsignado").style.display = "none";
+    document.getElementById("accionesSeg").style.display = "none";
     document.getElementById("avisoDerivado").style.display = "none";
     if (lineaRuta) { lineaRuta.setMap(null); lineaRuta = null; }
     limpiarSeguimientoVisual();
@@ -5802,7 +6612,12 @@ function svgAuto(rumbo, color, tipo) {
     HOJA_ESTADOS.forEach(function (e) { b.classList.toggle("hoja-" + e, e === hojaEstado && !ESCRITORIO.matches); });
     b.style.setProperty("--nav-h", barra + "px");
     b.style.setProperty("--topbar-h", arriba + "px");
-    fijarAlturaHoja(m[hojaEstado]);
+    var st = document.getElementById("segTop"), segAlto = st && st.getClientRects().length && !ESCRITORIO.matches ? st.offsetHeight + 8 : 0;   // (un «fixed» no tiene offsetParent: se pregunta si se ve)
+      // lo que tapan el mensaje de estado y el PIN
+    b.style.setProperty("--seg-top-h", segAlto + "px");
+    var visHoja = m[hojaEstado];
+    if (hojaEstado === "medio" && document.getElementById("vistaEstado").style.display !== "none") visHoja = Math.min(visHoja, 470);   // seguimiento: la hoja media solo muestra ETA, conductor y vehículo; el resto del alto es para ver el auto y la ruta
+    fijarAlturaHoja(visHoja);
     try {
       if (window.google && google.maps) {
         if (mapaCotizar) google.maps.event.trigger(mapaCotizar, "resize");
@@ -5845,7 +6660,7 @@ function svgAuto(rumbo, color, tipo) {
   // Los mapas dejan libre lo que tapan la barra de arriba y la ventana: se encuadra en la zona visible.
   function paddingMapa() {
     var cs = getComputedStyle(document.body);
-    var vis = parseFloat(cs.getPropertyValue("--hoja-vis")) || 0, top = parseFloat(cs.getPropertyValue("--topbar-h")) || 0;
+    var vis = parseFloat(cs.getPropertyValue("--hoja-vis")) || 0, top = (parseFloat(cs.getPropertyValue("--topbar-h")) || 0) + (parseFloat(cs.getPropertyValue("--seg-top-h")) || 0);
     // Con la hoja desplegada, top + bottom podían superar el alto del mapa: Google alejaba el zoom hasta mostrar medio continente.
     // Se deja siempre libre al menos el 25 % del alto para la ruta.
     var libre = window.innerHeight * 0.75 - top - 24;
@@ -5854,7 +6669,7 @@ function svgAuto(rumbo, color, tipo) {
   function centrarMapaVisible(m, pos, suave) {
     if (!m || !window.google) return;
     var cs = getComputedStyle(document.body);
-    var vis = parseFloat(cs.getPropertyValue("--hoja-vis")) || 0, top = parseFloat(cs.getPropertyValue("--topbar-h")) || 0;
+    var vis = parseFloat(cs.getPropertyValue("--hoja-vis")) || 0, top = (parseFloat(cs.getPropertyValue("--topbar-h")) || 0) + (parseFloat(cs.getPropertyValue("--seg-top-h")) || 0);
     var desvio = (vis - top) / 2;
     var destino = new google.maps.LatLng(pos.lat, pos.lng), proy = m.getProjection && m.getProjection();
     if (proy && desvio) {
@@ -6171,6 +6986,9 @@ function svgAuto(rumbo, color, tipo) {
   window.rumboAtras = function () {
     var pop = document.querySelector(".rb-pop:not([hidden])");
     if (pop) { var no = pop.querySelector(".rb-pop-no"); (no && !no.hidden ? no : pop.querySelector(".rb-pop-si")).click(); return true; }
+    var cam = document.querySelector(".cam-doc");
+    if (cam) { var cancelar = cam.querySelector('[data-cam="no"]'); if (cancelar) cancelar.click(); return true; }   // cámara de documentos o rostro: lo de más arriba
+    if (document.querySelector(".dp")) { cerrarPantallaDoc(); return true; }   // pantalla individual del documento
     var modal = document.querySelector(".modal-opc:not([hidden])");
     if (modal) { cerrarModalOpc(modal.id); return true; }
     if (document.getElementById("menuLateral").classList.contains("abierto")) { abrirMenuP(false); return true; }
@@ -6246,8 +7064,20 @@ function svgAuto(rumbo, color, tipo) {
     });
   }
 
+  // Fondo estático «ciudad 3D»: solo en el inicio antes de calcular (sin ruta que mirar). Con ruta, en «Confirma tu viaje», en seguimiento o si la persona
+  // pide ver el mapa (círculo de ubicación), se ve el mapa real de Google; la instancia del mapa nunca se destruye ni se tapa para siempre.
+  function debeVerFondoCiudad(o) { return !!o.enCotizar && !o.enSeguimiento && o.paso === 1 && !o.hayRuta && !o.verMapa; }
+  function actualizarFondoCiudad() {
+    var b = document.body;
+    if (!b) return;
+    b.classList.toggle("fondo-inicio", debeVerFondoCiudad({
+      enCotizar: b.classList.contains("en-cotizar"), enSeguimiento: b.classList.contains("en-seguimiento"),
+      paso: pasoPedir, hayRuta: !!rutaActual, verMapa: b.classList.contains("ver-mapa")
+    }));
+  }
   function irAPaso(n) {
     pasoPedir = n;
+    if (document.body) document.body.classList.remove("ver-mapa");   // cada pantalla nueva parte con el fondo
     document.getElementById("hojaPaso1").style.display = n === 1 ? "flex" : "none";
     document.getElementById("hojaPaso2").style.display = n === 2 ? "flex" : "none";
     document.getElementById("wiz").classList.remove("teclado");
@@ -6255,6 +7085,7 @@ function svgAuto(rumbo, color, tipo) {
     hojaEstado = "alto";   // las dos pantallas abren desplegadas: en "Confirma tu viaje" el precio y el pago se ven completos (pedido de Alberto, 23-oct)
     if (n === 2) pintarResumenPaso2(); else pintarChipsViaje();
     ajustarWiz();
+    actualizarFondoCiudad();
   }
 
   function abrirModalOpc(id) { document.getElementById(id).hidden = false; }
@@ -6299,6 +7130,7 @@ function svgAuto(rumbo, color, tipo) {
     });
   })();
   document.body.classList.add("en-cotizar", "pas-pantalla");   // la app abre en esta pantalla
+  actualizarFondoCiudad();
   window.addEventListener("resize", ajustarWiz);
   window.addEventListener("load", function () { ajustarWiz(); setTimeout(ajustarWiz, 400); });
   pintarChipsViaje();
