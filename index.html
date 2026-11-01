@@ -9,8 +9,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#16333F">
-<link rel="icon" type="image/png" href="img/favicon-pasajero-192.png?v=66">
-<link rel="apple-touch-icon" href="img/favicon-pasajero-192.png?v=66">
+<link rel="icon" type="image/png" href="img/favicon-pasajero-192.png?v=70">
+<link rel="apple-touch-icon" href="img/favicon-pasajero-192.png?v=70">
 <!-- Montserrat va DENTRO de la app (www/fonts, licencia SIL OFL de Google Fonts): sin internet el splash y la app no cambian de letra. -->
 <style>@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/Montserrat-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }</style>
 <style>@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400 600; font-display: swap; src: url("fonts/IBMPlexSans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -285,6 +285,9 @@
   .rec-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; text-align: left; background: transparent; border: 0; border-top: 1px solid var(--border, rgba(127,127,127,.2)); font: inherit; color: inherit; cursor: pointer; }
   .rec-item span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .rec-item:active { background: var(--primary-soft); }
+  .rec-item.rec-aero { min-height: 48px; }
+  /* Aeropuerto: mientras se ofrecen las dos terminales fijas, las sugerencias de Google (aerolíneas, sub-lugares) no se muestran. */
+  body.solo-aeropuerto .pac-container { display: none !important; }
   .parada-input-wrap input, .ruta-input-wrap input { padding-right: 40px; }
   .btn-quitar-parada, .btn-borrar-direccion {
     position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
@@ -1441,6 +1444,19 @@
   .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, #avisoWebInstalar:disabled::after { display: none; }
   @keyframes btnDestello { 0% { left: -40%; } 18% { left: 120%; } 100% { left: 120%; } }
   @media (prefers-reduced-motion: reduce) { .btn.btn-primario::after, button.btn-primario::after, #avisoWebInstalar::after { animation: none; display: none; } }
+  /* Aeropuerto: panel de las dos terminales (Impecable, 31-oct-2026). Solo estilo, aplicado únicamente con body.solo-aeropuerto: tarjeta con radio 18 y sombra para separarla de la hoja, título 14/800 en turquesa-texto
+     (antes 12 px gris) y filas de 56 px 16/700; el texto puede pasar a dos líneas para que «Terminal 2 (internacional)» no se corte. La lógica (pintarOpcionesAeropuerto, fijarTerminal…) no se toca. */
+  body.solo-aeropuerto .recientes-rapidos { border: 1px solid #D9DFE3; border-radius: 18px; box-shadow: 0 14px 30px -12px rgba(7, 24, 42, .35); }
+  body.solo-aeropuerto .rec-tit { padding: 12px 16px 6px; font-size: 14px; font-weight: 800; letter-spacing: .02em; opacity: 1; color: #08626A; }
+  .rec-item.rec-aero { min-height: 56px; padding: 6px 16px; border-top: 1px solid #D9DFE3; font-size: 16px; font-weight: 700; color: #0A2236; }
+  .rec-item.rec-aero span { white-space: normal; }
+  .rec-item.rec-aero .ico { color: #08626A; }
+  .rec-item.rec-aero:active { background: #E3F6F8; }
+  /* Peaje dicho DENTRO del valor (pedido de Alberto, 31-oct-2026): «Incluye N pesos de peaje de autopista» bajo la cifra grande, solo si hay peaje; NO hay peaje opcional para el pasajero; si el peaje no se usa se descuenta del valor final. */
+  .precio-incluye { margin: 4px 0 0; font-size: 15px; font-weight: 700; color: #08626A; }
+  .precio-descuento { margin: 2px 0 0; font-size: 14px; font-weight: 600; color: #4E5A6C; }
+  .nota.pedir-peaje { font-size: 14px; font-weight: 600; line-height: 1.35; color: #4E5A6C; }
+  .precio-incluye[hidden], .precio-descuento[hidden], .pedir-peaje[hidden] { display: none; }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro, pastillas con punto y hoja del pasajero. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. */
   .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
   .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
@@ -1653,14 +1669,15 @@
       </div>
       <div class="wiz-cuerpo">
         <section class="card precio-card" id="tarjetaPrecio" aria-live="polite" style="display:none;">
-          <p class="precio-label">Precio estimado</p>
+          <p class="precio-label">Valor del viaje</p>
           <p class="precio-valor" id="total">—</p>
+          <p class="precio-incluye" id="precioIncluye" hidden></p>
+          <p class="precio-descuento" id="precioDescuento" hidden></p>
           <p class="precio-resumen" id="precioResumen"></p>
           <dl class="precio-detalle" hidden>
             <div class="detalle-fila"><dt id="lblKm">Distancia</dt><dd id="outKm">—</dd></div>
             <div class="detalle-fila"><dt id="lblMin">Tiempo</dt><dd id="outMin">—</dd></div>
             <div class="detalle-fila"><dt id="lblPeaje">Peajes</dt><dd id="outPeaje">—</dd></div>
-            <div class="detalle-fila" id="filaPeajeOpcional" hidden><dt>Autopistas (opcional)</dt><dd id="outPeajeOpcional"></dd></div>
             <div class="detalle-fila"><dt>Tarifa aplicada</dt><dd id="outTipoTarifa">—</dd></div>
           </dl>
           <p class="precio-nota" id="etaCotizar" style="display:none;font-weight:600;"></p>
@@ -1672,6 +1689,7 @@
         <ul class="wiz-resumen" id="wizResumen" aria-label="Resumen del viaje"></ul>
       </div>
       <div class="wiz-pie">
+        <p class="nota pedir-peaje" id="pedirPeaje" hidden style="margin:0 2px 8px;"></p>
         <p class="nota" id="pedirTexto" style="margin:0 2px 8px;"></p>
         <button type="button" class="pago-fila" id="filaPago" aria-haspopup="dialog">
           <svg class="ico" aria-hidden="true"><use id="pagoIcono" href="#i-billete"/></svg>
@@ -2507,6 +2525,9 @@
     input.addEventListener("input", function () { delete input.dataset.ll; });
     auto.addListener("place_changed", function () {
       var lugar = auto.getPlace();
+      // Aeropuerto: cualquier sugerencia de Google (aerolínea, sub-lugar) se reemplaza por la llegada de su terminal.
+      var tmAero = lugar && lugar.geometry && lugar.geometry.location ? terminalDeLugar((lugar.name || "") + ", " + (lugar.formatted_address || ""), lugar.geometry.location.lat(), lugar.geometry.location.lng()) : null;
+      if (tmAero) { fijarTerminal(input, marcador, tmAero); return; }
       if (lugar && lugar.formatted_address) input.value = direccionConNombre(lugar);
       if (lugar && lugar.geometry && lugar.geometry.location) { input.dataset.ll = lugar.geometry.location.lat() + "," + lugar.geometry.location.lng(); input.dataset.llTxt = input.value; }
       if (marcador && lugar && lugar.geometry && lugar.geometry.location) {
@@ -2951,7 +2972,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 85;
+  var APP_VERSION = 86;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -4090,6 +4111,7 @@
   }
 
   var totalCotizadoActual = 0;
+  var cotizacionIdActual = "";   // id de la fila del registro de cotizaciones del servidor: se manda al pedir para enlazarlas
   var cargoApp = 0;   // cargo por uso de la app (fracción), viene con las tarifas
 
   function calcularTotal() {
@@ -4117,12 +4139,15 @@
 
     document.getElementById("lblPeaje").textContent = "Peajes" + (idaYVuelta ? " (ida y vuelta, total)" : "");
     document.getElementById("outPeaje").textContent = peaje ? fmt(peaje) : "—";
-    // Si hay una ruta más rápida por autopista, se informa lo que costaría; solo se cobra si el conductor la toma (lo detecta el GPS).
-    var opcional = Math.round((rutaActual.peajeOpcional || 0) * ((rutaActual.cobraRegresoSiempre || idaYVuelta) ? 2 : 1));
-    var filaOp = document.getElementById("filaPeajeOpcional");
-    if (filaOp) { filaOp.hidden = !(opcional > 0); document.getElementById("outPeajeOpcional").textContent = "hasta " + fmt(opcional) + " más, solo si se toman"; }
+    // El peaje de la ruta elegida (la más corta) YA está sumado al valor: se anuncia debajo de la cifra, sin cuentas ni porcentajes. NO se ofrece ninguna alternativa de peaje
+    // al pasajero (decisión de Alberto, 31-oct-2026); si no se usa, se descuenta del valor final.
+    var inc = document.getElementById("precioIncluye"), desc = document.getElementById("precioDescuento"), pie = document.getElementById("pedirPeaje");
+    var fraseInc = peaje > 0 ? "Incluye " + fmt(peaje) + " de peaje de autopista (ruta más corta" + (idaYVuelta ? ", ida y vuelta" : "") + ")" : "";
+    var fraseDesc = "Si no se usa, se descuenta del valor final.";
+    inc.hidden = !(peaje > 0); inc.textContent = fraseInc;
+    desc.hidden = !(peaje > 0); desc.textContent = peaje > 0 ? fraseDesc : "";
+    pie.hidden = !(peaje > 0); pie.textContent = peaje > 0 ? fraseInc + ". " + fraseDesc : "";
     var partesResumen = [rutaActual.km.toFixed(1) + " km", rutaActual.minutos + " min"];
-    if (peaje) partesResumen.push("peajes " + fmt(peaje));
     document.getElementById("precioResumen").textContent = partesResumen.join(" · ") + (idaYVuelta ? " · ida y vuelta" : "");
 
     return d;
@@ -4427,7 +4452,54 @@
 
   /* Recientes a la mano: al enfocar un campo vacío se listan hasta 4 direcciones usadas (las más frecuentes primero) justo
      debajo de los campos. Tocar una la pone en ESE campo, con su marcador. */
-  function ocultarRecientesRapidos() { document.getElementById("recientesRapidos").style.display = "none"; }
+  function ocultarRecientesRapidos() { document.getElementById("recientesRapidos").style.display = "none"; document.body.classList.remove("solo-aeropuerto"); }
+  /* Aeropuerto de Santiago (regla de Alberto, 31-oct-2026): solo dos llegadas posibles, el arribo de la Terminal 1 (nacional) o de la Terminal 2
+     (internacional), con las MISMAS coordenadas fijas del servidor (AEROPUERTO_T1 / AEROPUERTO_T2 en Codigo.gs). Al escribir el aeropuerto se ofrecen
+     solo esas dos opciones; si igual se elige una sugerencia de Google (aerolínea, sub-lugar), se reemplaza por la terminal. */
+  var AEROPUERTO_TERMINALES = [
+    { nombre: "Aeropuerto Arturo Merino Benítez · Terminal 1 (nacional)", lat: -33.39753, lng: -70.79209 },
+    { nombre: "Aeropuerto Arturo Merino Benítez · Terminal 2 (internacional)", lat: -33.40100, lng: -70.79223 }
+  ];
+  function pideAeropuerto(texto) { var q = normalizarTexto(texto); return q.indexOf("aerop") >= 0 || /(^|\W)scl(\W|$)/.test(q) || q.indexOf("merino") >= 0; }
+  // Misma regla que terminalDeAeropuerto del servidor: la terminal la dice el texto; si no, la más cercana al punto; sin punto, la Terminal 1.
+  function terminalDeLugar(texto, lat, lng) {
+    var t = String(texto || ""), T1 = AEROPUERTO_TERMINALES[0], T2 = AEROPUERTO_TERMINALES[1];
+    var hay = isFinite(lat) && isFinite(lng);
+    var km = function (a, b, c, d) { var x = (d - b) * Math.cos(a * Math.PI / 180), y = c - a; return Math.sqrt(x * x + y * y) * 111.32; };
+    // Sub-lugar sin la palabra «aeropuerto» (mostrador de aerolínea, «Terminal 1»): solo si está a menos de 1,5 km de una terminal.
+    var subLugar = hay && /terminal|aerol[ií]nea|airlines?\b|latam|jetsmart|sky airline|arajet/i.test(t) && Math.min(km(lat, lng, T1.lat, T1.lng), km(lat, lng, T2.lat, T2.lng)) < 1.5;
+    if (!subLugar && !/aeropuerto|scl\b|arturo merino ben[ií]tez/i.test(t)) return null;
+    if (hay && km(lat, lng, -33.3930, -70.7858) > 3.5) return null;
+    if (/terminal\s*2|terminal\s+internacional|\(internacional\)|\bT2\b/i.test(t)) return T2;
+    if (/terminal\s*1|terminal\s+nacional|\(nacional\)|\bT1\b/i.test(t)) return T1;
+    if (hay) return km(lat, lng, T2.lat, T2.lng) < km(lat, lng, T1.lat, T1.lng) ? T2 : T1;
+    return T1;
+  }
+  function fijarTerminal(input, marcador, tm) {
+    input.value = tm.nombre;
+    input.dispatchEvent(new Event("input"));   // muestra el × de borrar (y borra el punto anterior)
+    input.dataset.ll = tm.lat + "," + tm.lng; input.dataset.llTxt = input.value;
+    if (marcador) pintarMarcadorCotizar(marcador, { lat: tm.lat, lng: tm.lng });
+  }
+  function pintarOpcionesAeropuerto(id) {
+    var cont = document.getElementById("recientesRapidos"), input = document.getElementById(id);
+    if (document.body && cont.parentNode !== document.body) document.body.appendChild(cont);
+    cont.innerHTML = "";
+    var tit = document.createElement("div"); tit.className = "rec-tit"; tit.textContent = "Aeropuerto";
+    cont.appendChild(tit);
+    AEROPUERTO_TERMINALES.forEach(function (tm) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "rec-item rec-aero";
+      b.innerHTML = '<svg class="ico ico-sm" aria-hidden="true"><use href="#i-pin"/></svg>';
+      var s = document.createElement("span"); s.textContent = tm.nombre.replace("Aeropuerto Arturo Merino Benítez · ", ""); s.title = tm.nombre;
+      b.appendChild(s);
+      b.addEventListener("pointerdown", function (ev) { ev.preventDefault(); });
+      b.addEventListener("click", function () { fijarTerminal(input, id, tm); ocultarRecientesRapidos(); cerrarSugerencias(); });
+      cont.appendChild(b);
+    });
+    document.body.classList.add("solo-aeropuerto");
+    cont.style.display = "block";
+    alinearSugerencias();
+  }
   function normalizarTexto(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); }
   /* Historial para un campo (origen o destino): Casa y Trabajo guardados primero, luego lo más usado. Lo escrito FILTRA por «contiene», sin tildes ni
      mayúsculas, sobre la dirección y el nombre del lugar; si el texto es el que ya tenía el campo al enfocar (p. ej. el origen del GPS) no filtra y se
@@ -4448,6 +4520,8 @@
   var valorAlEnfocar = { origen: "", destino: "" };
   function pintarRecientesRapidos(id) {
     var cont = document.getElementById("recientesRapidos"), input = document.getElementById(id);
+    if (pideAeropuerto(input.value)) { pintarOpcionesAeropuerto(id); return; }
+    document.body.classList.remove("solo-aeropuerto");
     var lista = recientesPara(input.value, valorAlEnfocar[id], document.getElementById(id === "origen" ? "destino" : "origen").value.trim(), 6);
     if (!lista.length) { ocultarRecientesRapidos(); return; }
     // La hoja del pasajero lleva transform: un «fixed» dentro de ella se mide contra la hoja, no contra la pantalla. Igual que las sugerencias de Google, el historial vive en <body>.
@@ -4464,7 +4538,8 @@
       b.addEventListener("pointerdown", function (ev) { ev.preventDefault(); });
       b.addEventListener("click", function () {
         input.value = d.direccion;
-        input.dispatchEvent(new Event("input"));   // muestra el × de borrar
+        input.dispatchEvent(new Event("input"));   // muestra el × de borrar (y borra la coordenada anterior)
+        if (isFinite(d.lat) && isFinite(d.lng)) { input.dataset.ll = d.lat + "," + d.lng; input.dataset.llTxt = input.value; }   // sin esto el servidor buscaba el texto en todo Chile
         pintarMarcadorCotizar(id, { lat: d.lat, lng: d.lng });
         ocultarRecientesRapidos();
         cerrarSugerencias();   // el evento "input" despierta las sugerencias de Google: se cierran junto con el teclado
@@ -4854,8 +4929,11 @@
     Promise.all([api({
       accion: "calcular_ruta", dispositivo: idDispositivo(), origen: origen, destino: destino, departureTime: departureTime,
       hora: hora, paradas: paradas.join("|"),
-      origen_ll: llDe("origen"), destino_ll: llDe("destino"), paradas_ll: obtenerParadasLl()
+      origen_ll: llDe("origen"), destino_ll: llDe("destino"), paradas_ll: obtenerParadasLl(),
+      // Para el registro de cotizaciones del servidor (precio con la fórmula oficial): fecha, ida y vuelta, espera y versión de la app.
+      fecha: document.getElementById("fechaSalida").value, ida_vuelta: idaYVuelta ? "SI" : "NO", horas_espera: idaYVuelta ? obtenerHorasEspera() : 0, version_app: APP_VERSION
     }), cargarTarifas()]).then(function (r) {
+      cotizacionIdActual = r[0] && r[0].cotizacion_id || "";
       var res = r[0];
       if (!res.ok) throw new Error(res.error || "sin datos");
       rutaActual = {
@@ -4978,6 +5056,7 @@
       accion: "crear_pedido",
       dispositivo: idDispositivo(),
       tyc_version: VERSION_POLITICA,   // versión de los T&C / contrato de arriendo que acepta al solicitar
+      cotizacion_id: cotizacionIdActual,
       pasajero_token: sesion.token,
       conductor_id: obtenerConductorId() || "",
       origen: document.getElementById("origen").value.trim(),
@@ -5732,6 +5811,10 @@
     if (res.final_metodo !== "RECALCULADO" || !(kc > 0) || !(kr > 0) || !(cot > 0) || !(total < cot)) return "";
     return "El viaje terminó antes del destino indicado (" + textoKm(kr) + " de " + textoKm(kc) + "), así que el valor se recalculó: " + fmt(total) + " en vez de " + fmt(cot) + ".";
   }
+  // Si el peaje que venía en el valor no se usó y se descontó, el comprobante solo dice el motivo (sin cifras). Lo guarda el servidor en motivo_recalculo.
+  function notaPeajeDescontado(res) {
+    return String((res && res.motivo_recalculo) || "").split(",").map(function (x) { return x.trim(); }).indexOf("PEAJE_NO_TOMADO") >= 0 ? "Se descontó el peaje porque no se usó." : "";
+  }
   function mostrarFinDeViaje(res) {
     document.body.classList.add("viaje-terminado");
     document.getElementById("cardFin").style.display = "block";
@@ -5745,7 +5828,8 @@
       : fp === "TRANSFERENCIA" ? "Pagas por transferencia"
       : fp === "MERCADOPAGO" ? "Falta pagar con tarjeta"
       : "Elige cómo pagar";
-    var nota = notaViajeMasCorto(res), cajaNota = document.getElementById("finNota");
+    var nota = notaViajeMasCorto(res), notaPeaje = notaPeajeDescontado(res), cajaNota = document.getElementById("finNota");
+    nota = [nota, notaPeaje].filter(Boolean).join(" ");
     cajaNota.textContent = nota; cajaNota.style.display = nota ? "block" : "none";
     if (finMostrado) return;
     finMostrado = true;

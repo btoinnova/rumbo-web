@@ -9,8 +9,8 @@
 <title>Rumbo Driver</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#16333F">
-<link rel="icon" type="image/png" href="img/favicon-conductor-192.png?v=69">
-<link rel="apple-touch-icon" href="img/favicon-conductor-192.png?v=69">
+<link rel="icon" type="image/png" href="img/favicon-conductor-192.png?v=70">
+<link rel="apple-touch-icon" href="img/favicon-conductor-192.png?v=70">
 <!-- Montserrat va DENTRO de la app (www/fonts, licencia SIL OFL de Google Fonts): sin internet el splash y la app no cambian de letra. -->
 <style>@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/Montserrat-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }</style>
 <style>@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400 600; font-display: swap; src: url("fonts/IBMPlexSans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -1315,50 +1315,50 @@
   .btn.enviando { opacity: 0.7; pointer-events: none; }
   @media (prefers-reduced-motion: reduce) { .btn:active, .nav-item:active { transform: none; } }
 
-  /* ---------- Splash (decisión de Alberto, 23-oct-2026) ----------
-     La carita aparece primero (viene del splash del sistema, en la MISMA medida y lugar) y no se mueve ni cambia de tamaño;
-     debajo aparecen "Rumbo" y el eslogan, y mientras carga un auto avanza dejando puntitos naranjas, como la ruta del logo.
-     --sb / --nb (barra de estado y de navegación, en dp) los pone MainActivity: el splash del sistema se centra en la
-     ventana completa y el WebView no. Sin ellos (web), queda centrado en la página. */
-  /* En la app nativa el splash del HTML espera los bordes que manda MainActivity (misma posición que el del sistema): sin salto. */
-  html.nativo:not(.bordes-ok) .splash .splash-centro, html.nativo:not(.bordes-ok) .splash .splash-bajo, html.nativo:not(.bordes-ok) .splash .by { visibility: hidden; }
-  .splash { position: fixed; inset: 0; z-index: 100; background: #11304A; color: #fff; text-align: center; transition: opacity 0.35s ease; }
-  .splash .splash-centro { position: absolute; left: 50%; top: calc(50% + (var(--nb, 0px) - var(--sb, 0px)) / 2); width: 132px; transform: translate(-50%, -50%); }
-  .splash #splashLogo { display: block; width: 132px; height: auto; }
   /* Fondo por rol (decisión de Alberto, 30-oct-2026): imagen ESTÁTICA al ~70 %, sin movimiento. Conductor = Niebla de Aurora, administrador = Avenida de Luz.
-     Solo donde hoy hay fondo plano: el login y el splash. NUNCA dentro de la app (el admin siempre ve el mapa real con la flota y los pasajeros que piden). */
+     Solo donde hoy hay fondo plano: el login (el splash usa la ciudad de la maqueta). NUNCA dentro de la app (el admin siempre ve el mapa real con la flota y los pasajeros que piden). */
   #pantallaLogin { position: relative; z-index: 0; }
   #pantallaLogin::before { content: ""; position: fixed; inset: 0; z-index: -1; background: #07182A; pointer-events: none; }
   #pantallaLogin::after { content: ""; position: fixed; inset: 0; z-index: -1; background: url(img/fondo-conductor-avenida.webp) center top / cover no-repeat; opacity: .7; pointer-events: none; }
   html.rol-admin #pantallaLogin::after { background-image: url(img/fondo-admin-aurora.webp); }
-  .splash::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-conductor-avenida.webp) center top / cover no-repeat; opacity: .7; pointer-events: none; }
-  html.rol-admin .splash::before { background-image: url(img/fondo-admin-aurora.webp); }
   #pantallaLogin .ayuda, #pantallaLogin #notaDescargaApp { color: #B9C4D0; text-shadow: 0 1px 6px rgba(7, 24, 42, .9); }
   #pantallaLogin .card { box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 12px 32px rgba(0, 0, 0, .45); }
-  .splash .splash-texto, .splash .splash-titulo { text-shadow: 0 2px 12px rgba(7, 24, 42, .8); }
-  .splash .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 340px; height: 340px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .26), rgba(20, 184, 196, .10) 55%, rgba(20, 184, 196, 0)); z-index: -1; pointer-events: none; opacity: 0; animation: splashHalo 1.2s ease-out .15s forwards; }
-  @keyframes splashHalo { from { opacity: 0; } to { opacity: 1; } }
-  .splash .splash-bajo { position: absolute; left: 50%; top: calc(100% + 26px); transform: translateX(-50%); width: 280px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .splash .splash-palabra { width: 150px; height: auto; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .12s forwards; }
-  .splash .splash-titulo { display: block; padding: 3px 12px; border-radius: 99px; background: rgba(20, 184, 196, .10); color: rgba(191, 239, 243, .9); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .5s forwards; }
-  .splash .splash-titulo:empty { display: none; }
-  .splash .splash-texto { position: absolute; left: -90px; right: -90px; bottom: calc(100% + 20px); font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: 0; color: #fff; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .2s forwards; }
-  .splash .splash-carga { position: relative; width: 132px; height: 22px; margin-top: 8px; opacity: 0; animation: splashAparece .3s ease .5s forwards; }
-  .splash .splash-puntitos { position: absolute; left: 4px; right: 56px; top: 50%; display: flex; justify-content: space-between; transform: translateY(-50%); }
-  .splash .splash-puntitos i { width: 6px; height: 6px; border-radius: 50%; background: #EF6D19; opacity: 0; animation: splashPuntito 1.6s linear infinite; }
-  .splash .splash-puntitos i:nth-child(1) { animation-delay: .15s; } .splash .splash-puntitos i:nth-child(2) { animation-delay: .42s; }
-  .splash .splash-puntitos i:nth-child(3) { animation-delay: .69s; } .splash .splash-puntitos i:nth-child(4) { animation-delay: .96s; }
-  .splash .splash-puntitos i:nth-child(5) { animation-delay: 1.23s; }
-  .splash .splash-auto { position: absolute; left: 0; top: 0; width: 52px; height: 20px; fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; animation: splashAuto 1.6s linear infinite; }
-  @keyframes splashAparece { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  @keyframes splashAuto { 0% { transform: translateX(0); opacity: 1; } 85% { transform: translateX(82px); opacity: 1; } 100% { transform: translateX(82px); opacity: 0; } }
-  @keyframes splashPuntito { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+  /* ---------- Splash del panel EXACTO a la maqueta (diseno/apps/capturas/splash-3-roles.png, columnas Conductor y Administrador), decisión de Alberto 1-nov-2026 ----------
+     Fase 1 (viene del splash del sistema): SOLO la carita, en la MISMA medida y lugar (--sb / --nb los pone MainActivity; sin ellos, centrada en la página) sobre #11304A.
+     Fase 2 (.fase2, 800 ms después de verse): la carita se funde y entra la escena de la maqueta: lockup horizontal grande con halo arriba, ciudad 3D iluminada,
+     «Ingresando •••» sobre la ciudad y, al pie, «Sigue tu rumbo.» (conductor) / «Ordena tu rumbo.» (administrador) entre dos filetes y «by BTo Innova soluciones» sutil. Todo estático salvo los tres puntos. */
+  /* En la app nativa el splash del HTML espera los bordes que manda MainActivity (misma posición que el del sistema): sin salto. */
+  html.nativo:not(.bordes-ok) .splash .splash-centro, html.nativo:not(.bordes-ok) .splash .by { visibility: hidden; }
+  .splash { position: fixed; inset: 0; z-index: 100; background: #11304A; color: #fff; text-align: center; transition: opacity 0.35s ease; }
+  .splash .splash-centro { position: absolute; left: 50%; top: calc(50% + (var(--nb, 0px) - var(--sb, 0px)) / 2); width: 132px; transform: translate(-50%, -50%); transition: opacity .4s ease; }
+  .splash #splashLogo { display: block; width: 132px; height: auto; }
+  .splash .splash-texto { display: none; }
+  .splash.fase2 .splash-centro { opacity: 0; }
+  .splash::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-splash-pasajero.webp) center top / cover no-repeat; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+  .splash.fase2::before { opacity: 1; }
+  .splash-marca { position: absolute; top: 96px; left: 50%; width: min(78%, 330px); transform: translateX(-50%); aspect-ratio: 803 / 309; transition: opacity .5s ease .1s; }
+  .splash-marca img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 14px rgba(95, 211, 219, .55)); }
+  .splash-marca::before { content: ""; position: absolute; left: -18%; right: -18%; top: -60%; bottom: -60%; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .45), rgba(20, 184, 196, 0)); }
+  .splash-rol { position: absolute; left: 0; right: 0; top: 230px; text-align: center; transition: opacity .5s ease .15s; }
+  .splash-rol .splash-titulo { display: inline-block; padding: 8px 18px; border-radius: 999px; background: rgba(20, 184, 196, .18); border: 1px solid rgba(95, 211, 219, .35); color: #5FD3DB; font-size: 16px; font-weight: 700; line-height: 1.2; text-shadow: none; }
+  html.rol-admin .splash-rol .splash-titulo { background: rgba(255, 212, 121, .16); border-color: rgba(255, 212, 121, .4); color: #FFD479; }
+  .splash-cargando { position: absolute; left: 0; right: 0; bottom: 143px; margin: 0; font-size: 17px; font-weight: 700; color: #D5E1EA; text-shadow: 0 1px 8px rgba(7, 24, 42, .95); letter-spacing: .02em; transition: opacity .5s ease .2s; }
+  .splash-cargando i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #5FD3DB; margin: 0 2px 2px; animation: splashPunto 1.2s infinite; }
+  .splash-cargando i:nth-child(2) { animation-delay: .15s; } .splash-cargando i:nth-child(3) { animation-delay: .3s; }
+  @keyframes splashPunto { 0%, 100% { opacity: .45; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
+  .splash-eslogan { position: absolute; left: 0; right: 0; bottom: 62px; margin: 0; padding: 7px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 17px; font-weight: 600; line-height: 1.3; letter-spacing: .01em; color: #fff; background: linear-gradient(90deg, rgba(7, 24, 42, 0), rgba(7, 24, 42, .78) 16%, rgba(7, 24, 42, .78) 84%, rgba(7, 24, 42, 0)); transition: opacity .5s ease .3s; }
+  .splash-eslogan::before, .splash-eslogan::after { content: ""; flex: 1 1 14px; max-width: 38px; height: 1px; background: rgba(183, 198, 210, .75); }
+  .splash-eslogan .r { color: #5FD3DB; }
+  /* Fase 1 = SOLO la carita (igual que el splash nativo): lo demás entra con la fase 2. */
+  .splash:not(.fase2) .splash-marca, .splash:not(.fase2) .splash-rol, .splash:not(.fase2) .splash-cargando, .splash:not(.fase2) .splash-eslogan { opacity: 0; }
+  /* «by» sutil: en la fase 1 queda donde lo deja el splash del sistema y baja suave a su lugar de la maqueta. */
+  .splash .by { transition: bottom .6s ease, font-size .6s ease, color .6s ease; }
+  .splash.fase2 .by { bottom: max(22px, env(safe-area-inset-bottom)); font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, .66); text-shadow: 0 1px 8px rgba(7, 24, 42, .95); z-index: 5; }
+  .splash.fase2 .by::before { content: ""; position: absolute; left: 0; right: 0; bottom: calc(-1 * max(22px, env(safe-area-inset-bottom))); height: 96px; z-index: -1; background: linear-gradient(180deg, rgba(7, 24, 42, 0), rgba(7, 24, 42, .92) 55%); pointer-events: none; }
   @media (prefers-reduced-motion: reduce) {
-    .splash .splash-palabra, .splash .splash-texto, .splash .splash-carga { animation: none; opacity: 1; }
-    .splash .splash-centro::before { animation: none; opacity: 1; }
-    .splash .splash-titulo { animation: none; opacity: 1; }
-    .splash .splash-auto { animation: none; transform: translateX(82px); }
-    .splash .splash-puntitos i { animation: none; opacity: 1; }
+    .splash::before { opacity: 1; transition: none; }
+    .splash .splash-centro, .splash-marca, .splash-rol, .splash-cargando, .splash-eslogan, .splash .by { transition: none; }
+    .splash-cargando i { animation: none; opacity: 1; }
   }
   /* By BTo Innova soluciones (regla de marca): al pie del splash, a la misma altura que en el splash del sistema (80 dp sobre el borde de la ventana). El logo es azul oscuro: va sobre un recuadro claro. */
   .splash .by { position: absolute; left: 0; right: 0; bottom: calc(80px - var(--nb, 58px) + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: center; gap: .45em; }
@@ -1522,6 +1522,90 @@
   .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:disabled::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):disabled::after { display: none; }
   @keyframes btnDestello { 0% { left: -40%; } 18% { left: 120%; } 100% { left: 120%; } }
   @media (prefers-reduced-motion: reduce) { .btn.btn-primario::after, button.btn-primario::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar)::after { animation: none; display: none; } }
+  /* Panel de inicio del administrador (aprobado por Alberto, 31-oct-2026): fondo 5 Niebla de Aurora, 6 indicadores de vidrio y barra inferior Panel · Mapa · Más. Solo administrador;
+     el conductor no recibe nada de esto. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  .admin-panel, .admin-nav { display: none; }
+  body.modo-admin.admin-vista-panel .admin-panel { display: block; position: fixed; left: 50%; transform: translateX(-50%); width: 100%; max-width: 560px; top: var(--topbar-h, 96px); bottom: 0; z-index: 3; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding: 14px 16px calc(var(--nav-h-adm, 92px) + 12px); color: #fff; background: linear-gradient(180deg, rgba(7, 24, 42, .05), rgba(7, 24, 42, .45) 50%, rgba(7, 24, 42, .88)), #07182A url(img/fondo-admin-aurora.webp) center top / cover no-repeat; }
+  body.admin-vista-panel { background: #07182A; }
+  body.admin-vista-panel #condMapa, body.admin-vista-panel #panelPedidos, body.admin-vista-panel .pestana-conexion { display: none !important; }
+  .ap-titulo { margin: 4px 0 2px; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; color: #fff; }
+  .ap-act { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #B7C6D2; }
+  .ap-act i { width: 8px; height: 8px; border-radius: 50%; background: #5FD3DB; }
+  .ap-aviso { margin: 0 0 12px; padding: 14px 16px; border-radius: 20px; background: #fff; color: #0A2236; box-shadow: 0 14px 34px -14px rgba(0, 0, 0, .6); }
+  .ap-aviso[hidden], .ap-alerta[hidden] { display: none; }
+  .ap-pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px; padding: 6px 12px; border-radius: 999px; background: #FDEBDD; color: #9A3F05; font-size: 14px; font-weight: 800; }
+  .ap-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #EF6D19; }
+  .ap-aviso b { display: block; font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
+  .ap-aviso p { margin: 2px 0 10px; font-size: 15px; color: #4E5A6C; overflow-wrap: anywhere; }
+  .ap-aviso .btn { min-height: 52px; font-size: 16px; }
+  .ap-alerta { margin: 0 0 12px; padding: 10px 14px; border-radius: 16px; background: rgba(255, 212, 121, .16); border: 1px solid rgba(255, 212, 121, .4); color: #FFD479; font-size: 15px; font-weight: 700; }
+  .ap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ap-k { display: block; width: 100%; padding: 11px 14px 10px; text-align: left; font: inherit; color: #fff; border-radius: 20px; background: rgba(11, 34, 56, .72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .14); cursor: pointer; }
+  .ap-k:active { background: rgba(20, 184, 196, .22); }
+  .ap-ic { width: 22px; height: 22px; fill: none; stroke: #5FD3DB; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .ap-k b { display: block; margin-top: 2px; font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+  .ap-k span { font-size: 14px; font-weight: 600; color: #B7C6D2; white-space: nowrap; }
+  .ap-k.at { border-color: rgba(239, 109, 25, .55); } .ap-k.at .ap-ic { stroke: #EF6D19; }
+  .ap-k.am .ap-ic { stroke: #FFD479; }
+  body.modo-admin.cond-pantalla:not(.adm-abierta):not(.aj-solo) .admin-nav { display: grid; }
+  .admin-nav { position: fixed; z-index: 35; left: 50%; transform: translateX(-50%); width: 100%; max-width: 560px; bottom: 0; grid-template-columns: repeat(3, 1fr); padding: 8px 12px max(14px, env(safe-area-inset-bottom)); background: #fff; border-radius: 28px 28px 0 0; box-shadow: 0 -10px 30px -12px rgba(0, 0, 0, .5); }
+  .admin-nav[hidden] { display: none !important; }
+  .admin-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; border: 0; border-radius: 16px; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #4E5A6C; cursor: pointer; }
+  .admin-nav button .ap-ic { width: 26px; height: 26px; stroke: currentColor; }
+  .admin-nav button.on { background: #E3F6F8; color: #08626A; }
+  /* Mapa del administrador como la maqueta (aprobada 31-oct-2026): hoja radio 28 sobre la barra Panel·Mapa·Más, filtros Conductores/Pasajeros como chips de 48 px, filas hielo y el aviso de pedido nuevo arriba.
+     El mapa es el REAL de Google (conductores y pasajeros que piden, vivo cada 15 s). Solo teléfono y solo administrador. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.modo-admin #panelPedidos { border-radius: 28px 28px 0 0; padding: 0 20px calc(12px + env(safe-area-inset-bottom)); }
+    body.modo-admin #panelPedidos .hoja-asa { margin: 0 -20px; }
+    body.modo-admin #panelPedidos .hoja-asa span { width: 44px; height: 5px; background: #D9DFE3; border-radius: 3px; }
+    body.modo-admin .flota-ver { gap: 10px; margin: 6px 0 10px; }
+    body.modo-admin .flota-ver-btn { min-height: 48px; border-radius: 999px; background: #fff; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 15px; font-weight: 800; }
+    body.modo-admin .flota-ver-btn.activo { background: #E3F6F8; border-color: #14B8C4; color: #08626A; }
+    body.modo-admin .flota-chip { background: #F2F4F5; border-radius: 999px; font-weight: 700; color: #0A2236; }
+    body.modo-admin .flota-fila { margin-bottom: 8px; padding: 12px 14px; background: #F2F4F5; border: 0; border-radius: 16px; }
+    body.modo-admin .flota-fila.sel { background: #E3F6F8; }
+    body.modo-admin .flota-quien strong { font-size: 16px; font-weight: 800; color: #0A2236; }
+    body.modo-admin .flota-titulo { margin: 14px 2px 8px; font-size: 13px; font-weight: 800; letter-spacing: .05em; color: #4E5A6C; }
+    body.modo-admin .flota-detalle { border-radius: 18px; background: #F2F4F5; }
+    body.modo-admin .flota-aviso { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; margin: 4px 0 10px; padding: 12px 14px; text-align: left; font: inherit; color: #0A2236; background: #FDEBDD; border: 1.5px solid #EF6D19; border-radius: 18px; cursor: pointer; }
+    body.modo-admin .flota-aviso strong { font-size: 17px; font-weight: 800; }
+    body.modo-admin .flota-aviso > span:last-child { font-size: 14px; color: #4E5A6C; overflow-wrap: anywhere; }
+    body.modo-admin .flota-aviso[hidden] { display: none; }
+    body.modo-admin .flota-aviso .ap-pill { background: #fff; }
+  }
+  /* Header, menú y pantallas hijas del administrador (aprobado 31-oct-2026): mismo lenguaje que el conductor y el pasajero. Header flotante de vidrio con «rumbo» minúscula y chip «Administrador»;
+     menú en tarjetas hielo; pantallas hijas (conductores, pasajeros, documentos, viajes, tarifas, membresía…) con títulos 22/800, botones 60/18 y campos 52. Solo teléfono y solo administrador;
+     las tablas y chips con desplazamiento propio se quedan. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.modo-admin.cond-pantalla .topbar { position: fixed; top: 0; left: 0; right: 0; margin: 0; z-index: 30; gap: 10px; padding: max(14px, env(safe-area-inset-top)) 16px 0; background: transparent; border: 0; border-radius: 0; pointer-events: none; }
+    body.modo-admin.cond-pantalla .topbar > * { pointer-events: auto; }
+    body.modo-admin.cond-pantalla .brand { height: 44px; padding: 0 8px; gap: 8px; border-radius: 999px; flex: none; align-items: center; background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .12); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.modo-admin.cond-pantalla .brand-mark { width: 32px; height: 32px; }
+    body.modo-admin.cond-pantalla .brand-texto { min-height: 0; flex-direction: row; align-items: center; gap: 8px; }
+    body.modo-admin.cond-pantalla .brand-wordmark { height: 18px; }
+    body.modo-admin.cond-pantalla .brand-movil { display: none; }
+    body.modo-admin.cond-pantalla .brand-sub { padding: 4px 10px; border-radius: 999px; background: rgba(255, 212, 121, .16); border: 1px solid rgba(255, 212, 121, .4); color: #FFD479; font-size: 13px; font-weight: 700; line-height: 1.2; }
+    body.modo-admin.cond-pantalla .btn-menu-cond { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .12); background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.modo-admin .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    body.modo-admin .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
+    body.modo-admin .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
+    body.modo-admin .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
+    body.modo-admin .menu-lateral-quien strong { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    body.modo-admin .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
+    body.modo-admin .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
+    body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body.modo-admin .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item)::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
+    body.modo-admin .menu-lateral-item:active { background: #E3F6F8; }
+    body.modo-admin .menu-lateral-seccion { margin: 16px 4px 8px; padding: 0; border-bottom: 0; font-size: 13px; font-weight: 800; letter-spacing: .05em; color: #4E5A6C; }
+    body.modo-admin .adm-pantalla { background: #fff; padding-left: 20px; padding-right: 20px; }
+    body.modo-admin .adm-pantalla .ajustes-cab { gap: 10px; padding: 6px 0 12px; border-bottom: 0; }
+    body.modo-admin .adm-pantalla .ajustes-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    body.modo-admin .adm-pantalla .ajustes-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
+    body.modo-admin .adm-pantalla .btn:not(.btn-chico) { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
+    body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 800; }
+    body.modo-admin .adm-pantalla .campo input, body.modo-admin .adm-pantalla .campo select, body.modo-admin .adm-pantalla .campo textarea, body.modo-admin .adm-pantalla input[type=text], body.modo-admin .adm-pantalla input[type=search] { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+  }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro y pastillas con punto. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. La hoja y «Iniciar» del conductor van en la etapa 5. */
   .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
   .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
@@ -1557,16 +1641,28 @@
 </div>
 <div class="splash" id="splashIngresando">
   <div class="splash-centro">
-    <div class="splash-texto" id="splashTexto">Sigue tu</div>
+    <div class="splash-texto" id="splashTexto"></div>
     <img src="img/logo-carita.png" alt="" id="splashLogo">
-    <div class="splash-bajo">
-      <img src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo" class="splash-palabra">
-      <div class="splash-titulo" id="splashTitulo">Conductor</div>
-      <div class="splash-carga" aria-hidden="true"><span class="splash-puntitos"><i></i><i></i><i></i><i></i><i></i></span><svg class="splash-auto" viewBox="0 -4 160 62" aria-hidden="true"><path d="M154 42 L140 42 A14 14 0 0 0 112 42 L46 42 A14 14 0 0 0 18 42 L6 42 L5 32 Q5 24 9 19 L14 10 Q22 0 38 -1 L88 -1 Q96 -1 102 3 L138 18 L148 19 Q154 21 154 28 Z"/><path d="M22 17 L27 6 Q29 3 36 3 L57 3 L57 17 Z"/><path d="M61 3 L88 3 Q93 3 97 6 L118 17 L61 17 Z"/><path d="M119 19 L125 19" stroke-width="3"/><path d="M143 23 L149 27" stroke-width="2"/><path d="M6 24 L10 23" stroke-width="2"/><circle cx="32" cy="42" r="11"/><circle cx="32" cy="42" r="3.5"/><circle cx="126" cy="42" r="11"/><circle cx="126" cy="42" r="3.5"/></svg></div>
-    </div>
   </div>
+  <div class="splash-marca" role="img" aria-label="Rumbo"><img src="img/logo-rumbo-wordmark.png" alt=""></div>
+  <div class="splash-rol"><span class="splash-titulo" id="splashTitulo">Conductor</span></div>
+  <p class="splash-cargando" role="status">Ingresando <i></i><i></i><i></i></p>
+  <p class="splash-eslogan" id="splashEslogan"><span><span id="splashFrase">Sigue tu</span> <span class="r">rumbo</span>.</span></p>
   <div class="by">by BTo Innova soluciones</div>
 </div>
+<script>
+  /* Splash: fase 2 a los 800 ms de verse (en la app nativa, cuando MainActivity ya mandó los bordes: misma posición que el splash del sistema). Movimiento reducido: de inmediato. */
+  (function () {
+    var s = document.getElementById("splashIngresando");
+    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 800); }
+    var h = document.documentElement;
+    if (h.classList.contains("nativo") && !h.classList.contains("bordes-ok")) {
+      var o = new MutationObserver(function () { if (h.classList.contains("bordes-ok")) { o.disconnect(); ir(); } });
+      o.observe(h, { attributes: true, attributeFilter: ["class"] });
+    } else ir();
+    window.__splashFase2 = function () { s.classList.remove("fase2"); setTimeout(ir, 30); };   // mostrarSplash lo vuelve a usar
+  })();
+</script>
 <script>
   /* MODO lo fija scripts/generar-paneles.js. Esta pantalla se decide ANTES
      de dibujar el resto: con sesión cubre todo desde el primer instante. */
@@ -1578,7 +1674,7 @@
     var el = document.getElementById("splashIngresando");
     document.documentElement.classList.add("rol-" + MODO);   // elige el fondo estatico por rol (login y splash)
     document.getElementById("splashTitulo").textContent = MODO === "admin" ? "Administrador" : "Conductor";   // etiqueta de rol bajo «Rumbo»
-    if (MODO === "admin") document.getElementById("splashTexto").textContent = "Ordena tu";   // frase de arriba de la carita: admin "Ordena tu" / conductor "Sigue tu" (la palabra de abajo es "Rumbo")
+    if (MODO === "admin") document.getElementById("splashFrase").textContent = "Ordena tu";   // frase del pie: admin «Ordena tu rumbo.» / conductor «Sigue tu rumbo.»
     if (!(ses && ses.token)) { el.hidden = true; return; }   // el eslogan ("Sigue tu Rumbo") ya viene en el HTML, igual en conductor y admin
   })();
 </script>
@@ -1713,6 +1809,27 @@
 
   <!-- Mapa grande fijo arriba (solo conductor, en Pedidos y En Rumbo), patrón de referentes de mercado:
        mi auto en vivo; las hojas de abajo (pedidos / viaje en curso) suben sobre él. -->
+  <!-- Panel de inicio del administrador (aprobado 31-oct-2026): qué requiere atención hoy, con datos que ya existen. Solo MODO === "admin". -->
+  <section class="admin-panel" id="adminPanel" hidden aria-label="Panel del administrador">
+    <h1 class="ap-titulo">Hoy en la red</h1>
+    <p class="ap-act"><i></i><span id="apActTxt">Actualizando…</span></p>
+    <div class="ap-aviso" id="apAviso" hidden role="status" aria-live="polite">
+      <span class="ap-pill">Nuevo pedido</span>
+      <b id="apAvisoTit"></b>
+      <p id="apAvisoSub"></p>
+      <button type="button" class="btn btn-primario" id="apAvisoMapa">Ver en el mapa</button>
+    </div>
+    <p class="ap-alerta" id="apAlerta" hidden></p>
+    <div class="ap-grid">
+      <button type="button" class="ap-k" id="apEnLineaK" data-ir="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14a6.5 6.5 0 0 1 3.5 6"/></svg><b id="apEnLinea">—</b><span>En línea</span></button>
+      <button type="button" class="ap-k" id="apEnCursoK" data-ir="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg><b id="apEnCurso">—</b><span>En curso</span></button>
+      <button type="button" class="ap-k" id="apSinConductorK" data-ir="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b id="apSinConductor">—</b><span>Sin conductor</span></button>
+      <button type="button" class="ap-k" id="apViajesHoyK" data-adm="pedidos"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l1.6-5.2A2 2 0 0 1 8.5 8.5h7a2 2 0 0 1 1.9 1.3L19 15"/><rect x="3" y="15" width="18" height="4" rx="1.5"/><path d="M6 19v2M18 19v2"/></svg><b id="apViajesHoy">—</b><span>Viajes hoy</span></button>
+      <button type="button" class="ap-k" id="apDocsK" data-adm="documentos"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><b id="apDocs">—</b><span>Docs por revisar</span></button>
+      <button type="button" class="ap-k" id="apReclamosK" data-adm="reclamos"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><b id="apReclamos">—</b><span>Reclamos</span></button>
+    </div>
+  </section>
+
   <div class="cond-mapa" id="condMapa">
     <div class="tablero-mapa">
       <div id="tabMapaLienzo" style="position:absolute;inset:0;"></div>
@@ -1758,6 +1875,7 @@
     <!-- Solo administrador: la flota. En el mapa, el vehículo de cada conductor con su
          estado (disponible / en viaje); acá abajo, el resumen y la lista. -->
     <div class="flota" id="flotaAdmin" hidden>
+      <button type="button" class="flota-aviso" id="flotaAviso" hidden><span class="ap-pill">Nuevo pedido</span><strong id="flotaAvisoTit"></strong><span id="flotaAvisoSub"></span></button>
       <div class="flota-resumen" id="flotaResumen"></div>
       <div class="flota-detalle" id="flotaDetalle" hidden></div>
       <div id="flotaViajes"></div>
@@ -2467,6 +2585,11 @@
   <div class="tv-asa" id="itAsa" role="button" tabindex="0" aria-label="Cerrar el itinerario"><span></span></div>
 </div>
 
+<nav class="admin-nav" id="adminNav" hidden aria-label="Secciones del administrador">
+  <button type="button" data-av="panel" class="on" aria-current="page"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/></svg>Panel</button>
+  <button type="button" data-av="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>Mapa</button>
+  <button type="button" data-av="mas" aria-haspopup="true"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Más</button>
+</nav>
 <nav class="nav-inferior" role="tablist" aria-label="Secciones" id="navConductor" style="display:none;">
   <button class="nav-item activo" id="tabPedidos" type="button" role="tab" aria-selected="true" aria-controls="panelPedidos">
     <span class="nav-badge" id="burbujaPedidos"></span>
@@ -2747,7 +2870,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 81;
+  var APP_VERSION = 82;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -2812,7 +2935,7 @@
     var esAdmin = MODO === "admin";
     document.body.classList.toggle("modo-admin", esAdmin);
     document.title = esAdmin ? "Rumbo Admin" : "Rumbo Driver";
-    var ico = esAdmin ? "img/favicon-admin-192.png?v=66" : "img/favicon-conductor-192.png?v=66";
+    var ico = esAdmin ? "img/favicon-admin-192.png?v=70" : "img/favicon-conductor-192.png?v=70";
     [].forEach.call(document.querySelectorAll('link[rel="icon"], link[rel="apple-touch-icon"]'), function (l) { l.href = ico; });
     [].forEach.call(document.querySelectorAll(".brand-sub"), function (s) {
       if (s.id !== "brandSubConductor" || esAdmin) s.textContent = esAdmin ? "Administración" : "Conductor";
@@ -2838,6 +2961,7 @@
     if (logo) document.getElementById("splashLogo").src = logo;
     document.getElementById("splashTexto").textContent = texto;
     el.hidden = false; el.classList.remove("oculta");
+    if (window.__splashFase2) window.__splashFase2();
     splashDesde = Date.now();
     setTimeout(ocultarSplash, 4000);
   }
@@ -3008,7 +3132,7 @@
     document.body.classList.toggle("cond-pantalla", enCond);
     if (!enCond) document.body.style.paddingBottom = "";
     if (enCond) { ajustarCond(); pintarMapaEspera(); }
-    if (enCond && MODO === "admin") cargarFlota();
+    if (enCond && MODO === "admin") { adminVista = vistaInicialAdmin(leerLocalSeguro("rumbo_admin_vista")); aplicarVistaAdmin(adminVista); cargarFlota(); }
     if (cual === "ajustes" && !disponibilidadCargada) cargarDisponibilidad();
     if (cual === "pedidos" && MODO === "conductor") { pintarEstadoTablero(); pintarMapaEspera(); if (!chipBonoAbierto) { chipBonoAbierto = true; setTimeout(mostrarChipBono, 1500); } }
     // Siempre al entrar: el conductor vuelve de vincular en el navegador y
@@ -3064,7 +3188,7 @@
     return mejor;
   }
   // Alto de la barra de abajo (el administrador no tiene: todo va por el menú lateral).
-  function altoBarraInferior() { return 0; }   // ya no hay barra de pestañas abajo (ni en conductor ni en admin)
+  function altoBarraInferior() { return MODO === "admin" ? (document.getElementById("adminNav").offsetHeight || 0) : 0; }   // el conductor no tiene barra; el administrador, Panel · Mapa · Más
   function aplicarHoja() {
     if (!document.body.classList.contains("cond-pantalla")) return;
     var barra = altoBarraInferior();
@@ -3211,7 +3335,7 @@
     mostrarPantalla("app");
     aplicarPermisos();
     // Junto al logo: la plataforma y el saludo (después de aplicarPermisos, que pone el texto genérico).
-    document.getElementById("brandSubConductor").textContent = MODO === "admin" ? "Admin · Hola " + String(sesion.conductor.nombre || "").split(" ")[0] : "Conductor";   // conductor: chip del rol; el saludo por nombre queda en el menú
+    document.getElementById("brandSubConductor").textContent = MODO === "admin" ? "Administrador" : "Conductor";   // conductor: chip del rol; el saludo por nombre queda en el menú
     if (MODO !== "admin" && sesion.conductor.pendiente_activacion) {
       // Cuenta nueva sin activar: solo Documentos (y cerrar sesión). Rumbo Admin decide la activación.
       document.body.classList.add("alta-pendiente");
@@ -9177,6 +9301,122 @@
     if (flotaSel) { if (hojaEstado === "alto") ponerHoja("medio"); }
   }
 
+  /* ---------- Panel de inicio del administrador (aprobado 31-oct-2026) ---------- */
+  var adminVista = "panel", adminStats = { viajesHoy: null, docs: null, reclamos: null }, adminStatsCargando = false, adminStatsEn = 0, adminVistos = {}, adminVistosListo = false;
+  function resumenFlotaAdmin(flota, pas) {
+    var r = { enLinea: 0, enCurso: 0, sinConductor: 0, atrasos: 0 };
+    (flota || []).forEach(function (c) { if (c.estado === "DISPONIBLE" || c.estado === "EN_VIAJE") r.enLinea++; });
+    (pas || []).forEach(function (p) {
+      if (p.conductor_id) r.enCurso++; else if (p.estado === "BUSCANDO") r.sinConductor++;
+      if (p.atraso_min > 0) r.atrasos++;
+    });
+    return r;
+  }
+  // El primer pedido BUSCANDO sin conductor que el administrador todavía no había visto (o null).
+  function pedidoNuevoAdmin(vistos, pas) {
+    return (pas || []).filter(function (p) { return p.estado === "BUSCANDO" && !p.conductor_id && !vistos[p.pedido_id]; })[0] || null;
+  }
+  function viajesHoyAdmin(pedidos, hoy) {
+    return (pedidos || []).filter(function (p) {
+      return p.estado === "Aceptado" && new Date(p.creado_en).toLocaleDateString("en-CA", { timeZone: "America/Santiago" }) === hoy;
+    }).length;
+  }
+  function docsPorRevisarAdmin(res) {
+    if (!res) return 0;
+    var n = 0;
+    (res.conductores || []).forEach(function (c) { n += Number(c.por_revisar) || 0; });
+    (res.pasajeros || []).forEach(function (c) { n += Number(c.por_revisar) || 0; });
+    return n;
+  }
+  function reclamosAbiertosAdmin(res) { return res ? Number(res.abiertos) || 0 : 0; }
+  // Panel por defecto; solo «mapa» se recuerda si fue la última pestaña usada.
+  function vistaInicialAdmin(guardada) { return guardada === "mapa" ? "mapa" : "panel"; }
+  function fraseAvisoPedido(p, n) {
+    var primero = String(p.nombre || "Un pasajero").trim().split(/\s+/)[0];
+    return { titulo: primero + " pidió un viaje", sub: (p.origen || "") + " → " + (p.destino || "") + (n > 1 ? " · +" + (n - 1) + " más sin conductor" : " · sin conductor") };
+  }
+  function pintarPanelAdmin() {
+    if (MODO !== "admin") return;
+    var r = resumenFlotaAdmin(flotaDatos, flotaPas);
+    var set = function (id, v) { document.getElementById(id).textContent = v === null || v === undefined ? "—" : String(v); };
+    set("apEnLinea", r.enLinea); set("apEnCurso", r.enCurso); set("apSinConductor", r.sinConductor);
+    set("apViajesHoy", adminStats.viajesHoy); set("apDocs", adminStats.docs); set("apReclamos", adminStats.reclamos);
+    document.getElementById("apSinConductorK").classList.toggle("at", r.sinConductor > 0);
+    document.getElementById("apDocsK").classList.toggle("am", adminStats.docs > 0);
+    document.getElementById("apReclamosK").classList.toggle("am", adminStats.reclamos > 0);
+    var al = document.getElementById("apAlerta");
+    al.hidden = !(r.atrasos > 0);
+    al.textContent = r.atrasos > 0 ? (r.atrasos === 1 ? "1 viaje con el conductor atrasado" : r.atrasos + " viajes con el conductor atrasado") : "";
+    var sin = flotaPas.filter(function (p) { return p.estado === "BUSCANDO" && !p.conductor_id; });
+    var av = document.getElementById("apAviso");
+    av.hidden = !sin.length;
+    if (sin.length) {
+      var f = fraseAvisoPedido(sin[0], sin.length);
+      document.getElementById("apAvisoTit").textContent = f.titulo; document.getElementById("apAvisoSub").textContent = f.sub;
+      document.getElementById("apAvisoMapa").dataset.pedido = sin[0].pedido_id;
+    }
+    // El mismo aviso arriba de la hoja del mapa: un toque selecciona el pedido (lo maneja alTocarFlota con data-flota-p).
+    var avm = document.getElementById("flotaAviso");
+    avm.hidden = !sin.length;
+    if (sin.length) {
+      var fm = fraseAvisoPedido(sin[0], sin.length);
+      avm.setAttribute("data-flota-p", sin[0].pedido_id);
+      document.getElementById("flotaAvisoTit").textContent = fm.titulo; document.getElementById("flotaAvisoSub").textContent = fm.sub;
+    }
+    // Pedido que llega estando abierta la app: se avisa con una vibración (la primera carga solo anota lo que ya había).
+    var nuevo = pedidoNuevoAdmin(adminVistos, flotaPas);
+    sin.forEach(function (p) { adminVistos[p.pedido_id] = true; });
+    if (nuevo && adminVistosListo) { try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (e) {} }
+    adminVistosListo = true;
+    var d = new Date();
+    document.getElementById("apActTxt").textContent = "Actualizado " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+  // Documentos por revisar, reclamos abiertos y viajes de hoy: llamadas que ya existen, cada 60 s y solo con el panel a la vista.
+  function cargarStatsAdmin(forzar) {
+    if (MODO !== "admin" || adminStatsCargando) return;
+    if (!forzar && Date.now() - adminStatsEn < 55000) return;
+    adminStatsCargando = true; adminStatsEn = Date.now();
+    var hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+    var uno = function (body, alOk) { return apiPost(body).then(function (res) { if (res && res.ok) alOk(res); }).catch(function () {}); };
+    Promise.all([
+      uno({ accion: "documentos_admin" }, function (res) { adminStats.docs = docsPorRevisarAdmin(res); }),
+      uno({ accion: "reclamos_admin" }, function (res) { adminStats.reclamos = reclamosAbiertosAdmin(res); }),
+      uno({ accion: "registro_pedidos", mes: hoy.slice(0, 7) }, function (res) { adminStats.viajesHoy = viajesHoyAdmin(res.pedidos, hoy); })
+    ]).then(function () { adminStatsCargando = false; pintarPanelAdmin(); });
+  }
+  function aplicarVistaAdmin(v) {
+    if (MODO !== "admin") return;
+    adminVista = v === "mapa" ? "mapa" : "panel";
+    guardarLocalSeguro("rumbo_admin_vista", adminVista);
+    var b = document.body;
+    b.classList.toggle("admin-vista-panel", adminVista === "panel"); b.classList.toggle("admin-vista-mapa", adminVista === "mapa");
+    document.getElementById("adminPanel").hidden = false; document.getElementById("adminNav").hidden = false;
+    [].forEach.call(document.querySelectorAll("#adminNav [data-av]"), function (x) {
+      var on = x.dataset.av === adminVista;
+      x.classList.toggle("on", on); if (on) x.setAttribute("aria-current", "page"); else x.removeAttribute("aria-current");
+    });
+    if (adminVista === "panel") { pintarPanelAdmin(); cargarStatsAdmin(true); }
+    else setTimeout(function () { ajustarCond(); pintarMapaEspera(); pintarFlota(); }, 60);
+  }
+  document.getElementById("adminNav").addEventListener("click", function (ev) {
+    var x = ev.target.closest("[data-av]");
+    if (!x) return;
+    if (x.dataset.av === "mas") document.getElementById("btnMenuCond").click(); else aplicarVistaAdmin(x.dataset.av);
+  });
+  document.getElementById("adminPanel").addEventListener("click", function (ev) {
+    var k = ev.target.closest(".ap-k");
+    if (k) {
+      if (k.dataset.ir === "mapa") aplicarVistaAdmin("mapa");
+      else if (k.dataset.adm) { var it = document.querySelector('#menuLateral [data-adm="' + k.dataset.adm + '"]'); if (it) it.click(); }
+      return;
+    }
+    if (ev.target.closest("#apAvisoMapa")) {
+      var id = document.getElementById("apAvisoMapa").dataset.pedido;
+      aplicarVistaAdmin("mapa");
+      setTimeout(function () { if (id && flotaPas.some(function (p) { return p.pedido_id === id; })) seleccionarFlota("p", id); }, 400);
+    }
+  });
+
   function cargarFlota() {
     if (MODO !== "admin" || flotaCargando) return;
     flotaCargando = true;
@@ -9190,12 +9430,16 @@
       if (flotaSel && !parFlota()) flotaSel = null;   // el viaje elegido ya terminó
       pintarFlotaLista();
       pintarFlota();
+      if (MODO === "admin") pintarPanelAdmin();
     }).catch(function () { flotaCargando = false; document.getElementById("flotaNota").textContent = "Sin conexión. Reintentando…"; });
   }
   function iniciarFlota() {
     detenerFlota();
     flotaTimer = setInterval(function () {
-      if (!document.hidden && document.body.classList.contains("cond-pantalla") && !document.body.classList.contains("adm-abierta")) cargarFlota();
+      if (!document.hidden && document.body.classList.contains("cond-pantalla") && !document.body.classList.contains("adm-abierta")) {
+        cargarFlota();
+        if (MODO === "admin" && document.body.classList.contains("admin-vista-panel")) cargarStatsAdmin(false);
+      }
     }, 15000);
   }
   function detenerFlota() {
