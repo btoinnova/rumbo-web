@@ -42,6 +42,20 @@
     --shadow-sm: none;
     --shadow-md: none;
     --r-card: 14px; --r-input: 12px; --r-btn: 12px;
+    /* Rediseño (maquetas de diseno/apps, etapa 0): tokens NUEVOS, aún sin uso; nada cambia a la vista. Quedan fuera --naranja, --naranja-texto, --r-card y --r-btn de la maqueta porque ya existen arriba con otro valor. */
+    --noche: #07182A; --noche-2: #0B2238; --petroleo: #11304A; --petroleo-2: #16405F;
+    --turq: #14B8C4; --turq-2: #0EA5B0; --turq-claro: #5FD3DB; --turq-tinte: #E3F6F8; --turq-texto: #08626A;
+    --naranja-tinte: #FDEBDD;
+    --ambar: #FFD479; --ambar-tinte: #FFF1D0; --ambar-texto: #7A4B00;
+    --ok-tinte: #DDF5E8; --ok-texto: #0B6B3A; --alerta: #C2362B; --alerta-tinte: #FBE6E3;
+    --hielo: #F2F4F5; --ink: #0A2236; --sub: #4E5A6C; --sub-noche: #B7C6D2; --linea: #D9DFE3;
+    --r-hoja: 28px; --r-campo: 16px; --r-chip: 99px;
+    --sombra-hoja: 0 -18px 50px -10px rgba(0,0,0,.55); --sombra-card: 0 10px 30px -14px rgba(7,24,42,.35);
+    --luz-turq: 0 10px 30px -8px rgba(20,184,196,.55), 0 2px 0 rgba(255,255,255,.35) inset;
+    --vidrio: rgba(11,34,56,.72);
+    --ease: cubic-bezier(.16,1,.3,1); --d1: .2s; --d2: .45s; --d3: .7s;
+    --t-h1: 28px; --t-h2: 22px; --t-cuerpo: 16px; --t-apoyo: 15px; --t-cifra: 44px;
+    --alto-btn: 60px; --alto-btn-sec: 52px; --alto-min: 48px;
   }
   /* Tema único (claro) por ahora — ver nota en index.html. */
 
@@ -363,6 +377,33 @@
   #btnMenuCond.con-mensajes::after { content: attr(data-n); position: absolute; top: 2px; right: 2px; box-sizing: border-box; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; font-size: 12px; font-weight: 700; line-height: 14px; text-align: center; color: #fff; background: var(--acento, #ef6d19); border: 2px solid var(--surface, #fff); }
   .docs-correo { padding: 12px 16px; border-bottom: 1px solid var(--border); }
   .docs-correo p { margin: 0 0 8px; } .docs-correo p span { display: block; font-size: 14px; color: var(--text-2); }
+  .xp-form { display: flex; flex-direction: column; gap: 8px; padding: 2px 0 8px; }
+  .xp-form .campo-label { margin-top: 4px; }
+  .xp-form input[type="text"], .xp-form input[type="number"], .xp-form input[type="date"], .xp-form input[type="time"] { width: 100%; min-height: 48px; }
+  .xp-par { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .xp-form details { border: 1px solid var(--border); border-radius: 12px; padding: 0 12px; }
+  .xp-form summary { min-height: 48px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+  .xp-form details[open] { padding-bottom: 12px; }
+  .xp-form details > .campo-label:first-of-type { margin-top: 0; }
+  .xp-check { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; }
+  .xp-check input { width: 22px; height: 22px; flex: none; }
+  #xpResultado { margin-top: 8px; }
+  .xp-prueba { margin: 0 0 8px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); border: 1.5px solid var(--primary); font-weight: 700; font-size: 14px; }
+  .xp-total { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
+  .xp-total strong { font-size: 26px; line-height: 1.2; }
+  .xp-total small { flex-basis: 100%; font-size: 14px; color: var(--text-2); }
+  .xp-nivel { padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; background: var(--surface-2); border: 1.5px solid var(--border); }
+  .xp-nivel.xp-PUNTA { border-color: var(--primary); color: var(--primary); }
+  .xp-nivel.xp-FUERTE { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .xp-regla, .xp-frontera, .xp-nota { margin: 6px 0 0; font-size: 14px; line-height: 1.45; }
+  .xp-nota { color: var(--text-2); font-size: 14px; }
+  .xp-fila small { font-size: 13px; }
+  .xp-aviso { margin: 4px 0 0; font-size: 13.5px; font-weight: 600; }
+  .xp-sec { margin: 18px 0 4px; font-size: 15px; }
+  .xp-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .xp-fila > span { min-width: 0; color: var(--text-2); }
+  .xp-fila > b { flex: none; text-align: right; }
+  .xp-fila.xp-fuerte > span, .xp-fila.xp-fuerte > b { color: var(--text); font-weight: 700; }
   .aviso-tarifas { flex: none; margin: 0 0 12px; padding: 12px 14px; border: 1.5px solid var(--primary); border-radius: 12px; background: var(--surface-2); }
   .aviso-tarifas strong { display: block; font-size: 15px; }
   .aviso-tarifas .ayuda { margin: 4px 0 0; font-size: 13.5px; }
@@ -692,6 +733,32 @@
   .docs-visor[hidden] { display: none; }
   .docs-visor img { max-width: 100%; max-height: 78vh; border-radius: 12px; background: #fff; }
   .docs-visor img:not([src]) { display: none; }
+  /* Pantalla individual por documento: título, paso, indicaciones, caras con su estado y los datos manuales. */
+  .dp { position: fixed; inset: 0; z-index: 85; background: var(--bg); display: flex; flex-direction: column; }
+  .dp-cab { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .dp-cab h2 { margin: 0; font-size: 20px; }
+  .dp-volver { width: 48px; height: 48px; border: 0; border-radius: 12px; background: var(--surface-2); font-size: 28px; line-height: 1; color: var(--text); }
+  .dp-cuerpo { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .dp-paso { margin: 0; font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .02em; }
+  .dp-ayuda { margin: 0; padding-left: 22px; font-size: 16px; line-height: 1.5; color: var(--text); display: flex; flex-direction: column; gap: 6px; }
+  .dp-cara { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .dp-cara-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 16px; }
+  .dp-nota { margin: 0; font-size: 15px; color: var(--text-2); overflow-wrap: anywhere; }
+  .dp-mini { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; background: var(--surface-2); }
+  .dp .campo { margin: 0; }
+  .dp .campo input, .dp .campo select { width: 100%; font-size: 16px; min-height: 48px; }
+  .dp-check { display: flex; align-items: center; gap: 12px; font-size: 16px; min-height: 48px; padding: 4px 2px; }
+  .dp-check input { width: 24px; height: 24px; flex: none; accent-color: var(--primary); }
+  .dp-motivos { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .dp-motivos .btn { min-height: 48px; font-size: 16px; }
+  .dp-pie { padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; gap: 8px; }
+  .dp .btn { min-height: 52px; font-size: 16px; }
+  .dp .badge { font-size: 15px; padding: 4px 12px; }
+  .dp .badge-ambar { color: #7A540C; }
+  .docs-item .badge { font-size: 15px; }
+  .dp .pedido-aviso { font-size: 16px; line-height: 1.4; padding: 12px; margin: 0; }
+  .dp .campo-label { font-size: 16px; color: var(--text); }
+  .cam-marco.hoja { left: 14%; right: 14%; aspect-ratio: 3 / 4; }
   /* Cámara con marco: el documento entra en el rectángulo (cédula y licencia ~1,59:1); la selfie, en el óvalo. */
   .cam-doc { position: fixed; inset: 0; z-index: 95; background: #0b1620; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; color: #fff; }
   .cam-visor { position: relative; width: 100%; max-width: 480px; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 14px; background: #000; }
@@ -1258,9 +1325,23 @@
   .splash { position: fixed; inset: 0; z-index: 100; background: #11304A; color: #fff; text-align: center; transition: opacity 0.35s ease; }
   .splash .splash-centro { position: absolute; left: 50%; top: calc(50% + (var(--nb, 0px) - var(--sb, 0px)) / 2); width: 132px; transform: translate(-50%, -50%); }
   .splash #splashLogo { display: block; width: 132px; height: auto; }
+  /* Fondo por rol (decisión de Alberto, 30-oct-2026): imagen ESTÁTICA al ~70 %, sin movimiento. Conductor = Niebla de Aurora, administrador = Avenida de Luz.
+     Solo donde hoy hay fondo plano: el login y el splash. NUNCA dentro de la app (el admin siempre ve el mapa real con la flota y los pasajeros que piden). */
+  #pantallaLogin { position: relative; z-index: 0; }
+  #pantallaLogin::before { content: ""; position: fixed; inset: 0; z-index: -1; background: #07182A; pointer-events: none; }
+  #pantallaLogin::after { content: ""; position: fixed; inset: 0; z-index: -1; background: url(img/fondo-conductor-avenida.webp) center top / cover no-repeat; opacity: .7; pointer-events: none; }
+  html.rol-admin #pantallaLogin::after { background-image: url(img/fondo-admin-aurora.webp); }
+  .splash::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-conductor-avenida.webp) center top / cover no-repeat; opacity: .7; pointer-events: none; }
+  html.rol-admin .splash::before { background-image: url(img/fondo-admin-aurora.webp); }
+  #pantallaLogin .ayuda, #pantallaLogin #notaDescargaApp { color: #B9C4D0; text-shadow: 0 1px 6px rgba(7, 24, 42, .9); }
+  #pantallaLogin .card { box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 12px 32px rgba(0, 0, 0, .45); }
+  .splash .splash-texto, .splash .splash-titulo { text-shadow: 0 2px 12px rgba(7, 24, 42, .8); }
+  .splash .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 340px; height: 340px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .26), rgba(20, 184, 196, .10) 55%, rgba(20, 184, 196, 0)); z-index: -1; pointer-events: none; opacity: 0; animation: splashHalo 1.2s ease-out .15s forwards; }
+  @keyframes splashHalo { from { opacity: 0; } to { opacity: 1; } }
   .splash .splash-bajo { position: absolute; left: 50%; top: calc(100% + 26px); transform: translateX(-50%); width: 280px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .splash .splash-palabra { width: 150px; height: auto; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .12s forwards; }
-  .splash .splash-titulo { display: none; }
+  .splash .splash-titulo { display: block; padding: 3px 12px; border-radius: 99px; background: rgba(20, 184, 196, .10); color: rgba(191, 239, 243, .9); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .5s forwards; }
+  .splash .splash-titulo:empty { display: none; }
   .splash .splash-texto { position: absolute; left: -90px; right: -90px; bottom: calc(100% + 20px); font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: 0; color: #fff; opacity: 0; animation: splashAparece .45s cubic-bezier(.16, 1, .3, 1) .2s forwards; }
   .splash .splash-carga { position: relative; width: 132px; height: 22px; margin-top: 8px; opacity: 0; animation: splashAparece .3s ease .5s forwards; }
   .splash .splash-puntitos { position: absolute; left: 4px; right: 56px; top: 50%; display: flex; justify-content: space-between; transform: translateY(-50%); }
@@ -1274,6 +1355,8 @@
   @keyframes splashPuntito { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
     .splash .splash-palabra, .splash .splash-texto, .splash .splash-carga { animation: none; opacity: 1; }
+    .splash .splash-centro::before { animation: none; opacity: 1; }
+    .splash .splash-titulo { animation: none; opacity: 1; }
     .splash .splash-auto { animation: none; transform: translateX(82px); }
     .splash .splash-puntitos i { animation: none; opacity: 1; }
   }
@@ -1335,6 +1418,205 @@
   .rb-pop-caja.autorizacion .rb-pop-texto { max-height: 46vh; overflow-y: auto; font-size: 14px; font-weight: 400; margin-bottom: 14px; }
   .rb-pop-check { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 16px; font: 600 15px/1.35 "Montserrat", system-ui, sans-serif; color: #11304A; cursor: pointer; }
   .rb-pop-check input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: #11304A; }
+  /* Rediseño etapa 3: con el mapa siempre oscuro, el fondo mientras carga también (antes #17212B solo de noche). */
+  body.mapa-noche .tablero-mapa, body.mapa-noche .mapa-pasajero { background: var(--noche); border-color: var(--petroleo-2); }
+  /* Paridad con la maqueta (conductor), 390 px: valores medidos en diseno/apps/conductor-tablero.html (hoja radio 28, asa 44x5, KPI hielo radio 20, cifra 36/800,
+     botón turquesa 60 px radio 18, header flotante de vidrio). Solo teléfono y solo conductor (el admin no cambia). El mapa real queda siempre debajo. */
+  @media (max-width: 899px) {
+    body.cond-pantalla:not(.modo-admin) .topbar { position: fixed; top: 0; left: 0; right: 0; margin: 0; z-index: 30; gap: 10px; padding: max(14px, env(safe-area-inset-top)) 16px 0; background: transparent; border: 0; border-radius: 0; pointer-events: none; }
+    body.cond-pantalla:not(.modo-admin) .topbar > * { pointer-events: auto; }
+    body.cond-pantalla:not(.modo-admin) .brand { height: 44px; padding: 0 8px 0 8px; gap: 8px; border-radius: 999px; flex: none; align-items: center; background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .12); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.cond-pantalla:not(.modo-admin) .brand-mark { width: 32px; height: 32px; }
+    body.cond-pantalla:not(.modo-admin) .brand-texto { min-height: 0; flex-direction: row; align-items: center; gap: 8px; }
+    body.cond-pantalla:not(.modo-admin) .brand-wordmark { height: 18px; }
+    body.cond-pantalla:not(.modo-admin) .brand-movil { display: none; }
+    body.cond-pantalla:not(.modo-admin) .brand-sub { padding: 4px 10px; border-radius: 999px; background: rgba(20, 184, 196, .18); border: 1px solid rgba(95, 211, 219, .35); color: #5FD3DB; font-size: 13px; font-weight: 700; line-height: 1.2; }
+    body.cond-pantalla:not(.modo-admin) .btn-menu-cond { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .12); background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.cond-pantalla:not(.modo-admin) .tablero-mapa .btn-centrar { position: fixed; top: max(14px, env(safe-area-inset-top)); left: auto; right: 70px; z-index: 31; width: 44px; height: 44px; min-height: 44px; padding: 0; border-radius: 50%; font-size: 0; color: transparent; border: 1px solid rgba(255, 255, 255, .12); background: rgba(11, 34, 56, .84) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='3.2'/%3E%3Ccircle cx='12' cy='12' r='7.5'/%3E%3Cpath d='M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3'/%3E%3C/svg%3E") center / 22px no-repeat; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.cond-pantalla:not(.modo-admin) #panelPedidos { border-radius: 28px 28px 0 0; padding: 0 20px calc(12px + env(safe-area-inset-bottom)); }
+    body.cond-pantalla:not(.modo-admin) #panelPedidos .hoja-asa { margin: 0 -20px; }
+    body.cond-pantalla:not(.modo-admin) #panelPedidos .hoja-asa span { width: 44px; height: 5px; background: #D9DFE3; border-radius: 3px; }
+    body.cond-pantalla:not(.modo-admin) .kpi-card { background: #F2F4F5; border: 1px solid #D9DFE3; border-radius: 20px; padding: 14px 16px; box-shadow: none; }
+    body.cond-pantalla:not(.modo-admin) .kpi-etiqueta { font-size: 15px; font-weight: 600; color: #4E5A6C; }
+    body.cond-pantalla:not(.modo-admin) .kpi-valor { font-size: 36px; font-weight: 800; letter-spacing: -.03em; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .btn-conexion { background: #14B8C4; color: #07182A; min-height: 60px; border-radius: 18px; font-size: 18px; font-weight: 800; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
+    body.cond-pantalla:not(.modo-admin) .btn-conexion.desconectar { background: var(--danger); color: #fff; box-shadow: none; }
+  }
+  /* Oferta y viaje en curso como la maqueta (conductor): diseno/apps/conductor-oferta.html y conductor-viaje.html. Misma estructura de hoy (oferta emergente; ruta arriba y deslizador
+     abajo sobre el mapa real); solo cambian los valores: hoja radio 28, chip durazno «Pedido nuevo», monto 40/800, «Aceptar» turquesa 60 px radio 18, tarjeta de arriba radio 24,
+     acciones hielo radio 16, deslizador petróleo 64 px con tirador turquesa. Solo teléfono y solo conductor (el admin no cambia). «Llamar» no existe: el teléfono no se entrega. */
+  @media (max-width: 899px) {
+    body.cond-pantalla:not(.modo-admin) .pe-hoja { max-width: none; border-radius: 28px 28px 0 0; padding: 20px 20px calc(18px + env(safe-area-inset-bottom)); }
+    body.cond-pantalla:not(.modo-admin) .pe-barra { height: 8px; background: #D9DFE3; }
+    body.cond-pantalla:not(.modo-admin) .pe-barra span { background: #14B8C4; }
+    body.cond-pantalla:not(.modo-admin) .pe-etiqueta { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #FFE9D6; color: #A04A00; font-size: 14px; font-weight: 800; letter-spacing: 0; text-transform: none; }
+    body.cond-pantalla:not(.modo-admin) .pe-etiqueta::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #EF6D19; }
+    body.cond-pantalla:not(.modo-admin) .pe-precio { font-size: 40px; font-weight: 800; letter-spacing: -.03em; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .pe-linea { font-size: 17px; font-weight: 700; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .pe-pto { border-color: #EF6D19; }
+    body.cond-pantalla:not(.modo-admin) .pe-pto-d { background: #14B8C4; border-color: #14B8C4; border-radius: 3px; }
+    body.cond-pantalla:not(.modo-admin) .pe-aceptar { min-height: 60px; border-radius: 18px; background: #14B8C4; color: #07182A; font-size: 20px; font-weight: 800; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
+    body.cond-pantalla:not(.modo-admin) .pe-segundo .btn { min-height: 56px; border-radius: 18px; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 16px; font-weight: 800; }
+    body.cond-pantalla:not(.modo-admin) .tarjeta-viaje { border-radius: 24px; padding: 16px 18px; background: #fff; border: 0; box-shadow: 0 12px 32px -10px rgba(7, 24, 42, .45); }
+    body.cond-pantalla:not(.modo-admin) .tv-et { font-size: 13px; font-weight: 800; letter-spacing: .04em; color: #08626A; }
+    body.cond-pantalla:not(.modo-admin) .tv-dir { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .tv-sub { font-size: 15px; font-weight: 600; color: #4E5A6C; }
+    body.cond-pantalla:not(.modo-admin) .tv-mas { width: 44px; height: 44px; background: #F2F4F5; color: #11304A; }
+    body.cond-pantalla:not(.modo-admin) .tv-act { min-height: 56px; border-radius: 16px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font-size: 14px; font-weight: 800; }
+    body.cond-pantalla:not(.modo-admin) .tv-info { border: 0; border-radius: 18px; background: #F2F4F5; }
+    body.cond-pantalla:not(.modo-admin) .tv-accion { min-height: 64px; border-radius: 18px; background: linear-gradient(90deg, #11304A, #1D4A66); font-size: 17px; font-weight: 800; box-shadow: none; }
+    body.cond-pantalla:not(.modo-admin) .tv-accion .tv-texto { padding: 0 20px 0 64px; text-align: right; }
+    body.cond-pantalla:not(.modo-admin) .tv-accion .tv-tirador { left: 6px; top: 6px; width: 52px; height: 52px; border-radius: 14px; background: #EF6D19; color: #07182A; }
+    body.cond-pantalla:not(.modo-admin) .tv-navegar { min-height: 48px; border-radius: 18px; background: #11304A; font-weight: 800; }
+  }
+  /* Menú y pantallas hijas como la maqueta (conductor): cajón del menú en tarjetas hielo (mismo lenguaje que el del pasajero), títulos 22/800 petróleo, tarjetas hielo radio 18,
+     botones 60 px radio 18, chips 48, campos 52, documentos con filas hielo y barra turquesa; sin la barra vieja en las pantallas de ajuste. Solo teléfono y solo conductor
+     (el admin no cambia); mismos ids, handlers y textos (los legales no se tocan). Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body:not(.modo-admin) .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    body:not(.modo-admin) .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
+    body:not(.modo-admin) .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
+    body:not(.modo-admin) .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
+    body:not(.modo-admin) .menu-lateral-quien strong { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    body:not(.modo-admin) .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
+    body:not(.modo-admin) .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
+    body:not(.modo-admin) .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body:not(.modo-admin) .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    body:not(.modo-admin) .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item)::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
+    body:not(.modo-admin) .menu-lateral-item:active, body:not(.modo-admin) .menu-grupo:active { background: #E3F6F8; }
+    body:not(.modo-admin) .menu-sub { padding: 0 0 6px 12px; background: transparent; }
+    body:not(.modo-admin) .menu-sub-item { min-height: 48px; margin-bottom: 6px; padding: 0 16px; background: #fff; border: 1.5px solid #D9DFE3; border-radius: 14px; font-size: 16px; font-weight: 600; color: #0A2236; }
+    body:not(.modo-admin) .menu-pie { margin-top: 14px; padding-top: 0; border-top: 0; }
+    body:not(.modo-admin) .menu-pie-item { min-height: 48px; background: none; padding: 0 16px; border-radius: 12px; font-size: 15px; font-weight: 600; color: #08626A; }
+    body:not(.modo-admin) .ajustes-cab { gap: 10px; margin: 0 0 16px; }
+    body:not(.modo-admin) .ajustes-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    body:not(.modo-admin) .ajustes-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
+    body.aj-solo:not(.modo-admin) { background: #fff; }
+    body.aj-solo:not(.modo-admin) .topbar { display: none; }
+    body.aj-solo:not(.modo-admin) #panelAjustes { padding-top: max(14px, env(safe-area-inset-top)); }
+    body:not(.modo-admin) #panelAjustes .card, body:not(.modo-admin) #panelAjustes details.aj-solo-item { background: #F2F4F5; border: 0; border-radius: 18px; box-shadow: none; padding: 16px; }
+    body:not(.modo-admin) #panelAjustes .btn:not(.btn-chico) { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
+    body:not(.modo-admin) #panelAjustes .btn.btn-chico { min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 800; }
+    body:not(.modo-admin) #panelAjustes .campo input, body:not(.modo-admin) #panelAjustes .campo select, body:not(.modo-admin) #panelAjustes .campo textarea { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+    body:not(.modo-admin) .docs-grupo { font-size: 17px; font-weight: 800; letter-spacing: -.01em; color: #11304A; }
+    body:not(.modo-admin) .docs-lista > * { background: #F2F4F5; border: 0; border-radius: 16px; }
+    body:not(.modo-admin) .mem-relleno { background: #14B8C4; }
+    body:not(.modo-admin) .docs-lista .btn { min-height: 48px; }
+    body:not(.modo-admin) .docs-lista .btn.btn-ok { background: #14B8C4; color: #07182A; }
+  }
+  /* Sin movimiento lateral (pedido de Alberto, 31-oct-2026): la hoja inferior, su contenedor, el menú y la página NO se arrastran de lado. Con overflow-y: auto el eje X
+     queda en «auto» y un texto largo lo vuelve desplazable; aquí se cierra y el gesto se limita a vertical. A PROPÓSITO siguen horizontales: el deslizador «Iniciar/Finalizar viaje»
+     (.tv-accion), las filas arrastrables de paradas y las tablas/chips de admin con su propio desplazamiento. El arrastre VERTICAL de la hoja (asa) no se toca. */
+  @media (max-width: 899px) {
+    body { overflow-x: hidden; }
+    .wiz-hoja, #segHoja, #panelPedidos, #panelEnCurso, .hoja-cuerpo, #panelAjustes, .menu-lateral, .modal-opc-hoja { overflow-x: hidden; }
+    .wiz-hoja, #segHoja, #panelPedidos, #panelEnCurso, .hoja-cuerpo { touch-action: pan-y; }
+  }
+  /* Botón principal calipso «D» (Alberto, 31-oct-2026: A+B+C combinados con criterio): texto #04121F (A), degradado sutil con filo de luz que respeta el radio (B), borde inferior sólido de 3 px que se
+     hunde al presionar (A+B), deshabilitado con color propio (A) y un halo turquesa más amplio pero contenido + destello lento solo en botones activos (C). El halo no usa naranja ni sube de .55 de alfa:
+     el naranja del mapa y del tirador sigue siendo el único acento cálido. Misma altura, radio y texto que antes. Va antes de «Rediseño etapa 2»; la especificidad (.btn.btn-primario) le gana a ese bloque. */
+  :root { --btn-d-grad: linear-gradient(180deg, #32CCD7 0%, #14B8C4 52%, #0FA3AF 100%); }
+  .btn.btn-primario, button.btn-primario, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar) { position: relative; overflow: hidden; background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94, 0 14px 26px -10px rgba(20, 184, 196, .55); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-primario:active:not(:disabled), button.btn-primario:active:not(:disabled), body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:active:not(:disabled), body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #14B8C4, #0FA3AF); box-shadow: inset 0 2px 4px rgba(7, 24, 42, .25), 0 0 0 #0C8A94, 0 4px 10px -6px rgba(20, 184, 196, .5); }
+  .btn.btn-primario:disabled, button.btn-primario:disabled, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:disabled, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):disabled { opacity: 1; background: #BCE6EA; color: #4F7D85; box-shadow: none; transform: none; }
+  .btn.btn-primario::after, button.btn-primario::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar)::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 34%; background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .34), rgba(255, 255, 255, 0)); transform: skewX(-18deg); pointer-events: none; animation: btnDestello 10s ease-in-out 1s infinite; }
+  .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:disabled::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):disabled::after { display: none; }
+  @keyframes btnDestello { 0% { left: -40%; } 18% { left: 120%; } 100% { left: 120%; } }
+  @media (prefers-reduced-motion: reduce) { .btn.btn-primario::after, button.btn-primario::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar)::after { animation: none; display: none; } }
+  /* Panel de inicio del administrador (aprobado por Alberto, 31-oct-2026): fondo 5 Niebla de Aurora, 6 indicadores de vidrio y barra inferior Panel · Mapa · Más. Solo administrador;
+     el conductor no recibe nada de esto. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  .admin-panel, .admin-nav { display: none; }
+  body.modo-admin.admin-vista-panel .admin-panel { display: block; position: fixed; left: 50%; transform: translateX(-50%); width: 100%; max-width: 560px; top: var(--topbar-h, 96px); bottom: 0; z-index: 3; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding: 14px 16px calc(var(--nav-h-adm, 92px) + 12px); color: #fff; background: linear-gradient(180deg, rgba(7, 24, 42, .05), rgba(7, 24, 42, .45) 50%, rgba(7, 24, 42, .88)), #07182A url(img/fondo-admin-aurora.webp) center top / cover no-repeat; }
+  body.admin-vista-panel { background: #07182A; }
+  body.admin-vista-panel #condMapa, body.admin-vista-panel #panelPedidos, body.admin-vista-panel .pestana-conexion { display: none !important; }
+  .ap-titulo { margin: 4px 0 2px; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; color: #fff; }
+  .ap-act { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #B7C6D2; }
+  .ap-act i { width: 8px; height: 8px; border-radius: 50%; background: #5FD3DB; }
+  .ap-aviso { margin: 0 0 12px; padding: 14px 16px; border-radius: 20px; background: #fff; color: #0A2236; box-shadow: 0 14px 34px -14px rgba(0, 0, 0, .6); }
+  .ap-aviso[hidden], .ap-alerta[hidden] { display: none; }
+  .ap-pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px; padding: 6px 12px; border-radius: 999px; background: #FDEBDD; color: #9A3F05; font-size: 14px; font-weight: 800; }
+  .ap-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #EF6D19; }
+  .ap-aviso b { display: block; font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
+  .ap-aviso p { margin: 2px 0 10px; font-size: 15px; color: #4E5A6C; overflow-wrap: anywhere; }
+  .ap-aviso .btn { min-height: 52px; font-size: 16px; }
+  .ap-alerta { margin: 0 0 12px; padding: 10px 14px; border-radius: 16px; background: rgba(255, 212, 121, .16); border: 1px solid rgba(255, 212, 121, .4); color: #FFD479; font-size: 15px; font-weight: 700; }
+  .ap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ap-k { display: block; width: 100%; padding: 11px 14px 10px; text-align: left; font: inherit; color: #fff; border-radius: 20px; background: rgba(11, 34, 56, .72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .14); cursor: pointer; }
+  .ap-k:active { background: rgba(20, 184, 196, .22); }
+  .ap-ic { width: 22px; height: 22px; fill: none; stroke: #5FD3DB; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .ap-k b { display: block; margin-top: 2px; font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+  .ap-k span { font-size: 14px; font-weight: 600; color: #B7C6D2; white-space: nowrap; }
+  .ap-k.at { border-color: rgba(239, 109, 25, .55); } .ap-k.at .ap-ic { stroke: #EF6D19; }
+  .ap-k.am .ap-ic { stroke: #FFD479; }
+  body.modo-admin.cond-pantalla:not(.adm-abierta):not(.aj-solo) .admin-nav { display: grid; }
+  .admin-nav { position: fixed; z-index: 35; left: 50%; transform: translateX(-50%); width: 100%; max-width: 560px; bottom: 0; grid-template-columns: repeat(3, 1fr); padding: 8px 12px max(14px, env(safe-area-inset-bottom)); background: #fff; border-radius: 28px 28px 0 0; box-shadow: 0 -10px 30px -12px rgba(0, 0, 0, .5); }
+  .admin-nav[hidden] { display: none !important; }
+  .admin-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; border: 0; border-radius: 16px; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #4E5A6C; cursor: pointer; }
+  .admin-nav button .ap-ic { width: 26px; height: 26px; stroke: currentColor; }
+  .admin-nav button.on { background: #E3F6F8; color: #08626A; }
+  /* Mapa del administrador como la maqueta (aprobada 31-oct-2026): hoja radio 28 sobre la barra Panel·Mapa·Más, filtros Conductores/Pasajeros como chips de 48 px, filas hielo y el aviso de pedido nuevo arriba.
+     El mapa es el REAL de Google (conductores y pasajeros que piden, vivo cada 15 s). Solo teléfono y solo administrador. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.modo-admin #panelPedidos { border-radius: 28px 28px 0 0; padding: 0 20px calc(12px + env(safe-area-inset-bottom)); }
+    body.modo-admin #panelPedidos .hoja-asa { margin: 0 -20px; }
+    body.modo-admin #panelPedidos .hoja-asa span { width: 44px; height: 5px; background: #D9DFE3; border-radius: 3px; }
+    body.modo-admin .flota-ver { gap: 10px; margin: 6px 0 10px; }
+    body.modo-admin .flota-ver-btn { min-height: 48px; border-radius: 999px; background: #fff; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 15px; font-weight: 800; }
+    body.modo-admin .flota-ver-btn.activo { background: #E3F6F8; border-color: #14B8C4; color: #08626A; }
+    body.modo-admin .flota-chip { background: #F2F4F5; border-radius: 999px; font-weight: 700; color: #0A2236; }
+    body.modo-admin .flota-fila { margin-bottom: 8px; padding: 12px 14px; background: #F2F4F5; border: 0; border-radius: 16px; }
+    body.modo-admin .flota-fila.sel { background: #E3F6F8; }
+    body.modo-admin .flota-quien strong { font-size: 16px; font-weight: 800; color: #0A2236; }
+    body.modo-admin .flota-titulo { margin: 14px 2px 8px; font-size: 13px; font-weight: 800; letter-spacing: .05em; color: #4E5A6C; }
+    body.modo-admin .flota-detalle { border-radius: 18px; background: #F2F4F5; }
+    body.modo-admin .flota-aviso { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; margin: 4px 0 10px; padding: 12px 14px; text-align: left; font: inherit; color: #0A2236; background: #FDEBDD; border: 1.5px solid #EF6D19; border-radius: 18px; cursor: pointer; }
+    body.modo-admin .flota-aviso strong { font-size: 17px; font-weight: 800; }
+    body.modo-admin .flota-aviso > span:last-child { font-size: 14px; color: #4E5A6C; overflow-wrap: anywhere; }
+    body.modo-admin .flota-aviso[hidden] { display: none; }
+    body.modo-admin .flota-aviso .ap-pill { background: #fff; }
+  }
+  /* Header, menú y pantallas hijas del administrador (aprobado 31-oct-2026): mismo lenguaje que el conductor y el pasajero. Header flotante de vidrio con «rumbo» minúscula y chip «Administrador»;
+     menú en tarjetas hielo; pantallas hijas (conductores, pasajeros, documentos, viajes, tarifas, membresía…) con títulos 22/800, botones 60/18 y campos 52. Solo teléfono y solo administrador;
+     las tablas y chips con desplazamiento propio se quedan. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.modo-admin.cond-pantalla .topbar { position: fixed; top: 0; left: 0; right: 0; margin: 0; z-index: 30; gap: 10px; padding: max(14px, env(safe-area-inset-top)) 16px 0; background: transparent; border: 0; border-radius: 0; pointer-events: none; }
+    body.modo-admin.cond-pantalla .topbar > * { pointer-events: auto; }
+    body.modo-admin.cond-pantalla .brand { height: 44px; padding: 0 8px; gap: 8px; border-radius: 999px; flex: none; align-items: center; background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .12); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.modo-admin.cond-pantalla .brand-mark { width: 32px; height: 32px; }
+    body.modo-admin.cond-pantalla .brand-texto { min-height: 0; flex-direction: row; align-items: center; gap: 8px; }
+    body.modo-admin.cond-pantalla .brand-wordmark { height: 18px; }
+    body.modo-admin.cond-pantalla .brand-movil { display: none; }
+    body.modo-admin.cond-pantalla .brand-sub { padding: 4px 10px; border-radius: 999px; background: rgba(255, 212, 121, .16); border: 1px solid rgba(255, 212, 121, .4); color: #FFD479; font-size: 13px; font-weight: 700; line-height: 1.2; }
+    body.modo-admin.cond-pantalla .btn-menu-cond { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .12); background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
+    body.modo-admin .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    body.modo-admin .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
+    body.modo-admin .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
+    body.modo-admin .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
+    body.modo-admin .menu-lateral-quien strong { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    body.modo-admin .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
+    body.modo-admin .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
+    body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body.modo-admin .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item)::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
+    body.modo-admin .menu-lateral-item:active { background: #E3F6F8; }
+    body.modo-admin .menu-lateral-seccion { margin: 16px 4px 8px; padding: 0; border-bottom: 0; font-size: 13px; font-weight: 800; letter-spacing: .05em; color: #4E5A6C; }
+    body.modo-admin .adm-pantalla { background: #fff; padding-left: 20px; padding-right: 20px; }
+    body.modo-admin .adm-pantalla .ajustes-cab { gap: 10px; padding: 6px 0 12px; border-bottom: 0; }
+    body.modo-admin .adm-pantalla .ajustes-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    body.modo-admin .adm-pantalla .ajustes-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
+    body.modo-admin .adm-pantalla .btn:not(.btn-chico) { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
+    body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 800; }
+    body.modo-admin .adm-pantalla .campo input, body.modo-admin .adm-pantalla .campo select, body.modo-admin .adm-pantalla .campo textarea, body.modo-admin .adm-pantalla input[type=text], body.modo-admin .adm-pantalla input[type=search] { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+  }
+  /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro y pastillas con punto. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. La hoja y «Iniciar» del conductor van en la etapa 5. */
+  .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
+  .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
+  .btn-primario:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn.btn-secundario { background: var(--hielo); color: var(--ink); border: 1.5px solid var(--linea); }
+  .btn.btn-secundario:hover:not(:disabled) { background: var(--turq-tinte); }
+  .badge { font-size: 13px; }
+  .badge-verde { background: var(--ok-tinte); color: var(--ok-texto); }
+  .badge-ambar { background: var(--ambar-tinte); color: var(--ambar-texto); }
+  .badge-azul { background: var(--turq-tinte); color: var(--turq-texto); }
+  .badge-rojo { background: var(--alerta-tinte); color: var(--alerta); }
 </style>
 <script>try {
   // __splashVis = cuándo se hace visible el splash del HTML (para que dure 4 s completos DESDE ahí, no desde que arrancó la app).
@@ -1362,8 +1644,8 @@
     <div class="splash-texto" id="splashTexto">Sigue tu</div>
     <img src="img/logo-carita.png" alt="" id="splashLogo">
     <div class="splash-bajo">
-      <img src="img/rumbo-palabra-blanco.png" alt="Rumbo" class="splash-palabra">
-      <div class="splash-titulo" id="splashTitulo"></div>
+      <img src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo" class="splash-palabra">
+      <div class="splash-titulo" id="splashTitulo">Conductor</div>
       <div class="splash-carga" aria-hidden="true"><span class="splash-puntitos"><i></i><i></i><i></i><i></i><i></i></span><svg class="splash-auto" viewBox="0 -4 160 62" aria-hidden="true"><path d="M154 42 L140 42 A14 14 0 0 0 112 42 L46 42 A14 14 0 0 0 18 42 L6 42 L5 32 Q5 24 9 19 L14 10 Q22 0 38 -1 L88 -1 Q96 -1 102 3 L138 18 L148 19 Q154 21 154 28 Z"/><path d="M22 17 L27 6 Q29 3 36 3 L57 3 L57 17 Z"/><path d="M61 3 L88 3 Q93 3 97 6 L118 17 L61 17 Z"/><path d="M119 19 L125 19" stroke-width="3"/><path d="M143 23 L149 27" stroke-width="2"/><path d="M6 24 L10 23" stroke-width="2"/><circle cx="32" cy="42" r="11"/><circle cx="32" cy="42" r="3.5"/><circle cx="126" cy="42" r="11"/><circle cx="126" cy="42" r="3.5"/></svg></div>
     </div>
   </div>
@@ -1378,7 +1660,9 @@
     var ses = null;
     try { ses = JSON.parse(localStorage.getItem(clave) || localStorage.getItem("rumbo_conductor_sesion") || "null"); } catch (e) {}
     var el = document.getElementById("splashIngresando");
-    if (MODO === "admin") document.getElementById("splashTexto").textContent = "Organiza tu";   // frase de arriba de la carita: admin "Organiza tu" / conductor "Sigue tu" (la palabra de abajo es "Rumbo")
+    document.documentElement.classList.add("rol-" + MODO);   // elige el fondo estatico por rol (login y splash)
+    document.getElementById("splashTitulo").textContent = MODO === "admin" ? "Administrador" : "Conductor";   // etiqueta de rol bajo «Rumbo»
+    if (MODO === "admin") document.getElementById("splashTexto").textContent = "Ordena tu";   // frase de arriba de la carita: admin "Ordena tu" / conductor "Sigue tu" (la palabra de abajo es "Rumbo")
     if (!(ses && ses.token)) { el.hidden = true; return; }   // el eslogan ("Sigue tu Rumbo") ya viene en el HTML, igual en conductor y admin
   })();
 </script>
@@ -1400,7 +1684,7 @@
     <div class="brand">
       <span class="brand-mark"><img src="img/logo-rumbo.png" width="72" height="72" alt="" aria-hidden="true"></span>
       <span class="brand-texto">
-        <span class="brand-marca"><img class="brand-wordmark" src="img/rumbo-palabra-blanco.png" alt="Rumbo"><span class="brand-movil">móvil</span></span>        <span class="brand-sub">Conductor</span>
+        <span class="brand-marca"><img class="brand-wordmark" src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo"><span class="brand-movil">móvil</span></span>        <span class="brand-sub">Conductor</span>
       </span>
     </div>
   </header>
@@ -1499,7 +1783,7 @@
     <div class="brand">
       <span class="brand-mark"><img src="img/logo-rumbo.png" width="72" height="72" alt="" aria-hidden="true"></span>
       <span class="brand-texto">
-        <span class="brand-marca"><img class="brand-wordmark" src="img/rumbo-palabra-blanco.png" alt="Rumbo"><span class="brand-movil">móvil</span></span>        <span class="brand-sub" id="brandSubConductor">Conductor</span>
+        <span class="brand-marca"><img class="brand-wordmark" src="img/rumbo-palabra-minuscula-blanco.png" alt="Rumbo"><span class="brand-movil">móvil</span></span>        <span class="brand-sub" id="brandSubConductor">Conductor</span>
       </span>
     </div>
     <div class="topbar-spacer"></div>
@@ -1513,6 +1797,27 @@
 
   <!-- Mapa grande fijo arriba (solo conductor, en Pedidos y En Rumbo), patrón de referentes de mercado:
        mi auto en vivo; las hojas de abajo (pedidos / viaje en curso) suben sobre él. -->
+  <!-- Panel de inicio del administrador (aprobado 31-oct-2026): qué requiere atención hoy, con datos que ya existen. Solo MODO === "admin". -->
+  <section class="admin-panel" id="adminPanel" hidden aria-label="Panel del administrador">
+    <h1 class="ap-titulo">Hoy en la red</h1>
+    <p class="ap-act"><i></i><span id="apActTxt">Actualizando…</span></p>
+    <div class="ap-aviso" id="apAviso" hidden role="status" aria-live="polite">
+      <span class="ap-pill">Nuevo pedido</span>
+      <b id="apAvisoTit"></b>
+      <p id="apAvisoSub"></p>
+      <button type="button" class="btn btn-primario" id="apAvisoMapa">Ver en el mapa</button>
+    </div>
+    <p class="ap-alerta" id="apAlerta" hidden></p>
+    <div class="ap-grid">
+      <button type="button" class="ap-k" id="apEnLineaK" data-ir="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14a6.5 6.5 0 0 1 3.5 6"/></svg><b id="apEnLinea">—</b><span>En línea</span></button>
+      <button type="button" class="ap-k" id="apEnCursoK" data-ir="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg><b id="apEnCurso">—</b><span>En curso</span></button>
+      <button type="button" class="ap-k" id="apSinConductorK" data-ir="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b id="apSinConductor">—</b><span>Sin conductor</span></button>
+      <button type="button" class="ap-k" id="apViajesHoyK" data-adm="pedidos"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l1.6-5.2A2 2 0 0 1 8.5 8.5h7a2 2 0 0 1 1.9 1.3L19 15"/><rect x="3" y="15" width="18" height="4" rx="1.5"/><path d="M6 19v2M18 19v2"/></svg><b id="apViajesHoy">—</b><span>Viajes hoy</span></button>
+      <button type="button" class="ap-k" id="apDocsK" data-adm="documentos"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><b id="apDocs">—</b><span>Docs por revisar</span></button>
+      <button type="button" class="ap-k" id="apReclamosK" data-adm="reclamos"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><b id="apReclamos">—</b><span>Reclamos</span></button>
+    </div>
+  </section>
+
   <div class="cond-mapa" id="condMapa">
     <div class="tablero-mapa">
       <div id="tabMapaLienzo" style="position:absolute;inset:0;"></div>
@@ -1558,6 +1863,7 @@
     <!-- Solo administrador: la flota. En el mapa, el vehículo de cada conductor con su
          estado (disponible / en viaje); acá abajo, el resumen y la lista. -->
     <div class="flota" id="flotaAdmin" hidden>
+      <button type="button" class="flota-aviso" id="flotaAviso" hidden><span class="ap-pill">Nuevo pedido</span><strong id="flotaAvisoTit"></strong><span id="flotaAvisoSub"></span></button>
       <div class="flota-resumen" id="flotaResumen"></div>
       <div class="flota-detalle" id="flotaDetalle" hidden></div>
       <div id="flotaViajes"></div>
@@ -1829,7 +2135,7 @@
         Tus pasajeros lo escanean con la cámara o les envías el link: quien lo use queda como tu cliente. Imprímelo y déjalo detrás de tu asiento.
       </p>
       <div style="text-align:center;">
-        <img id="miQrImg" alt="Código QR de tu link" style="width:min(300px,78vw);height:min(300px,78vw);border:1px solid var(--border);border-radius:12px;background:#fff;">
+        <img id="miQrImg" alt="Código QR de tu link" style="width:min(300px,68vw);height:min(300px,68vw);border:1px solid var(--border);border-radius:12px;background:#fff;">
         <p class="msg" id="miQrLink" style="word-break:break-all;font-size:13px;margin:10px 0 14px;"></p>
       </div>
       <div class="btn-row">
@@ -2212,7 +2518,6 @@
     <button type="button" class="menu-lateral-item menu-sub-item" data-adm="ganancias">Mis ganancias</button>
     <button type="button" class="menu-lateral-item menu-sub-item" data-adm="semana">Resumen semanal</button>
     <button type="button" class="menu-lateral-item menu-sub-item" data-ajuste="acordeonHistorial">Historial de pagos</button>
-    <button type="button" class="menu-lateral-item menu-sub-item" data-ajuste="acordeonTarifas" data-titulo="Mis tarifas">Mis tarifas</button>
     <button type="button" class="menu-lateral-item menu-sub-item" data-ajuste="acordeonMembresia">Membresía</button>
     <button type="button" class="menu-lateral-item menu-sub-item" data-ajuste="acordeonRecibo" data-titulo="Cuenta bancaria">Cuenta bancaria</button>
   </div>
@@ -2268,6 +2573,11 @@
   <div class="tv-asa" id="itAsa" role="button" tabindex="0" aria-label="Cerrar el itinerario"><span></span></div>
 </div>
 
+<nav class="admin-nav" id="adminNav" hidden aria-label="Secciones del administrador">
+  <button type="button" data-av="panel" class="on" aria-current="page"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/></svg>Panel</button>
+  <button type="button" data-av="mapa"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>Mapa</button>
+  <button type="button" data-av="mas" aria-haspopup="true"><svg class="ap-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Más</button>
+</nav>
 <nav class="nav-inferior" role="tablist" aria-label="Secciones" id="navConductor" style="display:none;">
   <button class="nav-item activo" id="tabPedidos" type="button" role="tab" aria-selected="true" aria-controls="panelPedidos">
     <span class="nav-badge" id="burbujaPedidos"></span>
@@ -2548,7 +2858,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 80;
+  var APP_VERSION = 81;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -2809,7 +3119,7 @@
     document.body.classList.toggle("cond-pantalla", enCond);
     if (!enCond) document.body.style.paddingBottom = "";
     if (enCond) { ajustarCond(); pintarMapaEspera(); }
-    if (enCond && MODO === "admin") cargarFlota();
+    if (enCond && MODO === "admin") { adminVista = vistaInicialAdmin(leerLocalSeguro("rumbo_admin_vista")); aplicarVistaAdmin(adminVista); cargarFlota(); }
     if (cual === "ajustes" && !disponibilidadCargada) cargarDisponibilidad();
     if (cual === "pedidos" && MODO === "conductor") { pintarEstadoTablero(); pintarMapaEspera(); if (!chipBonoAbierto) { chipBonoAbierto = true; setTimeout(mostrarChipBono, 1500); } }
     // Siempre al entrar: el conductor vuelve de vincular en el navegador y
@@ -2865,7 +3175,7 @@
     return mejor;
   }
   // Alto de la barra de abajo (el administrador no tiene: todo va por el menú lateral).
-  function altoBarraInferior() { return 0; }   // ya no hay barra de pestañas abajo (ni en conductor ni en admin)
+  function altoBarraInferior() { return MODO === "admin" ? (document.getElementById("adminNav").offsetHeight || 0) : 0; }   // el conductor no tiene barra; el administrador, Panel · Mapa · Más
   function aplicarHoja() {
     if (!document.body.classList.contains("cond-pantalla")) return;
     var barra = altoBarraInferior();
@@ -2975,6 +3285,11 @@
     var pop = document.querySelector(".rb-pop:not([hidden])");
     if (pop) { var no = pop.querySelector(".rb-pop-no"); (no && !no.hidden ? no : pop.querySelector(".rb-pop-si")).click(); return true; }
     if (!document.getElementById("modalCobro").hidden) { document.getElementById("btnCobroListo").click(); return true; }   // «atrás» en el cobro = Listo (sigue a calificar)
+    var cam = document.querySelector(".cam-doc");
+    if (cam) { var cancelar = cam.querySelector('[data-cam="no"]'); if (cancelar) cancelar.click(); return true; }   // cámara de documentos o rostro: lo de más arriba
+    var visor = document.getElementById("docsVisor");
+    if (visor && !visor.hidden) { document.getElementById("docsVisorCerrar").click(); return true; }
+    if (document.querySelector(".dp")) { cerrarPantallaDoc(); return true; }   // pantalla individual del documento
     var modales = document.querySelectorAll(".modal-fondo:not([hidden])");
     if (modales.length) { modales[modales.length - 1].hidden = true; return true; }
     if (document.getElementById("menuLateral").classList.contains("abierto")) { abrirMenuCond(false); return true; }
@@ -3007,7 +3322,7 @@
     mostrarPantalla("app");
     aplicarPermisos();
     // Junto al logo: la plataforma y el saludo (después de aplicarPermisos, que pone el texto genérico).
-    document.getElementById("brandSubConductor").textContent = (MODO === "admin" ? "Admin" : "Conductor") + " · Hola " + String(sesion.conductor.nombre || "").split(" ")[0];
+    document.getElementById("brandSubConductor").textContent = MODO === "admin" ? "Administrador" : "Conductor";   // conductor: chip del rol; el saludo por nombre queda en el menú
     if (MODO !== "admin" && sesion.conductor.pendiente_activacion) {
       // Cuenta nueva sin activar: solo Documentos (y cerrar sesión). Rumbo Admin decide la activación.
       document.body.classList.add("alta-pendiente");
@@ -3175,12 +3490,12 @@
         }
         var switchTarifa = "";
         if (c.conductor_id !== yo) {
-          switchTarifa = interruptor("data-activo", c.activo, "Habilitado", "Puede iniciar sesión y recibir viajes.", "Suspendido o por aprobar: sin viajes.");
+          docsPorConductor[c.conductor_id] = c.docs_ok;
+          switchTarifa = interruptor("data-activo", c.activo, "Habilitado", "Puede iniciar sesión y recibir viajes.", "Suspendido o por aprobar: sin viajes.",
+            '<p class="msg" style="margin:2px 0 0;font-size:13px;color:' + (c.docs_ok ? "var(--accent)" : "var(--danger)") + ';">' + (c.docs_ok ? "Documentos al día" : "Documentos pendientes") + '</p>');
           if (!c.solo_admin) {
             switchTarifa += interruptor("data-red", c.activo && c.en_red, "En la red", "Recibe sus pasajeros y viajes de otros conductores.",
               c.activo ? "Solo viajes de sus pasajeros." : "Habilítalo primero.", "", !c.activo);
-            switchTarifa += interruptor("data-modo", c.modo_tarifa === "INDIVIDUAL", "Tarifa propia", "Cobra con sus propias tarifas.", "Cobra con la tarifa general de Rumbo.",
-              c.solicitud_tarifa === "PENDIENTE" ? '<p class="msg" style="margin:2px 0 0;font-size:12px;color:var(--accent);">Pidió tarifa propia — activa para autorizar</p>' : "");
           }
         }
         var iniciales = String(c.nombre || "?").trim().split(/\s+/).slice(0, 2).map(function (p) { return p.charAt(0).toUpperCase(); }).join("");
@@ -3194,7 +3509,7 @@
           (switchTarifa ? '<div class="cond-switches">' + switchTarifa + '</div>' : '') +
         '</div>';
       }).join("") || '<p class="vacio">No hay conductores.</p>';
-    });
+    }).catch(function () { if (!lista.querySelector(".cond-card")) lista.innerHTML = '<p class="vacio">Sin conexión. Revisa tu internet y reintenta.</p>'; });   // sin red no se borra lo que ya se ve
   }
 
   document.getElementById("listaConductores").addEventListener("change", function (ev) {
@@ -3216,7 +3531,7 @@
     var esActivo = b.hasAttribute("data-activo");
     var id = esActivo ? b.dataset.activo : b.dataset.red;
     var valor = b.checked ? "SI" : "NO";
-    var pregunta = esActivo ? (b.checked ? "¿Habilitar a este conductor?" : "¿Suspender a este conductor? No podrá recibir viajes.")
+    var pregunta = esActivo ? (b.checked ? (docsPorConductor[id] === false ? "Sus documentos aún no están al día. ¿Habilitarlo igual?" : "¿Habilitar a este conductor?") : "¿Suspender a este conductor? No podrá recibir viajes.")
       : (b.checked ? "¿Agregarlo a la red? Podrá recibir viajes de otros conductores." : "¿Sacarlo de la red? Solo recibirá viajes de sus pasajeros.");
     if (!(await rbConfirmar(pregunta))) { b.checked = !b.checked; return; }
     b.disabled = true;
@@ -3378,9 +3693,11 @@
     armarTabsAdmin(pt, [
       { id: "costos", titulo: "Costos", nodos: [tarjetas[0]] },
       { id: "hora", titulo: "Valor hora", nodos: [tarjetas[1]] },
-      { id: "franjas", titulo: "Franjas", nodos: [franjas] }
+      { id: "franjas", titulo: "Franjas", nodos: [franjas] },
+      { id: "explicar", titulo: "Explicar", nodos: [armarPanelExplicar()] }
     ]);
-    envolver(pt, "adm-fijo", [document.getElementById("btnGuardarTarifas"), document.getElementById("tarifasMsg")]);
+    var pieT = envolver(pt, "adm-fijo", [document.getElementById("btnGuardarTarifas"), document.getElementById("tarifasMsg")]);
+    conectarExplicador(pt, pieT);
     pt.insertBefore(document.getElementById("avisoAlcanceTarifas"), pt.querySelector(".adm-tabs"));
     // Mi cuenta: clave y correo en pestañas; cerrar sesión siempre a la vista.
     var pq = crearPantallaAdmin("cuenta");
@@ -3402,9 +3719,10 @@
      --------------------------------------------------------------- */
   var DOCS_TEXTO_ESTADO = { FALTA: "Falta", EN_REVISION: "En revisión", VALIDADO: "Validado", POR_VENCER: "Por vencer", VENCIDO: "Vencido", RECHAZADO: "Rechazado" };
   var DOCS_BADGE = { FALTA: "badge-gris", EN_REVISION: "badge-azul", VALIDADO: "badge-verde", POR_VENCER: "badge-ambar", VENCIDO: "badge-rojo", RECHAZADO: "badge-rojo" };
-  var DOCS_CONSENTIMIENTO = "Autorizo a Rumbo, marca y aplicación de BTo Innova SpA (RUT 78.533.592-9), a tratar las imágenes de mi cédula de identidad y una fotografía de mi rostro, datos personales sensibles, solo para verificar que soy el titular de la cuenta en el servicio Rumbo, sin usarlas para otros fines. Las revisa a ojo personal autorizado de Rumbo; no se usa reconocimiento facial automático. Se eliminan dentro de los 30 días siguientes a su revisión y se conserva solo el resultado, la fecha y el número de documento. Puedo revocar esta autorización por Ayuda y reclamos.";
+  var DOCS_CONSENTIMIENTO = "Autorizo a Rumbo, marca y aplicación de BTo Innova SpA (RUT 78.533.592-9), a tratar las imágenes de mi cédula de identidad y fotografías de mi rostro, datos personales sensibles, solo para verificar que soy el titular de la cuenta en el servicio Rumbo, sin usarlas para otros fines. Las revisa personal autorizado de Rumbo; no se usa reconocimiento facial automático. Las imágenes se eliminan dentro de los 30 días siguientes a su revisión y se conserva solo el resultado y su fecha. Puedo pedir que las eliminen antes escribiendo por Ayuda y reclamos.";
   var DOCS_CONSENTIMIENTO_ANTECEDENTES = "Autorizo a Rumbo, marca y aplicación de BTo Innova SpA (RUT 78.533.592-9), a revisar el certificado de antecedentes que yo mismo obtengo y entrego, solo para habilitarme y mantenerme habilitado como conductor. Se conserva solo el resultado de la revisión, su folio y su fecha; el archivo se elimina dentro de los 7 días siguientes a su verificación. Se me pedirá uno actualizado cada seis meses. Puedo revocar esta autorización por Ayuda y reclamos; sin ella no es posible habilitar la cuenta.";
-  var docsDatos = null, docsAbierto = "";
+  var docsDatos = null;
+  var docsPorConductor = {};   // conductor_id → documentos al día (lo llena la lista de conductores del admin)
 
   function armarPantallaDocs() {
     if (document.getElementById("adm-documentos")) return;
@@ -3439,9 +3757,9 @@
     });
     var visor = document.createElement("div");
     visor.className = "docs-visor"; visor.id = "docsVisor"; visor.hidden = true;
-    visor.innerHTML = '<img alt="Documento" id="docsVisorImg"><div class="docs-comp" id="docsVisorComp" hidden></div><button class="btn btn-secundario" type="button" id="docsVisorCerrar">Cerrar</button>';
+    visor.innerHTML = '<img alt="Documento" id="docsVisorImg"><div class="docs-comp" id="docsVisorComp" hidden></div><div id="docsVisorQr" hidden></div><button class="btn btn-secundario" type="button" id="docsVisorCerrar">Cerrar</button>';
     document.body.appendChild(visor);
-    document.getElementById("docsVisorCerrar").addEventListener("click", function () { visor.hidden = true; document.getElementById("docsVisorImg").removeAttribute("src"); document.getElementById("docsVisorComp").hidden = true; document.getElementById("docsVisorComp").innerHTML = ""; });
+    document.getElementById("docsVisorCerrar").addEventListener("click", function () { visor.hidden = true; document.getElementById("docsVisorImg").removeAttribute("src"); document.getElementById("docsVisorComp").hidden = true; document.getElementById("docsVisorComp").innerHTML = ""; document.getElementById("docsVisorQr").hidden = true; document.getElementById("docsVisorQr").innerHTML = ""; });
     document.getElementById("docsCuerpo").addEventListener("click", clicDocs);
   }
 
@@ -3449,7 +3767,7 @@
     var cuerpo = document.getElementById("docsCuerpo");
     if (!cuerpo) return;
     var esAdmin = MODO === "admin";
-    apiPost({ accion: esAdmin ? "documentos_admin" : "mis_documentos" }).then(function (res) {
+    return apiPost({ accion: esAdmin ? "documentos_admin" : "mis_documentos" }).then(function (res) {
       if (!res.ok) { cuerpo.innerHTML = '<p class="vacio">' + escapar(res.error) + '</p>'; return; }
       docsDatos = res;
       if (esAdmin) pintarDocsAdmin(res); else pintarDocsConductor(res);
@@ -3470,23 +3788,23 @@
   }
   function pintarDocsConductor(res) {
     pintarCorreoDocs();
-    var docs = res.documentos, total = docs.length;
-    var listos = docs.filter(function (d) { return d.estado === "VALIDADO" || d.estado === "POR_VENCER"; }).length;
+    var docs = res.documentos, grupos = docsGrupos(docs), total = grupos.length;
+    var listos = grupos.filter(function (g) { return g.estado === "VALIDADO" || g.estado === "POR_VENCER"; }).length;
     var pendiente = !!(res.resumen && res.resumen.pendiente_activacion);
     var faltan = total - listos;
     var avance = document.getElementById("docsAvance");
     avance.innerHTML =
       '<div class="mem-barra"><div class="mem-relleno' + (listos === total ? " lleno" : "") + '" style="width:' + Math.round(listos * 100 / total) + '%"></div></div>' +
-      '<p class="docs-avance-texto"><strong>' + listos + ' de ' + total + ' validados</strong>' +
+      '<p class="docs-avance-texto"><strong>' + listos + ' de ' + total + ' documentos al día</strong>' +
       (pendiente ? 'Sube tus documentos y Rumbo activa tu cuenta.'
-        : faltan ? 'Sube ' + (faltan === 1 ? '1 más' : faltan + ' más') + ' para recibir viajes.' : 'Estás habilitado para recibir viajes.') + '</p>';
+        : faltan ? 'Completa ' + (faltan === 1 ? '1 documento más' : faltan + ' documentos más') + ' para recibir viajes.' : 'Estás habilitado para recibir viajes.') + '</p>';
     var html = "";
-    [["PERSONA", "Tú", "Tu identidad, licencia y antecedentes."], ["VEHICULO", "Tu auto", "Mantenlos al día para seguir recibiendo viajes."]].forEach(function (g) {
-      html += '<h3 class="docs-grupo">' + g[1] + '<small>' + g[2] + '</small></h3><div class="docs-lista">';
+    [["PERSONA", "Tú", "Tu identidad, licencia y antecedentes."], ["VEHICULO", "Tu auto", "Mantenlos al día para seguir recibiendo viajes."]].forEach(function (z) {
+      html += '<h3 class="docs-grupo">' + z[1] + '<small>' + z[2] + '</small></h3><div class="docs-lista">';
       var primero = true;
-      docs.filter(function (d) { return d.grupo === g[0]; }).forEach(function (d) {
-        var pend = d.estado === "FALTA" || d.estado === "RECHAZADO" || d.estado === "VENCIDO";
-        html += itemDocConductor(d, pend && primero);
+      grupos.filter(function (g) { return g.def.zona === z[0]; }).forEach(function (g) {
+        var pend = g.estado === "FALTA" || g.estado === "RECHAZADO" || g.estado === "VENCIDO";
+        html += itemGrupoDoc(g, pend && primero);
         if (pend) primero = false;
       });
       html += "</div>";
@@ -3495,7 +3813,6 @@
     document.getElementById("docsCuerpo").innerHTML = html;
     document.getElementById("docsPie").hidden = !pendiente;
     document.querySelector("#adm-documentos [data-adm-volver]").hidden = pendiente;
-    if (docsAbierto) abrirFormDoc(docsAbierto);
     pintarPuntoDocs(res.resumen, docs);
     // Activado mientras tenía la app abierta: pasa al panel normal sin pedirle que vuelva a ingresar.
     var ses = obtenerSesion();
@@ -3507,66 +3824,254 @@
     }
   }
 
-  function itemDocConductor(d, siguiente) {
-    var clase = "ruta-pto docs-item" + (d.estado === "VALIDADO" ? " hecho" : "") + (siguiente ? " siguiente" : "");
-    var h = '<div class="' + clase + '" data-doc="' + d.tipo + '"><div class="ruta-pto-tope"><span class="ruta-pto-dir">' + escapar(d.nombre) + '</span>' +
-      '<span class="badge ' + DOCS_BADGE[d.estado] + '">' + DOCS_TEXTO_ESTADO[d.estado] + '</span></div>';
-    if (d.vence_en && d.estado !== "FALTA") {
-      var dias = diasHasta(d.vence_en);
-      h += '<div class="pedido-programa' + (dias <= 30 ? " cercano" : "") + '"><strong>' + (dias < 0 ? "Venció" : "Vence") + ' ' + fechaLarga(d.vence_en) + '</strong>' +
-        (dias >= 0 ? '<span class="faltan">' + (dias === 0 ? "hoy" : "faltan " + dias + " días") + '</span>' : "") + '</div>';
+
+
+  /* ---------- Pantalla individual por documento (Alberto, 28-oct-2026): cada documento tiene su pantalla con indicaciones y toma sus caras en secuencia con marco ---------- */
+  var DOCS_GRUPOS = [
+    { id: "CEDULA", zona: "PERSONA", nombre: "Cédula de identidad", tipos: ["CEDULA_FRENTE", "CEDULA_REVERSO"], caras: ["Parte de adelante", "Parte de atrás"], marco: "tarjeta",
+      ayuda: ["Usa tu cédula vigente, no una copia.", "Ponla dentro del marco, con buena luz y sin reflejos.", "Que se lean todos los datos. Primero la parte de adelante y luego la de atrás."] },
+    { id: "LICENCIA", zona: "PERSONA", nombre: "Licencia de conducir", tipos: ["LICENCIA_FRENTE", "LICENCIA_REVERSO"], caras: ["Parte de adelante", "Parte de atrás"], marco: "tarjeta",
+      ayuda: ["Usa tu licencia vigente, no una copia.", "Ponla dentro del marco, con buena luz y sin reflejos.", "Por atrás está la tabla de clases: que se lea completa.", "Después escribe tu clase y el vencimiento."] },
+    { id: "ANTECEDENTES", zona: "PERSONA", nombre: "Certificado de antecedentes", tipos: ["ANTECEDENTES"], caras: [""], marco: "",
+      ayuda: ["Descárgalo gratis en registrocivil.cl, como certificado de antecedentes para fines especiales.", "Te llega en PDF a tu correo. Guárdalo en tu teléfono o computador y elígelo aquí.", "Vale 6 meses. Escribe el folio y el código de verificación como aparecen."] },
+    { id: "ROSTRO", zona: "PERSONA", nombre: "Fotos de tu rostro", tipos: ["SELFIE", "SELFIE_IZQ", "SELFIE_DER"], caras: ["De frente", "Mirando a tu izquierda", "Mirando a tu derecha"], marco: "rostro",
+      ayuda: ["Fondo claro y liso, con luz de frente y sin sombras en la cara.", "Sin gorro ni nada sobre la cabeza, y sin lentes oscuros.", "Si usas lentes ópticos, póntelos.", "Te guiamos en cada una de las 3 fotos, sin video."] },
+    { id: "PADRON", zona: "VEHICULO", nombre: "Padrón del vehículo", tipos: ["PADRON"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el padrón completo, con la patente a la vista.", "Sobre una superficie plana, con buena luz y sin reflejos."] },
+    { id: "PERMISO_CIRCULACION", zona: "VEHICULO", nombre: "Permiso de circulación", tipos: ["PERMISO_CIRCULACION"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el permiso vigente completo.", "Que se vea la fecha de vencimiento.", "Sobre una superficie plana, con buena luz y sin reflejos."] },
+    { id: "SOAP", zona: "VEHICULO", nombre: "Seguro obligatorio (SOAP)", tipos: ["SOAP"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el certificado vigente completo.", "Que se vea la fecha de vencimiento.", "Sobre una superficie plana, con buena luz y sin reflejos."] },
+    { id: "REVISION_TECNICA", zona: "VEHICULO", nombre: "Revisión técnica", tipos: ["REVISION_TECNICA"], caras: [""], marco: "hoja",
+      ayuda: ["Fotografía el certificado vigente completo.", "Que se vea la fecha de vencimiento.", "Sobre una superficie plana, con buena luz y sin reflejos."] }
+  ];
+  var DOCS_PRIORIDAD = ["RECHAZADO", "VENCIDO", "FALTA", "EN_REVISION", "POR_VENCER", "VALIDADO"];
+  // El estado del documento es el de su cara más urgente.
+  function estadoGrupoDoc(estados) {
+    for (var i = 0; i < DOCS_PRIORIDAD.length; i++) if (estados.indexOf(DOCS_PRIORIDAD[i]) !== -1) return DOCS_PRIORIDAD[i];
+    return "FALTA";
+  }
+  function docsGrupos(docs) {
+    return DOCS_GRUPOS.map(function (g) {
+      var caras = g.tipos.map(function (t, i) {
+        var d = docs.filter(function (x) { return x.tipo === t; })[0] || { tipo: t, estado: "FALTA", nombre: t, vence: "" };
+        return { tipo: t, cara: g.caras[i], doc: d };
+      });
+      return { def: g, caras: caras, estado: estadoGrupoDoc(caras.map(function (c) { return c.doc.estado; })) };
+    });
+  }
+  function textoBotonDoc(estado) { return { FALTA: "Subir", RECHAZADO: "Tomar de nuevo", VENCIDO: "Subir de nuevo", POR_VENCER: "Reemplazar", VALIDADO: "Reemplazar" }[estado] || ""; }
+  // Caras que hay que tomar: las que faltan, las rechazadas y las vencidas.
+  function carasPorTomar(grupo) {
+    return grupo.caras.filter(function (c) { var e = c.doc.estado; return e === "FALTA" || e === "RECHAZADO" || e === "VENCIDO"; }).map(function (c) { return c.tipo; });
+  }
+  // Lo que el servidor exige y todavía no está: devuelve el aviso, o "" si ya se puede enviar.
+  // El motivo del admin se muestra dentro de una frase: sin punto final para no duplicarlo.
+  function docMotivo(m) { return String(m || "").trim().replace(/[.\s]+$/, ""); }
+  function docsFaltaDato(grupo, fotos, valores) {
+    var sin = carasPorTomar(grupo).filter(function (t) { return !fotos[t]; });
+    if (sin.length) {
+      var c = grupo.caras.filter(function (x) { return x.tipo === sin[0]; })[0];
+      return "Falta la foto: " + (c.cara ? grupo.def.nombre.toLowerCase() + ", " + c.cara.toLowerCase() : grupo.def.nombre.toLowerCase()) + ".";
     }
-    if (d.tipo === "LICENCIA_FRENTE" && d.clase) h += '<p class="docs-nota">Clase ' + escapar(d.clase) + '</p>';
-    if (d.estado === "RECHAZADO" && d.motivo) h += '<div class="pedido-aviso">' + escapar(d.motivo) + '</div>';
-    if (d.estado === "EN_REVISION") h += '<p class="docs-nota">Rumbo lo está revisando.</p>';
-    var subir = d.estado === "FALTA" ? (d.pdf ? "Subir PDF" : "Subir foto") : d.estado === "EN_REVISION" ? "" : d.estado === "VALIDADO" ? "Reemplazar" : "Subir uno al día";
-    if (subir) h += '<div class="ruta-pto-acciones"><button class="btn ' + (d.estado === "VALIDADO" ? "btn-chico" : "btn-ok") + '" type="button" data-doc-abrir="' + d.tipo + '">' + subir + '</button></div>';
-    h += '<div class="docs-form" data-doc-form="' + d.tipo + '" hidden></div></div>';
-    return h;
+    if (!Object.keys(fotos).length) return "Toma la foto antes de enviar.";
+    for (var i = 0; i < grupo.caras.length; i++) {
+      var ca = grupo.caras[i];
+      if (!fotos[ca.tipo]) continue;
+      if (ca.doc.vence === "FECHA" && !valores[ca.tipo]) return "Indica el vencimiento: " + grupo.def.nombre.toLowerCase() + ".";
+      if (ca.tipo === "LICENCIA_FRENTE" && !valores.clase) return "Indica la clase de tu licencia.";
+      if (ca.doc.vence === "EMISION_6M") {
+        if (!valores.emision) return "Indica la fecha de emisión del certificado.";
+        if (!valores.folio || !valores.codigo) return "Indica el folio y el código de verificación del certificado.";
+      }
+    }
+    return "";
   }
 
-  function abrirFormDoc(tipo) {
-    var d = (docsDatos && docsDatos.documentos || []).filter(function (x) { return x.tipo === tipo; })[0];
-    var caja = document.querySelector('[data-doc-form="' + tipo + '"]');
-    if (!d || !caja) return;
-    [].forEach.call(document.querySelectorAll("[data-doc-form]"), function (f) { if (f !== caja) { f.hidden = true; f.innerHTML = ""; } });
-    docsAbierto = tipo;
-    var h = "";
-    if (d.vence === "FECHA") h += '<div class="campo"><label class="campo-label" for="docVence">Fecha de vencimiento</label><input type="date" id="docVence"></div>';
-    if (d.tipo === "LICENCIA_FRENTE") h += '<div class="campo"><label class="campo-label" for="docClase">Clase de licencia</label><select id="docClase"><option value="B">B</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option><option>C</option><option>D</option></select></div>';
-    if (d.vence === "EMISION_6M") {
-      h += '<p class="docs-nota">Descárgalo gratis en registrocivil.cl (fines especiales). Llega en PDF a tu correo y vale 6 meses.</p>' +
-        '<div class="campo"><label class="campo-label" for="docEmision">Fecha de emisión</label><input type="date" id="docEmision"></div>' +
-        '<div class="campo"><label class="campo-label" for="docFolio">Folio</label><input type="text" id="docFolio" inputmode="numeric" autocomplete="off"></div>' +
-        '<div class="campo"><label class="campo-label" for="docCodigo">Código de verificación</label><input type="text" id="docCodigo" autocomplete="off"></div>';
-    }
-    var acepta = d.pdf ? "application/pdf" : "image/*";
-    var captura = d.pdf ? "" : (d.tipo === "SELFIE" ? ' capture="user"' : "");
-    h += '<div class="docs-archivo">' + (d.pdf ? '<label class="btn btn-secundario" for="docArchivo">Elegir el PDF</label>' : '<button class="btn btn-secundario" type="button" data-doc-camara="' + d.tipo + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Tomar mis fotos (" + rostrosPorTomar(d.tipo).length + ")" : "Abrir cámara") + '</button>') +
-      '<input type="file" id="docArchivo" accept="' + acepta + '"' + captura + ' hidden><span id="docArchivoNombre">' + (d.pdf ? "Ningún PDF elegido" : "Sin foto todavía") + '</span></div>' +
-      '<button class="btn btn-ok" type="button" data-doc-enviar="' + d.tipo + '">Enviar a revisión</button>' +
-      '<button class="btn btn-chico" type="button" data-doc-cancelar>Cancelar</button>';
-    caja.innerHTML = h;
-    caja.hidden = false;
-    docFotoTomada = null; docRostros = null;
-    document.getElementById("docArchivo").addEventListener("change", function () {
-      var f = this.files && this.files[0];
-      docFotoTomada = f || null;
-      document.getElementById("docArchivoNombre").textContent = f ? f.name : "";
+  function licenciaExigeLentes() {
+    var l = ((docsDatos && docsDatos.documentos) || []).filter(function (x) { return x.tipo === "LICENCIA_FRENTE"; })[0];
+    return !!(l && l.codigo === "LENTES");
+  }
+  var pantallaDoc = null;   // la pantalla abierta: {id, raiz, fotos:{tipo: Blob}, urls:{tipo: url}, valores:{...}}
+  function grupoAbierto() {
+    return docsGrupos((docsDatos && docsDatos.documentos) || []).filter(function (g) { return pantallaDoc && g.def.id === pantallaDoc.id; })[0];
+  }
+  function abrirPantallaDoc(id) {
+    cerrarPantallaDoc();
+    var raiz = document.createElement("section");
+    raiz.className = "dp"; raiz.id = "dpPantalla"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
+    document.body.appendChild(raiz);
+    pantallaDoc = { id: id, raiz: raiz, fotos: {}, urls: {}, valores: {} };
+    raiz.addEventListener("click", clicPantallaDoc);
+    raiz.addEventListener("input", function (ev) { var k = ev.target.getAttribute && ev.target.getAttribute("data-dp-campo"); if (k && ev.target.type !== "checkbox" && pantallaDoc) pantallaDoc.valores[k] = ev.target.value.trim(); });
+    raiz.addEventListener("change", function (ev) {
+      var t = ev.target;
+      if (t.id === "dpPdf" && pantallaDoc) {
+        var f = t.files && t.files[0]; t.value = "";
+        if (!f) return;
+        if (!/pdf/i.test(f.type) && !/\.pdf$/i.test(f.name)) { rbAlerta("Elige el PDF del certificado."); return; }
+        pantallaDoc.fotos.ANTECEDENTES = f; pintarPantallaDoc();
+      } else if (t.getAttribute && t.getAttribute("data-dp-campo") && pantallaDoc) pantallaDoc.valores[t.getAttribute("data-dp-campo")] = t.type === "checkbox" ? (t.checked ? "SI" : "NO") : t.value.trim();
     });
+    pintarPantallaDoc();
+    var cuerpo = raiz.querySelector(".dp-cuerpo"); if (cuerpo) cuerpo.scrollTop = 0;
+  }
+  function cerrarPantallaDoc() {
+    if (!pantallaDoc) return;
+    Object.keys(pantallaDoc.urls).forEach(function (t) { try { URL.revokeObjectURL(pantallaDoc.urls[t]); } catch (e) {} });
+    pantallaDoc.raiz.remove(); pantallaDoc = null;
+  }
+  function dpValor(k) { return escapar((pantallaDoc && pantallaDoc.valores[k]) || ""); }
+  function pintarPantallaDoc() {
+    var pd = pantallaDoc, grupo = pd && grupoAbierto();
+    if (!grupo) { cerrarPantallaDoc(); return; }
+    var cuerpoAnt = pd.raiz.querySelector(".dp-cuerpo"), scroll = cuerpoAnt ? cuerpoAnt.scrollTop : 0;
+    var pend = carasPorTomar(grupo), tomadas = Object.keys(pd.fotos).length, esRostro = grupo.def.id === "ROSTRO", esPdf = !!grupo.caras[0].doc.pdf;
+    var faltan = pend.filter(function (t) { return !pd.fotos[t]; });
+    var pasos = Math.max(pend.length, tomadas, 1), paso = Math.min(tomadas + 1, pasos);
+    var h = '<div class="dp-cab"><button type="button" class="dp-volver" data-dp-cerrar aria-label="Volver">&#8249;</button><h2>' + escapar(grupo.def.nombre) + '</h2></div><div class="dp-cuerpo">';
+    h += '<p class="dp-paso">' + (pasos > 1 ? "Paso " + paso + " de " + pasos : "Un solo paso") + '</p><ul class="dp-ayuda">' + grupo.def.ayuda.concat(esRostro && licenciaExigeLentes() ? ["Tu licencia exige lentes: póntelos para las 3 fotos."] : []).map(function (t) { return "<li>" + escapar(t) + "</li>"; }).join("") + "</ul>";
+    grupo.caras.forEach(function (c) {
+      var e = c.doc.estado, foto = pd.fotos[c.tipo], rotulo = c.cara || grupo.def.nombre;
+      h += '<div class="dp-cara"><div class="dp-cara-cab"><strong>' + escapar(rotulo) + '</strong><span class="badge ' + (foto ? "badge-azul" : DOCS_BADGE[e]) + '">' + (foto ? "Lista para enviar" : DOCS_TEXTO_ESTADO[e]) + '</span></div>';
+      if (e === "RECHAZADO" && c.doc.motivo) h += '<div class="pedido-aviso">Hay que repetir esta foto: ' + escapar(docMotivo(c.doc.motivo)) + '. Tómala de nuevo.</div>';
+      if (foto && !esPdf && pd.urls[c.tipo]) h += '<img class="dp-mini" alt="Foto tomada" src="' + pd.urls[c.tipo] + '">';
+      if (foto && esPdf) h += '<p class="dp-nota">PDF elegido: ' + escapar(foto.name) + '</p>';
+      if (e === "EN_REVISION" && !foto) h += '<p class="dp-nota">Rumbo la está revisando.</p>';
+      else if (esPdf) h += '<label class="btn btn-secundario" for="dpPdf">' + (foto ? "Elegir otro PDF" : "Elegir el PDF") + '</label><input type="file" id="dpPdf" accept="application/pdf" hidden>';
+      else if (!esRostro) h += '<button type="button" class="btn btn-secundario" data-dp-tomar="' + c.tipo + '">' + (foto ? "Repetir la foto" : (e === "VALIDADO" || e === "POR_VENCER" ? "Reemplazar" : e === "RECHAZADO" ? "Tomar de nuevo" : "Tomar foto")) + '</button>';
+      h += '</div>';
+    });
+    // Datos manuales que el servidor exige para lo que se está enviando.
+    var campos = "";
+    grupo.caras.forEach(function (c) {
+      var activo = !!pd.fotos[c.tipo] || pend.indexOf(c.tipo) !== -1;
+      if (!activo) return;
+      if (c.doc.vence === "FECHA") campos += '<div class="campo"><label class="campo-label" for="dpV' + c.tipo + '">Vencimiento de ' + escapar(grupo.def.nombre.toLowerCase()) + '</label><input type="date" id="dpV' + c.tipo + '" data-dp-campo="' + c.tipo + '" value="' + dpValor(c.tipo) + '"></div>';
+      if (c.tipo === "LICENCIA_FRENTE") campos += '<label class="dp-check"><input type="checkbox" data-dp-campo="lentes"' + (pd.valores.lentes === "SI" ? " checked" : "") + '> Mi licencia exige lentes</label>';
+      if (c.tipo === "LICENCIA_FRENTE") campos += '<div class="campo"><label class="campo-label" for="dpClase">Clase de tu licencia</label><select id="dpClase" data-dp-campo="clase">' + ["", "B", "A1", "A2", "A3", "A4", "A5", "C", "D", "E", "F"].map(function (o) { return '<option value="' + o + '"' + (pd.valores.clase === o ? " selected" : "") + '>' + (o || "Elige tu clase") + '</option>'; }).join("") + '</select></div>';
+      if (c.doc.vence === "EMISION_6M") campos += '<div class="campo"><label class="campo-label" for="dpEmision">Fecha de emisión</label><input type="date" id="dpEmision" data-dp-campo="emision" value="' + dpValor("emision") + '"></div>' +
+        '<div class="campo"><label class="campo-label" for="dpFolio">Folio</label><input type="text" id="dpFolio" inputmode="numeric" autocomplete="off" data-dp-campo="folio" value="' + dpValor("folio") + '"></div>' +
+        '<div class="campo"><label class="campo-label" for="dpCodigo">Código de verificación</label><input type="text" id="dpCodigo" autocomplete="off" data-dp-campo="codigo" value="' + dpValor("codigo") + '"></div>';
+    });
+    h += campos + '</div><div class="dp-pie">';
+    if (!esPdf && faltan.length) h += '<button type="button" class="btn btn-ok" data-dp-empezar>' + (esRostro ? "Empezar: " + faltan.length + (faltan.length === 1 ? " foto" : " fotos") : (tomadas ? "Seguir: " : "Tomar foto: ") + (grupo.caras.filter(function (c) { return c.tipo === faltan[0]; })[0].cara || grupo.def.nombre).toLowerCase()) + '</button>';
+    if (esRostro && !faltan.length && !tomadas && !pend.length) h += '<button type="button" class="btn btn-secundario" data-dp-todas>Reemplazar mis 3 fotos</button>';
+    if (tomadas && !faltan.length) h += '<button type="button" class="btn btn-ok" data-dp-enviar>Enviar a revisión</button>';
+    h += '<button type="button" class="btn btn-chico" data-dp-cerrar>' + (faltan.length || tomadas ? "Cancelar" : "Cerrar") + '</button></div>';
+    pd.raiz.innerHTML = h;
+    pd.raiz.setAttribute("aria-label", grupo.def.nombre); var v = pd.raiz.querySelector(".dp-volver"); if (v && !scroll) v.focus();
+    var cuerpo = pd.raiz.querySelector(".dp-cuerpo"); if (cuerpo) cuerpo.scrollTop = scroll;
+  }
+  function dpGuardarFoto(tipo, foto) {
+    var pd = pantallaDoc; if (!pd) return;
+    if (pd.urls[tipo]) { try { URL.revokeObjectURL(pd.urls[tipo]); } catch (e) {} delete pd.urls[tipo]; }
+    pd.fotos[tipo] = foto;
+    try { if (!foto.name) pd.urls[tipo] = URL.createObjectURL(foto); } catch (e) {}
+  }
+  // Toma las caras en secuencia con marco (adelante → atrás); el rostro va en su captura guiada de 3 fotos. Solo cámara en vivo.
+  function dpTomar(tipos) {
+    var grupo = grupoAbierto(); if (!grupo || !tipos.length) return;
+    var avisoCamara = function () { rbAlerta("No pudimos abrir la cámara. Activa el permiso de cámara de Rumbo en los ajustes del teléfono y vuelve a intentarlo."); };
+    if (grupo.def.id === "ROSTRO") {
+      tomarRostrosGuiado(tipos).then(function (fotos) { if (!fotos) return; Object.keys(fotos).forEach(function (t) { dpGuardarFoto(t, fotos[t]); }); pintarPantallaDoc(); }).catch(avisoCamara);
+      return;
+    }
+    tipos.reduce(function (p, t) {
+      return p.then(function (seguir) {
+        if (seguir === false) return false;
+        var c = grupo.caras.filter(function (x) { return x.tipo === t; })[0];
+        return tomarFotoConMarco({ tipo: t, marco: grupo.def.marco, texto: (tipos.length > 1 ? "Foto " + (tipos.indexOf(t) + 1) + " de " + tipos.length + ". " : "") + grupo.def.nombre + (c.cara ? ", " + c.cara.toLowerCase() : "") + ". Pon el documento dentro del marco, que se lea todo y sin reflejos." }).then(function (foto) {
+          if (!foto) return false;
+          dpGuardarFoto(t, foto); pintarPantallaDoc(); return true;
+        });
+      });
+    }, Promise.resolve(true)).catch(avisoCamara);
+  }
+  async function clicPantallaDoc(ev) {
+    var b = ev.target.closest("button");
+    if (!b || !pantallaDoc) return;
+    var grupo = grupoAbierto();
+    if (b.hasAttribute("data-dp-cerrar")) { if (Object.keys(pantallaDoc.fotos).length && !(await rbConfirmar("Si sales, se pierden las fotos tomadas. ¿Salir?"))) return; cerrarPantallaDoc(); return; }
+    if (b.dataset.dpTomar) { dpTomar([b.dataset.dpTomar]); return; }
+    if (b.hasAttribute("data-dp-empezar")) { dpTomar(carasPorTomar(grupo).filter(function (t) { return !pantallaDoc.fotos[t]; })); return; }
+    if (b.hasAttribute("data-dp-todas")) { dpTomar(grupo.def.tipos); return; }
+    if (b.hasAttribute("data-dp-enviar")) dpEnviar(b);
+  }
+  function dpEnviar(boton) {
+    var pd = pantallaDoc, grupo = grupoAbierto();
+    if (!pd || !grupo) return;
+    var falta = docsFaltaDato(grupo, pd.fotos, pd.valores);
+    if (falta) { rbAlerta(falta); return; }
+    var sensible = grupo.caras.some(function (c) { return pd.fotos[c.tipo] && c.doc.sensible; });
+    var texto = sensible ? DOCS_CONSENTIMIENTO : (grupo.def.id === "ANTECEDENTES" ? DOCS_CONSENTIMIENTO_ANTECEDENTES : "");
+    (texto ? pedirAutorizacion(texto) : Promise.resolve(true)).then(function (autoriza) {
+      if (!autoriza) return;
+      var tipos = grupo.def.tipos.filter(function (t) { return pd.fotos[t]; }), total = tipos.length, enviadas = 0, errores = [];
+      boton.disabled = true; boton.textContent = "Enviando...";
+      return tipos.reduce(function (p, t) {
+        return p.then(function () {
+          if (errores.length) return;
+          var c = grupo.caras.filter(function (x) { return x.tipo === t; })[0];
+          return (c.doc.pdf ? leerPdf(pd.fotos[t]) : achicarFoto(pd.fotos[t])).then(function (dataUrl) {
+            var cuerpo = { accion: "subir_documento", tipo: t, archivo_data_url: dataUrl, consentimiento: c.doc.consentimiento ? true : undefined };
+            if (c.doc.vence === "FECHA") cuerpo.vence_en = pd.valores[t];
+            if (t === "LICENCIA_FRENTE") { cuerpo.clase = pd.valores.clase; cuerpo.lentes = pd.valores.lentes === "SI" ? true : undefined; }
+            if (c.doc.vence === "EMISION_6M") { cuerpo.emitido_en = pd.valores.emision; cuerpo.folio = pd.valores.folio; cuerpo.codigo = pd.valores.codigo; }
+            return apiPost(cuerpo);
+          }).then(function (res) {
+            if (res && res.ok) { enviadas++; delete pd.fotos[t]; if (pd.urls[t]) { try { URL.revokeObjectURL(pd.urls[t]); } catch (e) {} delete pd.urls[t]; } }
+            else errores.push({ tipo: t, texto: (res && res.error) || "No se pudo enviar." });
+          });
+        });
+      }, Promise.resolve()).then(function () {
+        if (!errores.length) {
+          cerrarPantallaDoc();
+          rbAlerta(grupo.def.nombre + " enviado a revisión. Te avisamos cuando Rumbo lo valide.", "ok");
+          cargarDocumentos();
+          return;
+        }
+        var cara = grupo.caras.filter(function (x) { return x.tipo === errores[0].tipo; })[0];
+        rbAlerta("Se enviaron " + enviadas + " de " + total + " fotos. Quedó sin enviar: " + (cara.cara ? cara.cara.toLowerCase() : grupo.def.nombre.toLowerCase()) + ". " + errores[0].texto);
+        var recarga = cargarDocumentos();
+        return (recarga && recarga.then ? recarga : Promise.resolve()).then(pintarPantallaDoc);
+      });
+    }).catch(function (err) {
+      if (boton) { boton.disabled = false; boton.textContent = "Enviar a revisión"; }
+      rbAlerta(err && /PDF|foto/.test(err.message) ? "No se pudo enviar: " + err.message + "." : TEXTO_SIN_CONEXION);
+    });
+  }
+
+  // Fila de la lista: un documento (con todas sus caras), su estado y el botón que abre SU pantalla.
+  function itemGrupoDoc(g, siguiente) {
+    var clase = "ruta-pto docs-item" + (g.estado === "VALIDADO" ? " hecho" : "") + (siguiente ? " siguiente" : "");
+    var h = '<div class="' + clase + '" data-doc="' + g.def.id + '"><div class="ruta-pto-tope"><span class="ruta-pto-dir">' + escapar(g.def.nombre) + '</span>' +
+      '<span class="badge ' + DOCS_BADGE[g.estado] + '">' + DOCS_TEXTO_ESTADO[g.estado] + '</span></div>';
+    var vence = g.caras.map(function (c) { return c.doc.estado !== "FALTA" ? c.doc.vence_en : ""; }).filter(Boolean).sort()[0];
+    if (vence) {
+      var dias = diasHasta(vence);
+      h += '<div class="pedido-programa' + (dias <= 30 ? " cercano" : "") + '"><strong>' + (dias < 0 ? "Venció" : "Vence") + ' ' + fechaLarga(vence) + '</strong>' +
+        (dias >= 0 ? '<span class="faltan">' + (dias === 0 ? "hoy" : "faltan " + dias + " días") + '</span>' : "") + '</div>';
+    }
+    g.caras.forEach(function (c) {
+      if (c.doc.estado === "RECHAZADO" && c.doc.motivo) h += '<div class="pedido-aviso">' + (c.cara ? escapar(c.cara) + ": " : "") + escapar(docMotivo(c.doc.motivo)) + '</div>';
+    });
+    if (g.estado === "EN_REVISION") h += '<p class="docs-nota">Rumbo lo está revisando.</p>';
+    var boton = (g.estado === "FALTA" && !g.caras[0].doc.pdf) ? "Tomar foto" : textoBotonDoc(g.estado);
+    if (boton) h += '<div class="ruta-pto-acciones"><button class="btn ' + (g.estado === "VALIDADO" || g.estado === "POR_VENCER" ? "btn-chico" : "btn-ok") + '" type="button" data-doc-abrir="' + g.def.id + '">' + boton + '</button></div>';
+    return h + '</div>';
   }
 
   // Cámara con marco. Devuelve la foto (Blob) o null si la cancela; si el teléfono no da la cámara, rechaza y se usa el selector de archivos.
   function tomarFotoConMarco(d) {
     return new Promise(function (listo, fallo) {
       if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) { fallo(new Error("sin cámara")); return; }
-      var rostro = false;
       navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1920 } }, audio: false }).then(function (flujo) {
         var raiz = document.createElement("div");
         raiz.className = "cam-doc"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
-        raiz.innerHTML = '<p class="cam-texto"></p><div class="cam-visor"><video playsinline muted autoplay></video><div class="cam-marco' + (rostro ? " rostro" : "") + '"></div></div>' +
+        raiz.innerHTML = '<p class="cam-texto"></p><div class="cam-visor"><video playsinline muted autoplay></video><div class="cam-marco' + (d.marco === "hoja" ? " hoja" : "") + '"></div></div>' +
           '<div class="cam-botones"><button type="button" class="btn btn-secundario" data-cam="no">Cancelar</button><button type="button" class="btn btn-ok" data-cam="si">Tomar foto</button></div>';
-        raiz.querySelector(".cam-texto").textContent = rostro ? "Centra tu rostro en el óvalo, con la cara un poco girada, en diagonal (de tres cuartos), no de frente y sin exagerar el giro. Fondo claro, luz de frente, sin gorro ni lentes oscuros." : "Pon el documento dentro del marco. Que se lea todo y no haya reflejos.";
+        raiz.querySelector(".cam-texto").textContent = d.texto || "Pon el documento dentro del marco. Que se lea todo y no haya reflejos.";
         var video = raiz.querySelector("video");
         video.srcObject = flujo;
         function cerrar(v) { flujo.getTracks().forEach(function (t) { t.stop(); }); raiz.remove(); listo(v); }
@@ -3574,7 +4079,7 @@
           var b = ev.target.closest("button[data-cam]");
           if (!b) return;
           if (b.dataset.cam === "no") { cerrar(null); return; }
-          if (!video.videoWidth) return;
+          if (!video.videoWidth) { raiz.querySelector(".cam-texto").textContent = "La cámara se está preparando, espera un segundo…"; return; }
           var c = document.createElement("canvas");
           c.width = video.videoWidth; c.height = video.videoHeight;
           c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
@@ -3584,9 +4089,21 @@
       }).catch(function (e) { fallo(e); });
     });
   }
-  var docFotoTomada = null, docRostros = null;
 
   // Las 3 fotos del rostro (frente, izquierda, derecha) en una sola captura guiada: la app avisa el gesto, cuenta 3 s y saca la foto sola.
+  // Revisión automática de la foto del rostro al tomarla (Alberto, 28-oct-2026): poca luz, sombra en un lado de la cara o fondo oscuro.
+  // Umbrales ajustables; son una primera barrera (la revisión de Rumbo sigue después del envío). lum = luminancia 0-255 por píxel.
+  var LUZ_MIN = 70, SOMBRA_MAX = 0.35, FONDO_MIN = 90;
+  function docsLuzRostro(lum, ancho, alto, conSombra) {
+    function media(x0, x1, y0, y1) { var t = 0, c = 0; for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) { t += lum[y * ancho + x]; c++; } return c ? t / c : 0; }
+    var ya = Math.floor(alto * 0.2), yb = Math.floor(alto * 0.8), xa = Math.floor(ancho * 0.3), xb = Math.floor(ancho * 0.7), xm = Math.floor(ancho / 2);
+    var izq = media(xa, xm, ya, yb), der = media(xm, xb, ya, yb), cara = (izq + der) / 2;
+    if (cara < LUZ_MIN) return "Hay poca luz. Ponte frente a una ventana o a una lámpara.";
+    if (conSombra && Math.abs(izq - der) / Math.max(izq, der, 1) > SOMBRA_MAX) return "Hay una sombra en un lado de tu cara. Busca una luz que te dé de frente.";
+    var fondo = (media(0, Math.floor(ancho * 0.15), 0, alto) + media(Math.floor(ancho * 0.85), ancho, 0, alto)) / 2;
+    if (fondo < FONDO_MIN) return "El fondo se ve oscuro. Ponte frente a una pared clara.";
+    return "";
+  }
   var PASOS_ROSTRO = {
     SELFIE: "Mira de frente a la cámara",
     SELFIE_IZQ: "Gira la cara hacia tu izquierda, sin exagerar, y mira de reojo a la cámara",
@@ -3602,13 +4119,21 @@
           '<div class="cam-cuenta" aria-live="polite"></div><div class="cam-botones"><button type="button" class="btn btn-secundario" data-cam="no">Cancelar</button><button type="button" class="btn btn-ok" data-cam="si">Empezar</button></div>';
         var video = raiz.querySelector("video"), texto = raiz.querySelector(".cam-texto"), cuenta = raiz.querySelector(".cam-cuenta"), btnSi = raiz.querySelector('[data-cam="si"]');
         video.srcObject = flujo;
-        var fotos = {}, vivo = true, reloj = null;
+        var fotos = {}, vivo = true, reloj = null, intentos = {};
         function cerrar(v) { vivo = false; clearTimeout(reloj); flujo.getTracks().forEach(function (t) { t.stop(); }); raiz.remove(); listo(v); }
-        function sacar(cb) {
+        function sacar(tipo, cb) {
           var c = document.createElement("canvas");
           c.width = video.videoWidth; c.height = video.videoHeight;
           c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
-          c.toBlob(cb, "image/jpeg", 0.9);
+          var aviso = "";
+          try {   // revisión automática de luz, sombra y fondo sobre una copia chica (48 x 64)
+            var m = document.createElement("canvas"); m.width = 48; m.height = 64;
+            var mc = m.getContext("2d"); mc.drawImage(c, 0, 0, 48, 64);
+            var px = mc.getImageData(0, 0, 48, 64).data, lum = [];
+            for (var i = 0; i < px.length; i += 4) lum.push(0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]);
+            aviso = docsLuzRostro(lum, 48, 64, tipo === "SELFIE");
+          } catch (e) { /* sin análisis: la revisión de Rumbo decide */ }
+          c.toBlob(function (blob) { cb(blob, aviso); }, "image/jpeg", 0.9);
         }
         function paso(i) {
           if (!vivo) return;
@@ -3620,14 +4145,21 @@
             cuenta.textContent = n;
             if (n > 0) { n--; reloj = setTimeout(tic, 1000); return; }
             cuenta.textContent = "";
-            sacar(function (blob) { fotos[tipos[i]] = blob; paso(i + 1); });
+            sacar(tipos[i], function (blob, aviso) {
+              // Con un aviso de luz se repite esa foto una vez; si insiste, pasa y la revisión de Rumbo decide (no se traba a nadie).
+              if (aviso && !intentos[tipos[i]]) {
+                intentos[tipos[i]] = 1; texto.textContent = aviso + " Vamos otra vez."; reloj = setTimeout(function () { paso(i); }, 3000);
+                return;
+              }
+              fotos[tipos[i]] = blob; paso(i + 1);
+            });
           })();
         }
         raiz.addEventListener("click", function (ev) {
           var b = ev.target.closest("button[data-cam]");
           if (!b) return;
           if (b.dataset.cam === "no") { cerrar(null); return; }
-          if (!video.videoWidth) return;
+          if (!video.videoWidth) { texto.textContent = "La cámara se está preparando, espera un segundo…"; return; }
           btnSi.disabled = true;
           paso(0);
         });
@@ -3674,39 +4206,6 @@
     });
   }
 
-  function enviarDoc(tipo, boton) {
-    var d = docsDatos.documentos.filter(function (x) { return x.tipo === tipo; })[0];
-    var input = document.getElementById("docArchivo");
-    function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; }
-    if (docRostros) {
-      pedirAutorizacion(DOCS_CONSENTIMIENTO).then(function (autoriza) {
-        if (!autoriza) return;
-        boton.disabled = true; boton.textContent = "Enviando...";
-        var tipos = Object.keys(docRostros), falla = "";
-        tipos.reduce(function (p, t) {
-          return p.then(function () {
-            if (falla) return;
-            return achicarFoto(docRostros[t]).then(function (dataUrl) { return apiPost({ accion: "subir_documento", tipo: t, archivo_data_url: dataUrl, consentimiento: true }); })
-              .then(function (res) { if (!res.ok) falla = res.error; });
-          });
-        }, Promise.resolve()).then(function () {
-          boton.disabled = false; boton.textContent = "Enviar a revisión";
-          if (falla) { rbAlerta(falla); cargarDocumentos(); return; }
-          docsAbierto = ""; docRostros = null;
-          rbAlerta("Tus fotos fueron enviadas a revisión. Te avisamos cuando Rumbo las valide.", "ok");
-          cargarDocumentos();
-        }).catch(function () { boton.disabled = false; boton.textContent = "Enviar a revisión"; rbAlerta(TEXTO_SIN_CONEXION); });
-      });
-      return;
-    }
-    var archivo = docFotoTomada || (input.files && input.files[0]);
-    if (!archivo) { rbAlerta(d.pdf ? "Elige el PDF del certificado." : "Toma o elige la foto del documento."); return; }
-    // La autorización (dato sensible / antecedentes) se pide en un pop-up aparte, nunca escrita en la pantalla.
-    (d.consentimiento ? pedirAutorizacion(d.sensible ? DOCS_CONSENTIMIENTO : DOCS_CONSENTIMIENTO_ANTECEDENTES) : Promise.resolve(true)).then(function (autoriza) {
-      if (!autoriza) return;
-      subirDocConArchivo(d, tipo, archivo, boton, val);
-    });
-  }
   // Pop-up de autorización con casilla "Leí y acepto": "Autorizo" se habilita solo al marcarla (consentimiento expreso).
   function pedirAutorizacion(texto) {
     return new Promise(function (listo) {
@@ -3724,22 +4223,6 @@
       document.body.appendChild(raiz);
     });
   }
-  function subirDocConArchivo(d, tipo, archivo, boton, val) {
-    boton.disabled = true; boton.textContent = "Enviando...";
-    (d.pdf ? leerPdf(archivo) : achicarFoto(archivo)).then(function (dataUrl) {
-      return apiPost({ accion: "subir_documento", tipo: tipo, archivo_data_url: dataUrl, vence_en: val("docVence"), emitido_en: val("docEmision"),
-        folio: val("docFolio"), codigo: val("docCodigo"), clase: val("docClase"), consentimiento: d.consentimiento ? true : undefined });
-    }).then(function (res) {
-      boton.disabled = false; boton.textContent = "Enviar a revisión";
-      if (!res.ok) { rbAlerta(res.error); return; }
-      docsAbierto = "";
-      rbAlerta(d.nombre + " enviado a revisión. Te avisamos cuando Rumbo lo valide.", "ok");
-      cargarDocumentos();
-    }).catch(function (err) {
-      boton.disabled = false; boton.textContent = "Enviar a revisión";
-      rbAlerta(err && /PDF|foto/.test(err.message) ? "No se pudo enviar: " + err.message + "." : TEXTO_SIN_CONEXION);
-    });
-  }
 
   function pintarPuntoDocs(resumen, docs) {
     var punto = document.getElementById("puntoItemDocs");
@@ -3751,14 +4234,20 @@
   }
 
   function pintarDocsAdmin(res) {
-    var total = res.total;
-    var porRevisar = res.conductores.reduce(function (a, c) { return a + c.por_revisar; }, 0);
+    var total = res.total, pasajeros = res.pasajeros || [];
+    var porRevisar = res.conductores.concat(pasajeros).reduce(function (a, c) { return a + c.por_revisar; }, 0);
     document.getElementById("docsAvance").innerHTML = '<p class="docs-avance-texto"><strong>' + (porRevisar ? porRevisar + (porRevisar === 1 ? " documento por revisar" : " documentos por revisar") : "Nada por revisar") + '</strong>' +
       'Verifica antecedentes con folio y código en el Registro Civil. Activa cuentas nuevas en Conductores.</p>';
     var punto = document.getElementById("puntoItemDocsAdm");
     if (punto) punto.hidden = !porRevisar;
-    if (!res.conductores.length) { document.getElementById("docsCuerpo").innerHTML = '<p class="vacio">No hay conductores todavía.</p>'; return; }
-    document.getElementById("docsCuerpo").innerHTML = res.conductores.map(function (c) {
+    if (!res.conductores.length && !pasajeros.length) { document.getElementById("docsCuerpo").innerHTML = '<p class="vacio">No hay conductores todavía.</p>'; return; }
+    var cuerpoDocs = res.conductores.map(function (c) { return tarjetaDocsAdmin(c, total); }).join("");
+    if (pasajeros.length) cuerpoDocs += '<h3 class="docs-grupo">Pasajeros<small>Verifican su identidad: cédula y fotos del rostro.</small></h3>' + pasajeros.map(function (c) { return tarjetaDocsAdmin(Object.assign({ es_pasajero: true, habilitado: true }, c), res.total_pasajero); }).join("");
+    document.getElementById("docsCuerpo").innerHTML = cuerpoDocs;
+  }
+  // Una tarjeta por persona (conductor o pasajero) con sus documentos y los botones de revisión.
+  function tarjetaDocsAdmin(c, total) {
+    {
       var chips = '<span class="badge ' + (c.validados === total ? "badge-verde" : "badge-gris") + '">' + c.validados + ' de ' + total + ' validados</span>' +
         (c.por_revisar ? '<span class="badge badge-azul">' + c.por_revisar + ' por revisar</span>' : "") +
         (c.pendiente_activacion ? '<span class="badge badge-ambar">Cuenta pendiente de activar</span>' : "") +
@@ -3770,39 +4259,68 @@
         if (d.tipo === "SELFIE" && d.tiene_archivo) {
           var ced = c.documentos.filter(function (x) { return x.tipo === "CEDULA_FRENTE" && x.tiene_archivo; })[0], lic = c.documentos.filter(function (x) { return x.tipo === "LICENCIA_FRENTE" && x.tiene_archivo; })[0];
           var izq = c.documentos.filter(function (x) { return x.tipo === "SELFIE_IZQ" && x.tiene_archivo; })[0], der = c.documentos.filter(function (x) { return x.tipo === "SELFIE_DER" && x.tiene_archivo; })[0];
-          if (ced && lic) acc += '<button class="btn btn-chico" type="button" data-comp-selfie="' + d.documento_id + '" data-comp-ced="' + ced.documento_id + '" data-comp-lic="' + lic.documento_id + '"' + (izq ? ' data-comp-izq="' + izq.documento_id + '"' : "") + (der ? ' data-comp-der="' + der.documento_id + '"' : "") + '>Comparar</button>';
+          if (ced && (lic || c.es_pasajero)) acc += '<button class="btn btn-chico" type="button" data-comp-selfie="' + d.documento_id + '" data-comp-ced="' + ced.documento_id + '"' + (lic ? ' data-comp-lic="' + lic.documento_id + '"' : "") + (lic && lic.codigo === "LENTES" ? ' data-comp-lentes="SI"' : "") + (izq ? ' data-comp-izq="' + izq.documento_id + '"' : "") + (der ? ' data-comp-der="' + der.documento_id + '"' : "") + '>Comparar</button>';
         }
         if (d.tiene_archivo) acc += '<button class="btn btn-chico" type="button" data-doc-ver="' + d.documento_id + '"' + (d.pdf ? ' data-doc-pdf' : '') + '>Ver</button>';
         if (d.pdf && d.folio) acc += '<button class="btn btn-chico" type="button" data-doc-verificar>Verificar</button>';
-        if (d.estado === "EN_REVISION") acc += '<button class="btn btn-chico" type="button" data-doc-validar="' + d.documento_id + '">' + (d.tipo === "SELFIE" ? "Aceptar" : "Validar") + '</button><button class="btn btn-chico" type="button" data-doc-rechazar="' + d.documento_id + '">' + (d.tipo === "SELFIE" ? "Rechazar" : "Objetar") + '</button>';
+        if (d.estado === "EN_REVISION") acc += '<button class="btn btn-chico" type="button" data-doc-validar="' + d.documento_id + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Aceptar" : "Validar") + '</button><button class="btn btn-chico" type="button" data-doc-rechazar="' + d.documento_id + '" data-doc-tipo="' + d.tipo + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Rechazar" : "Objetar") + '</button>';
         return '<div class="docs-adm-item"><div><div class="nombre">' + escapar(d.nombre) + '</div><div class="sub">' + sub + '</div></div><div class="docs-adm-acciones">' + acc + '</div></div>';
       }).join("");
       return '<div class="cond-card"><div class="cond-cab"><div class="cond-avatar">' + escapar(String(c.nombre || "?").trim().charAt(0).toUpperCase()) + '</div><div class="cond-datos"><div class="cond-nombre">' + escapar(c.nombre) + '</div>' +
         '<div class="cond-sub">' + escapar(c.email || "") + '</div><div class="docs-adm-chips">' + chips + '</div></div></div>' +
         '<details class="acordeon simple" style="margin-top:10px;"' + (c.por_revisar ? " open" : "") + '><summary>Documentos</summary><div class="acordeon-cuerpo">' + items + '</div></details></div>';
-    }).join("");
+    }
   }
 
+  // QR de verificación (cédula, licencia): lectura de «mejor esfuerzo» con el BarcodeDetector del teléfono; si no existe, no se hace nada.
+  // Solo se ofrecen enlaces https de sitios del Estado: lo que diga el QR de una imagen subida por otra persona no es de fiar.
+  function urlQrSegura(v) {
+    var m = /^https:\/\/([a-z0-9-]+\.)*(registrocivil\.cl|srcei\.cl|gob\.cl)(\/|\?|$)/i.exec(String(v || "").trim());
+    return m ? String(v).trim() : "";
+  }
+  function leerQrDeImagen(img) {
+    try {
+      if (typeof BarcodeDetector === "undefined") return Promise.resolve("");
+      return new BarcodeDetector({ formats: ["qr_code"] }).detect(img).then(function (r) { return urlQrSegura(r && r[0] && r[0].rawValue); }).catch(function () { return ""; });
+    } catch (e) { return Promise.resolve(""); }
+  }
+  // Motivos de objeción (spec u2): el admin elige uno de la lista, o escribe el suyo en «Otro motivo». El conductor y el pasajero ven el texto.
+  var MOTIVOS_OBJECION = {
+    rostro: ["Hay una sombra en la cara", "Usa lentes oscuros", "Tiene algo sobre la cabeza", "Se ve borrosa", "Falta usar los lentes ópticos"],
+    documento: ["No se alcanza a leer", "La foto está cortada", "Hay reflejos", "El documento está vencido", "No coincide con la persona"]
+  };
+  function motivosObjecion(tipo) { return String(tipo || "").indexOf("SELFIE") === 0 ? MOTIVOS_OBJECION.rostro : MOTIVOS_OBJECION.documento; }
+  // Devuelve el motivo elegido o escrito; null si cancela.
+  function pedirMotivoObjecion(tipo) {
+    return new Promise(function (listo) {
+      var raiz = document.createElement("div");
+      raiz.className = "rb-pop"; raiz.setAttribute("role", "dialog"); raiz.setAttribute("aria-modal", "true");
+      raiz.innerHTML = '<div class="rb-pop-caja"><p class="rb-pop-texto">¿Qué debe corregir? Lo verá en su aplicación.</p><div class="dp-motivos"></div>' +
+        '<div class="rb-pop-botones"><button type="button" class="rb-pop-no">Cancelar</button></div></div>';
+      var lista = raiz.querySelector(".dp-motivos");
+      motivosObjecion(tipo).concat(["Otro motivo…"]).forEach(function (m, i, todos) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "btn btn-secundario"; b.textContent = m; b.dataset.motivo = i === todos.length - 1 ? "" : m;
+        lista.appendChild(b);
+      });
+      function fin(v) { raiz.remove(); listo(v); }
+      raiz.addEventListener("click", function (ev) {
+        var b = ev.target.closest("button");
+        if (!b) return;
+        if (b.classList.contains("rb-pop-no")) { fin(null); return; }
+        if (b.dataset.motivo) { fin(b.dataset.motivo); return; }
+        raiz.remove(); rbPedir("Escribe el motivo. Lo verá en su aplicación.", { si: "Rechazar" }).then(listo);
+      });
+      document.body.appendChild(raiz);
+    });
+  }
   function clicDocs(ev) {
     var b = ev.target.closest("button");
     if (!b) return;
-    if (b.dataset.docAbrir) { abrirFormDoc(b.dataset.docAbrir); return; }
-    if (b.hasAttribute("data-doc-cancelar")) { docsAbierto = ""; var f = b.closest("[data-doc-form]"); f.hidden = true; f.innerHTML = ""; return; }
-    if (b.dataset.docEnviar) { enviarDoc(b.dataset.docEnviar, b); return; }
-    if (b.dataset.docCamara) {
-      var dc = docsDatos.documentos.filter(function (x) { return x.tipo === b.dataset.docCamara; })[0];
-      var esRostro = dc.tipo.indexOf("SELFIE") === 0;
-      (esRostro ? tomarRostrosGuiado(rostrosPorTomar(dc.tipo)) : tomarFotoConMarco(dc)).then(function (foto) {
-        if (!foto) return;
-        if (esRostro) { docRostros = foto; document.getElementById("docArchivoNombre").textContent = Object.keys(foto).length + " fotos listas para enviar"; return; }
-        docFotoTomada = foto;
-        document.getElementById("docArchivoNombre").textContent = "Foto lista para enviar";
-      }).catch(function () { document.getElementById("docArchivo").click(); });   // sin permiso o sin cámara: el selector del teléfono
-      return;
-    }
+    if (b.dataset.docAbrir) { abrirPantallaDoc(b.dataset.docAbrir); return; }
     if (b.hasAttribute("data-doc-verificar")) { window.open("https://www.registrocivil.cl/OficinaInternet/verificacion/verificacioncertificado.srcei", "_system"); return; }
     if (b.dataset.compSelfie) {
-      var ids = [["De frente", b.dataset.compSelfie], ["Cédula", b.dataset.compCed], ["Licencia", b.dataset.compLic]];
+      var ids = [["De frente", b.dataset.compSelfie], ["Cédula", b.dataset.compCed]];
+      if (b.dataset.compLic) ids.push(["Licencia", b.dataset.compLic]);
       if (b.dataset.compIzq) ids.push(["Izquierda", b.dataset.compIzq]);
       if (b.dataset.compDer) ids.push(["Derecha", b.dataset.compDer]);
       b.disabled = true;
@@ -3813,6 +4331,7 @@
         var comp = document.getElementById("docsVisorComp");
         comp.innerHTML = rs.map(function (r, i) { return '<figure><img alt="' + ids[i][0] + '" src="' + r.data_url + '"><figcaption>' + ids[i][0] + '</figcaption></figure>'; }).join("");
         comp.hidden = false;
+        if (b.dataset.compLentes) comp.insertAdjacentHTML("beforeend", '<p class="docs-nota" style="grid-column:1/-1;color:#fff;font-size:16px;">La licencia exige lentes: el rostro debe aparecer con lentes ópticos.</p>');
         document.getElementById("docsVisorImg").removeAttribute("src");
         document.getElementById("docsVisor").hidden = false;
       }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
@@ -3833,13 +4352,23 @@
           return;
         }
         document.getElementById("docsVisorImg").src = res.data_url;
+        var imgVisor = document.getElementById("docsVisorImg"), cajaQr = document.getElementById("docsVisorQr");
+        cajaQr.hidden = true; cajaQr.innerHTML = "";
+        imgVisor.onload = function () {   // si la imagen trae un QR del Estado, se ofrece abrir su verificación
+          leerQrDeImagen(imgVisor).then(function (url) {
+            if (!url) return;
+            cajaQr.innerHTML = '<button type="button" class="btn btn-ok" id="docsVisorQrAbrir">Abrir verificación del QR</button>';
+            cajaQr.hidden = false;
+            document.getElementById("docsVisorQrAbrir").addEventListener("click", function () { window.open(url, "_system"); });
+          });
+        };
         document.getElementById("docsVisor").hidden = false;
       }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
       return;
     }
     if (b.dataset.docValidar || b.dataset.docRechazar) {
       var aprobado = !!b.dataset.docValidar, id = b.dataset.docValidar || b.dataset.docRechazar;
-      (aprobado ? Promise.resolve("") : rbPedir("¿Qué debe corregir? El conductor lo verá.", { si: "Rechazar" })).then(function (motivo) {
+      (aprobado ? Promise.resolve("") : pedirMotivoObjecion(b.dataset.docTipo)).then(function (motivo) {
         if (motivo === null) return;
         b.disabled = true;
         return apiPost({ accion: "revisar_documento", documento_id: id, aprobado: aprobado, motivo: motivo }).then(function (res) {
@@ -3950,10 +4479,13 @@
         '<h3 class="msg-sub">Enviadas</h3><div id="notifEnviadas"><p class="vacio">Cargando...</p></div></div>' +
       '<div class="adm-fijo notif-pie"><button class="btn btn-ok" type="button" id="notifPublicar">Publicar</button></div>');
     var b = document.getElementById("notifPublicar");
-    b.addEventListener("click", function () {
+    b.addEventListener("click", async function () {
       var t = document.getElementById("notifTitulo"), x = document.getElementById("notifTexto");
+      var para = document.getElementById("notifDestino"), paraTexto = para.options[para.selectedIndex].text.toLowerCase();
+      // Llega a toda la base de ese público y no se puede editar ni borrar: se confirma antes de enviar.
+      if (!(await rbConfirmar("Se publicará para " + paraTexto + " y no se puede deshacer. ¿Publicar?"))) return;
       b.disabled = true;
-      apiPost({ accion: "publicar_notificacion", titulo: t.value, texto: x.value, destino: document.getElementById("notifDestino").value }).then(function (res) {
+      apiPost({ accion: "publicar_notificacion", titulo: t.value, texto: x.value, destino: para.value }).then(function (res) {
         b.disabled = false;
         if (!res.ok) { rbAlerta(res.error || "No se pudo publicar."); return; }
         t.value = ""; x.value = ""; rbAlerta("Publicada.", "ok"); cargarEnviadas();
@@ -5124,6 +5656,7 @@
     borrarSesion();
     disponibilidadCargada = false; // para que la próxima sesión recargue SU propia disponibilidad, no la del anterior
     conexionCargada = false;
+    chipBonoAbierto = false; ocultarChipBono();   // el próximo ingreso vuelve a mostrar el chip al abrir
     mostrarPantalla("login");
   });
 
@@ -5292,6 +5825,143 @@
       rbAlerta("Cambios guardados.", "ok");
     }).catch(function () { boton.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
   });
+
+  /* Explicar un precio (solo admin, pestaña «Explicar» de Tarifas de la red). El cálculo es del servidor (acción explicar_precio, sin guardar nada);
+     acá solo se pide y se pinta. Contrato: diseno/CONTRATO-EXPLICAR-PRECIO.md. Los porcentajes (cargo, membresía) sí se ven: es pantalla de administración. */
+  function pesosAdm(n) { return Math.round(Number(n) || 0).toLocaleString("es-CL"); }
+  var NIVEL_TXT = { VALLE: "Valle", PUNTA: "Punta", FUERTE: "Punta fuerte" };
+  function htmlExplicacion(r) {
+    function p(n) { return pesosAdm(n) + " pesos"; }
+    function dec(n) { return String(n).replace(".", ","); }
+    function fila(a, b, cls) { return '<div class="xp-fila' + (cls ? " " + cls : "") + '"><span>' + a + '</span><b>' + b + '</b></div>'; }
+    var e = r.entrada || {}, b = r.bloque || {}, fr = b.frontera, ta = r.tarifas || {}, ti = r.tiempo || {}, co = r.combustible || {}, pe = r.peajes || {};
+    var mi = r.tarifa_minima || {}, ca = r.cargo_app || {}, re = r.redondeos || {}, cd = r.conductor || {}, vh = r.valor_hora || {};
+    function dmy(f) { return String(f || "").split("-").reverse().join("-"); }
+    var h = "";
+    if (ta.usadas === "copia editable") h += '<p class="xp-prueba">Cálculo de prueba: no se guardó nada.</p>';
+    h += '<div class="xp-total"><span class="xp-nivel xp-' + escapar(b.nivel) + '">' + escapar(NIVEL_TXT[b.nivel] || b.nivel) + '</span><strong>' + p(re.precio_pasajero) + '</strong><small>precio al pasajero</small></div>';
+    h += '<p class="xp-regla">' + escapar(b.regla) + '</p>';
+    if (fr) {
+      var cuando = fr.minutos > 0 ? "en " + fr.minutos + " min" : "hace " + (-fr.minutos) + " min";
+      h += '<p class="xp-frontera">A las ' + escapar(fr.hora) + (fr.fecha && fr.fecha !== e.fecha ? " del " + escapar(dmy(fr.fecha)) : "") + " (" + cuando + ") pasa a " + escapar(NIVEL_TXT[fr.nivel_otro_lado] || fr.nivel_otro_lado) +
+        (fr.precio_otro_lado !== null && fr.precio_otro_lado !== undefined ? ": " + p(fr.precio_otro_lado) : "") + ".</p>";
+    } else h += '<p class="xp-frontera">El bloque no cambia en las próximas 24 horas.</p>';
+    h += '<p class="xp-nota">' + (e.modo === "manual" ? "Km y minutos a mano" : "Ruta consultada a Google con tráfico") + " · " + escapar(dmy(e.fecha)) + " " + escapar(e.hora) +
+      (e.ida_vuelta === "SI" ? " · ida y vuelta" + (e.horas_espera ? " con " + dec(e.horas_espera) + " h de espera" : "") : "") + "</p>";
+    h += '<h3 class="xp-sec">Cómo se arma</h3>';
+    h += fila("Valor de la hora (" + escapar(vh.propiedad) + ")", p(vh.valor));
+    h += fila("Tiempo: (" + dec(ti.minutos_ruta) + " min × " + dec(ti.factor) + " + " + dec(ti.minutos_busqueda) + " de búsqueda) ÷ 60" + (ti.horas_espera ? " + " + dec(ti.horas_espera) + " h de espera" : "") + " = " + dec(ti.horas) + " h", p(ti.pesos));
+    h += fila("Combustible: " + dec(co.km) + " km × " + dec(co.factor) + " ÷ " + dec(co.consumo) + " km/L (" + escapar(co.zona) + ") × " + pesosAdm(co.precio_litro) + " por litro", p(co.pesos));
+    h += fila("Peajes: " + pesosAdm(pe.por_tramo) + " por tramo × " + dec(pe.factor), p(pe.total));
+    if (pe.incompletos) h += '<p class="xp-aviso">Algún pórtico está sin tarifa: el total de peajes queda corto.</p>';
+    if (pe.opcional) h += fila("Peaje opcional (solo si se toma, se informa aparte)", p(pe.opcional));
+    h += fila("Tarifa mínima", mi.aplicada ? "subió " + p(mi.subio) + " (mínimo " + pesosAdm(mi.piso) + ")" : "no se aplicó (mínimo " + pesosAdm(mi.piso) + ")");
+    h += fila("Cargo de la app (" + dec(Math.round((ca.fraccion || 0) * 1000) / 10) + " %)", p(ca.pesos));
+    h += fila("Sin redondear " + escapar(dec(re.total_sin_redondear)) + " → base " + pesosAdm(re.v_redondeado) + " → pasajero", p(re.precio_pasajero), "xp-fuerte");
+    h += '<h3 class="xp-sec">Lo que recibe el conductor</h3>';
+    h += fila("Oferta (incluye peajes)", p(cd.oferta)) + fila("Membresía", "-" + p(cd.membresia)) + fila("Retención", "-" + p(cd.retencion)) + fila("Le queda", p(cd.queda), "xp-fuerte");
+    h += '<h3 class="xp-sec">Qué cambiaría</h3><p class="xp-nota">Precio al pasajero si se mueve cada parámetro. Negativo = más barato.</p>';
+    (r.que_cambiaria || []).forEach(function (q) {
+      var ef = q.efecto === null || q.efecto === undefined ? "sin dato" : (q.efecto > 0 ? "+" : "") + pesosAdm(q.efecto);
+      h += fila(escapar(q.etiqueta) + (q.nota ? '<br><small>' + escapar(q.nota) + '</small>' : ""), ef + '<br><small>' + (q.precio === null || q.precio === undefined ? "" : p(q.precio)) + '</small>');
+    });
+    h += '<p class="xp-nota">Tarifas usadas: ' + escapar(ta.usadas) + (ta.version ? " · versión " + escapar(ta.version) : "") +
+      (ta.modificadas_en ? " · modificadas " + escapar(new Date(ta.modificadas_en).toLocaleString("es-CL")) : "") + "</p>";
+    return h;
+  }
+  function armarPanelExplicar() {
+    var d = document.createElement("div");
+    d.className = "xp-form";
+    d.innerHTML =
+      '<p class="nota">Elige un viaje y una hora: te muestra qué lo hace costar lo que cuesta y qué cambiaría al mover cada tarifa. No guarda nada.</p>' +
+      '<label class="campo-label" for="xpOrigen">Origen</label><input type="text" id="xpOrigen" autocomplete="off" placeholder="Dirección de salida">' +
+      '<label class="campo-label" for="xpDestino">Destino</label><input type="text" id="xpDestino" autocomplete="off" placeholder="Dirección de llegada">' +
+      '<details><summary>O poner km y minutos a mano</summary><p class="nota">Sirve para probar tarifas sin consultar a Google. Si pones km, se usan estos datos.</p>' +
+        '<div class="xp-par"><div><label class="campo-label" for="xpKm">Km</label><input type="number" id="xpKm" inputmode="decimal" step="0.1" min="0"></div>' +
+        '<div><label class="campo-label" for="xpMin">Minutos</label><input type="number" id="xpMin" inputmode="numeric" step="1" min="0"></div></div>' +
+        '<label class="campo-label" for="xpPeaje">Peaje por tramo (pesos)</label><input type="number" id="xpPeaje" inputmode="numeric" step="100" min="0">' +
+        '<label class="xp-check"><input type="checkbox" id="xpAeropuerto">Es al aeropuerto</label>' +
+        '<label class="xp-check"><input type="checkbox" id="xpFuera">Fuera de Santiago</label></details>' +
+      '<div class="xp-par"><div><label class="campo-label" for="xpFecha">Fecha</label><input type="date" id="xpFecha"></div>' +
+      '<div><label class="campo-label" for="xpHora">Hora</label><input type="time" id="xpHora"></div></div>' +
+      '<p class="nota" style="margin:0;">Si las dejas vacías, se usa el momento de ahora.</p>' +
+      '<label class="xp-check"><input type="checkbox" id="xpIdaVuelta">Ida y vuelta</label>' +
+      '<label class="campo-label" for="xpEspera">Horas de espera (solo con ida y vuelta)</label><input type="number" id="xpEspera" inputmode="decimal" step="0.5" min="0">' +
+      '<details><summary>Probar con otras tarifas (no se guardan)</summary><p class="nota">Deja vacío lo que no quieras cambiar.</p>' +
+        '<label class="campo-label" for="xpTvalle">Hora valle (pesos)</label><input type="number" id="xpTvalle" inputmode="numeric">' +
+        '<label class="campo-label" for="xpTpunta">Hora punta (pesos)</label><input type="number" id="xpTpunta" inputmode="numeric">' +
+        '<label class="campo-label" for="xpTfuerte">Punta fuerte (pesos)</label><input type="number" id="xpTfuerte" inputmode="numeric">' +
+        '<label class="campo-label" for="xpTlitro">Precio del litro (pesos)</label><input type="number" id="xpTlitro" inputmode="numeric">' +
+        '<label class="campo-label" for="xpTfinTarde">Fin de la punta de la tarde</label><input type="time" id="xpTfinTarde"></details>' +
+      '<div id="xpResultado" aria-live="polite"></div>';
+    return d;
+  }
+  // Autocompletado de Google en origen y destino (si ya cargó el mapa); guarda las coordenadas elegidas para no depender del texto.
+  function xpAutocompletar() {
+    ["xpOrigen", "xpDestino"].forEach(function (id) {
+      var inp = document.getElementById(id);
+      try {
+        if (!inp || inp.dataset.auto || !window.google || !google.maps.places) return;
+        inp.dataset.auto = "1";
+        var auto = new google.maps.places.Autocomplete(inp, { componentRestrictions: { country: "cl" }, fields: ["formatted_address", "geometry"] });
+        auto.addListener("place_changed", function () {
+          var l = auto.getPlace(); if (!l || !l.geometry) return;
+          inp.value = l.formatted_address || inp.value;
+          inp.dataset.ll = l.geometry.location.lat() + "," + l.geometry.location.lng();
+        });
+        inp.addEventListener("input", function () { delete inp.dataset.ll; });
+      } catch (e) {}
+    });
+  }
+  function conectarExplicador(pt, pie) {
+    var guardar = document.getElementById("btnGuardarTarifas"), msgG = document.getElementById("tarifasMsg"), aviso = document.getElementById("avisoAlcanceTarifas");
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "btn btn-primario"; btn.id = "btnExplicarPrecio"; btn.textContent = "Explicar precio"; btn.style.display = "none";
+    pie.appendChild(btn);
+    pt.querySelector(".adm-tabs").addEventListener("click", function (ev) {
+      var b = ev.target.closest("[data-adm-tab]");
+      if (!b) return;
+      var xp = b.dataset.admTab === "explicar";
+      guardar.style.display = xp ? "none" : ""; msgG.style.display = xp ? "none" : ""; aviso.style.display = xp ? "none" : ""; btn.style.display = xp ? "" : "none";
+      if (xp) {
+        xpAutocompletar();
+        [["xpTvalle", "valorHoraValle"], ["xpTpunta", "valorHoraPunta"], ["xpTfuerte", "valorHoraFuerte"], ["xpTlitro", "precioComb"], ["xpTfinTarde", "horaPuntaTardeFin"]].forEach(function (par) {
+          var vigente = document.getElementById(par[1]); document.getElementById(par[0]).placeholder = vigente && vigente.value ? "vigente: " + vigente.value : "";
+        });
+      }
+    });
+    btn.addEventListener("click", function () {
+      function v(id) { return document.getElementById(id).value.trim(); }
+      function num(id) { return parseFloat(v(id).replace(",", ".")); }
+      var cuerpo = { accion: "explicar_precio" };
+      if (v("xpKm")) {
+        cuerpo.km = num("xpKm"); cuerpo.minutos = num("xpMin"); cuerpo.peaje = v("xpPeaje") ? num("xpPeaje") : 0;
+        cuerpo.aeropuerto = document.getElementById("xpAeropuerto").checked ? "SI" : "NO";
+        cuerpo.fuera_de_santiago = document.getElementById("xpFuera").checked ? "SI" : "NO";
+      } else {
+        if (!v("xpOrigen") || !v("xpDestino")) { rbAlerta("Escribe origen y destino, o km y minutos a mano."); return; }
+        cuerpo.origen = v("xpOrigen"); cuerpo.destino = v("xpDestino");
+        if (document.getElementById("xpOrigen").dataset.ll) cuerpo.origen_ll = document.getElementById("xpOrigen").dataset.ll;
+        if (document.getElementById("xpDestino").dataset.ll) cuerpo.destino_ll = document.getElementById("xpDestino").dataset.ll;
+      }
+      if (v("xpFecha")) cuerpo.fecha = v("xpFecha");
+      if (v("xpHora")) cuerpo.hora = v("xpHora");
+      cuerpo.ida_vuelta = document.getElementById("xpIdaVuelta").checked ? "SI" : "NO";
+      if (v("xpEspera")) cuerpo.horas_espera = num("xpEspera");
+      var cambios = {};
+      [["xpTvalle", "valorHoraValle"], ["xpTpunta", "valorHoraPunta"], ["xpTfuerte", "valorHoraFuerte"], ["xpTlitro", "precioComb"]].forEach(function (par) { if (v(par[0])) cambios[par[1]] = num(par[0]); });
+      if (v("xpTfinTarde")) cambios.horaPuntaTardeFin = v("xpTfinTarde");
+      if (Object.keys(cambios).length) cuerpo.tarifas = cambios;
+      var res0 = document.getElementById("xpResultado");
+      btn.disabled = true; btn.textContent = "Calculando...";
+      apiPost(cuerpo).then(function (res) {
+        btn.disabled = false; btn.textContent = "Explicar precio";
+        if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo explicar el precio."); return; }
+        res0.innerHTML = htmlExplicacion(res);
+        res0.scrollIntoView({ block: "start", behavior: "smooth" });
+      }).catch(function () { btn.disabled = false; btn.textContent = "Explicar precio"; rbAlerta(TEXTO_SIN_CONEXION); });
+    });
+  }
 
   /* Jueves: en Chile el precio de los combustibles cambia los jueves. Al
      abrir la app ese día, una ventana pide actualizar el valor por litro —
@@ -5990,7 +6660,7 @@
       }
       nav.cum = largosRuta(nav.pts); nav.acum = acumPasos(nav.pasos);
       if (nav.linea) nav.linea.setMap(null);
-      if (mapaEspera && nav.pts.length) nav.linea = dibujarRutaNaranja(mapaEspera, nav.pts);
+      if (mapaEspera && nav.pts.length) { var pfoco = elegirFoco(pedidosEnCursoActuales, focoManualId); nav.linea = dibujarRutaNaranja(mapaEspera, nav.pts, !!(pfoco && pfoco.inicio_viaje_en)); }
       pintarNav();
       if (nav.voz) hablarNav(nav.pasos[0].texto);
     }).catch(function () { if (nav) { nav.pidiendo = false; document.getElementById("navInstr").textContent = "Sin conexión. Usa Waze o Maps."; } });
@@ -6572,7 +7242,7 @@
       if (viajeMapa.linea) { viajeMapa.linea.setMap(null); viajeMapa.linea = null; }
       if (viajeMapa.tramoClave !== p.pedido_id && miPosicionConductor && google.maps.geometry) {
         viajeMapa.tramoClave = p.pedido_id;
-        pedirTramoDeRuta(p.pedido_id, claveObjetivo, miPosicionConductor, m.punto.coord, function () { viajeMapa.tramoClave = ""; });   // sin red: se reintenta en el próximo repintado
+        pedirTramoDeRuta(p.pedido_id, claveObjetivo, miPosicionConductor, m.punto.coord, function () { viajeMapa.tramoClave = ""; }, false);   // sin red: se reintenta en el próximo repintado
       }
     } else if (desviado) {
       if (viajeMapa.linea) { viajeMapa.linea.setMap(null); viajeMapa.linea = null; }   // la ruta cotizada ya no es la que se sigue
@@ -6581,9 +7251,11 @@
     } else if (cod && google.maps.geometry) {
       // Si el viaje cambió (editado), la ruta nueva reemplaza a la vieja y el mapa se vuelve a encuadrar.
       if (viajeMapa.linea && viajeMapa.codLinea !== cod) { viajeMapa.linea.setMap(null); viajeMapa.linea = null; viajeMapa.clave = ""; }
+      // El viaje se inició: la misma ruta se vuelve a pintar en naranja (turquesa mientras va a buscar al pasajero).
+      if (viajeMapa.linea && viajeMapa.enCursoLinea !== !!p.inicio_viaje_en) { viajeMapa.linea.setMap(null); viajeMapa.linea = null; }
       if (!viajeMapa.linea) {
         var pts = google.maps.geometry.encoding.decodePath(cod);
-        if (pts.length) { viajeMapa.linea = dibujarRutaNaranja(mapaEspera, pts); viajeMapa.codLinea = cod; }
+        if (pts.length) { viajeMapa.linea = dibujarRutaNaranja(mapaEspera, pts, !!p.inicio_viaje_en); viajeMapa.codLinea = cod; viajeMapa.enCursoLinea = !!p.inicio_viaje_en; }
       }
     }
     // punto al que va ahora (recogida, parada, destino o regreso)
@@ -6619,14 +7291,14 @@
 
   /* Camino desde el auto hasta el punto al que va (recogida, parada o destino), dibujado en el mapa. Se usa al salir a
      buscar al pasajero y, durante el viaje, cuando el conductor se sale de la ruta (ver revisarDesvioDeRuta). */
-  function pedirTramoDeRuta(pedidoId, claveObjetivo, desde, hasta, alFallar) {
+  function pedirTramoDeRuta(pedidoId, claveObjetivo, desde, hasta, alFallar, enCurso) {
     api({ accion: "ruta_navegacion", lat: desde.lat, lng: desde.lng, dlat: hasta.lat, dlng: hasta.lng }).then(function (res) {
       if (!res || !res.ok || !res.polilinea || viajeMapa.id !== pedidoId || !google.maps.geometry) { if (alFallar && !(res && res.ok)) alFallar(); return; }
       var pts = google.maps.geometry.encoding.decodePath(res.polilinea).map(function (x) { return { lat: x.lat(), lng: x.lng() }; });
       if (!pts.length) return;
       if (viajeMapa.tramo) viajeMapa.tramo.setMap(null);
       if (viajeMapa.linea) { viajeMapa.linea.setMap(null); viajeMapa.linea = null; }
-      viajeMapa.tramo = dibujarRutaNaranja(mapaEspera, pts);
+      viajeMapa.tramo = dibujarRutaNaranja(mapaEspera, pts, !!enCurso);
       viajeMapa.tramoPts = pts; viajeMapa.tramoPara = claveObjetivo;
     }).catch(function () { if (alFallar) alFallar(); });
   }
@@ -6650,7 +7322,7 @@
     if (Date.now() - (viajeMapa.desvioEn || 0) < DESVIO_RUTA_ESPERA_MS) return;
     viajeMapa.desvioEn = Date.now();
     if (viajeMapa.id !== p.pedido_id) { limpiarMapaViaje(); viajeMapa.id = p.pedido_id; viajeMapa.desvioEn = Date.now(); }
-    pedirTramoDeRuta(p.pedido_id, clave, miPosicionConductor, coord, null);
+    pedirTramoDeRuta(p.pedido_id, clave, miPosicionConductor, coord, null, true);
   }
 
   /* Acciones del viaje (las usa la tarjeta flotante y el detalle: una sola lógica). */
@@ -7519,6 +8191,24 @@
     { featureType: "water", elementType: "geometry", stylers: [{ color: "#0B1824" }] },
     { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#5C7C99" }] }
   ]);
+  /* Rediseño etapa 3 (Nivel A de diseno/apps/APPS-DIRECCION.md §3): mapa oscuro de la marca (calles #14405E sobre #071C2F, parques apagados),
+     siempre, de día y de noche. Con MAPA_SIEMPRE_OSCURO = false vuelve el mapa claro de día / oscuro de noche por la altura del sol. */
+  var ESTILO_MAPA_MARCA = ESTILO_MAPA.concat([
+    { elementType: "geometry", stylers: [{ color: "#071C2F" }] },
+    { elementType: "labels.text.fill", stylers: [{ color: "#B7C6D2" }] },
+    { elementType: "labels.text.stroke", stylers: [{ color: "#071C2F" }] },
+    { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#16405F" }] },
+    { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#0B2238" }] },
+    { featureType: "poi.park", elementType: "geometry", stylers: [{ visibility: "on" }, { color: "#0C3C43" }] },
+    { featureType: "poi.park", elementType: "labels", stylers: [{ visibility: "off" }] },
+    { featureType: "road", elementType: "geometry", stylers: [{ color: "#14405E" }] },
+    { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#B7C6D2" }] },
+    { featureType: "road.arterial", elementType: "geometry", stylers: [{ color: "#1B5278" }] },
+    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#23688F" }] },
+    { featureType: "water", elementType: "geometry", stylers: [{ color: "#05121F" }] },
+    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#5C7C99" }] }
+  ]);
+  var MAPA_SIEMPRE_OSCURO = true;
   function alturaDelSol(fecha, lat, lng) {
     var rad = Math.PI / 180;
     var dia = (fecha.getTime() - Date.UTC(fecha.getUTCFullYear(), 0, 1)) / 86400000;   // día del año, con fracción
@@ -7531,9 +8221,9 @@
     return 90 - Math.acos(Math.max(-1, Math.min(1, cz))) / rad;
   }
   function esDeNoche(fecha, lat, lng) { return alturaDelSol(fecha, lat, lng) < -3; }
-  function estiloMapaActual() { return esDeNoche(new Date(), -33.45, -70.66) ? ESTILO_MAPA_NOCHE : ESTILO_MAPA; }
+  function estiloMapaActual() { return MAPA_SIEMPRE_OSCURO ? ESTILO_MAPA_MARCA : esDeNoche(new Date(), -33.45, -70.66) ? ESTILO_MAPA_NOCHE : ESTILO_MAPA; }
   function refrescarEstiloMapas() {
-    var noche = esDeNoche(new Date(), -33.45, -70.66), est = noche ? ESTILO_MAPA_NOCHE : ESTILO_MAPA;
+    var noche = MAPA_SIEMPRE_OSCURO || esDeNoche(new Date(), -33.45, -70.66), est = estiloMapaActual();
     document.body.classList.toggle("mapa-noche", noche);
     try {
       if (typeof mapaEspera !== "undefined" && mapaEspera) mapaEspera.setOptions({ styles: est });
@@ -7544,10 +8234,19 @@
   setInterval(refrescarEstiloMapas, 120000);
   var NARANJO = "#EF6D19", NARANJO_BORDE = "#C2410C";   // naranja de la marca (mismo que --naranja)
 
-  function dibujarRutaNaranja(mapaDestino, puntos) {
-    var borde = new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: NARANJO_BORDE, strokeOpacity: 0.45, strokeWeight: 10, zIndex: 1 });
-    var linea = new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: NARANJO, strokeOpacity: 1, strokeWeight: 6, zIndex: 2 });
-    return { setMap: function (m) { borde.setMap(m); linea.setMap(m); } };
+  // (El nombre se conserva porque lo llaman varios lugares; desde la etapa 3 del rediseño la ruta es turquesa de la marca: halo ancho + trazo + núcleo claro, la «sonrisa» luminosa de la maqueta.)
+  function dibujarRutaNaranja(mapaDestino, puntos, enCurso) {
+    // Turquesa mientras el conductor va a buscar al pasajero; NARANJA (misma geometría) con el viaje EN CURSO. Halo en naranja oscuro para que se lea también sobre el mapa claro.
+    var capas = (enCurso ? [
+      { c: "#C2410C", o: 0.5, w: 16, z: 1 },
+      { c: "#EF6D19", o: 1, w: 7, z: 2 },
+      { c: "#FFB07A", o: 1, w: 3, z: 3 }
+    ] : [
+      { c: "#14B8C4", o: 0.28, w: 16, z: 1 },
+      { c: "#14B8C4", o: 1, w: 7, z: 2 },
+      { c: "#5FD3DB", o: 1, w: 3, z: 3 }
+    ]).map(function (k) { return new google.maps.Polyline({ map: mapaDestino, path: puntos, strokeColor: k.c, strokeOpacity: k.o, strokeWeight: k.w, zIndex: k.z }); });
+    return { setMap: function (m) { capas.forEach(function (l) { l.setMap(m); }); } };
   }
 
   // 'color' (#RRGGBB) pinta la carrocería; sin color, el azul de siempre.
@@ -8589,6 +9288,122 @@
     if (flotaSel) { if (hojaEstado === "alto") ponerHoja("medio"); }
   }
 
+  /* ---------- Panel de inicio del administrador (aprobado 31-oct-2026) ---------- */
+  var adminVista = "panel", adminStats = { viajesHoy: null, docs: null, reclamos: null }, adminStatsCargando = false, adminStatsEn = 0, adminVistos = {}, adminVistosListo = false;
+  function resumenFlotaAdmin(flota, pas) {
+    var r = { enLinea: 0, enCurso: 0, sinConductor: 0, atrasos: 0 };
+    (flota || []).forEach(function (c) { if (c.estado === "DISPONIBLE" || c.estado === "EN_VIAJE") r.enLinea++; });
+    (pas || []).forEach(function (p) {
+      if (p.conductor_id) r.enCurso++; else if (p.estado === "BUSCANDO") r.sinConductor++;
+      if (p.atraso_min > 0) r.atrasos++;
+    });
+    return r;
+  }
+  // El primer pedido BUSCANDO sin conductor que el administrador todavía no había visto (o null).
+  function pedidoNuevoAdmin(vistos, pas) {
+    return (pas || []).filter(function (p) { return p.estado === "BUSCANDO" && !p.conductor_id && !vistos[p.pedido_id]; })[0] || null;
+  }
+  function viajesHoyAdmin(pedidos, hoy) {
+    return (pedidos || []).filter(function (p) {
+      return p.estado === "Aceptado" && new Date(p.creado_en).toLocaleDateString("en-CA", { timeZone: "America/Santiago" }) === hoy;
+    }).length;
+  }
+  function docsPorRevisarAdmin(res) {
+    if (!res) return 0;
+    var n = 0;
+    (res.conductores || []).forEach(function (c) { n += Number(c.por_revisar) || 0; });
+    (res.pasajeros || []).forEach(function (c) { n += Number(c.por_revisar) || 0; });
+    return n;
+  }
+  function reclamosAbiertosAdmin(res) { return res ? Number(res.abiertos) || 0 : 0; }
+  // Panel por defecto; solo «mapa» se recuerda si fue la última pestaña usada.
+  function vistaInicialAdmin(guardada) { return guardada === "mapa" ? "mapa" : "panel"; }
+  function fraseAvisoPedido(p, n) {
+    var primero = String(p.nombre || "Un pasajero").trim().split(/\s+/)[0];
+    return { titulo: primero + " pidió un viaje", sub: (p.origen || "") + " → " + (p.destino || "") + (n > 1 ? " · +" + (n - 1) + " más sin conductor" : " · sin conductor") };
+  }
+  function pintarPanelAdmin() {
+    if (MODO !== "admin") return;
+    var r = resumenFlotaAdmin(flotaDatos, flotaPas);
+    var set = function (id, v) { document.getElementById(id).textContent = v === null || v === undefined ? "—" : String(v); };
+    set("apEnLinea", r.enLinea); set("apEnCurso", r.enCurso); set("apSinConductor", r.sinConductor);
+    set("apViajesHoy", adminStats.viajesHoy); set("apDocs", adminStats.docs); set("apReclamos", adminStats.reclamos);
+    document.getElementById("apSinConductorK").classList.toggle("at", r.sinConductor > 0);
+    document.getElementById("apDocsK").classList.toggle("am", adminStats.docs > 0);
+    document.getElementById("apReclamosK").classList.toggle("am", adminStats.reclamos > 0);
+    var al = document.getElementById("apAlerta");
+    al.hidden = !(r.atrasos > 0);
+    al.textContent = r.atrasos > 0 ? (r.atrasos === 1 ? "1 viaje con el conductor atrasado" : r.atrasos + " viajes con el conductor atrasado") : "";
+    var sin = flotaPas.filter(function (p) { return p.estado === "BUSCANDO" && !p.conductor_id; });
+    var av = document.getElementById("apAviso");
+    av.hidden = !sin.length;
+    if (sin.length) {
+      var f = fraseAvisoPedido(sin[0], sin.length);
+      document.getElementById("apAvisoTit").textContent = f.titulo; document.getElementById("apAvisoSub").textContent = f.sub;
+      document.getElementById("apAvisoMapa").dataset.pedido = sin[0].pedido_id;
+    }
+    // El mismo aviso arriba de la hoja del mapa: un toque selecciona el pedido (lo maneja alTocarFlota con data-flota-p).
+    var avm = document.getElementById("flotaAviso");
+    avm.hidden = !sin.length;
+    if (sin.length) {
+      var fm = fraseAvisoPedido(sin[0], sin.length);
+      avm.setAttribute("data-flota-p", sin[0].pedido_id);
+      document.getElementById("flotaAvisoTit").textContent = fm.titulo; document.getElementById("flotaAvisoSub").textContent = fm.sub;
+    }
+    // Pedido que llega estando abierta la app: se avisa con una vibración (la primera carga solo anota lo que ya había).
+    var nuevo = pedidoNuevoAdmin(adminVistos, flotaPas);
+    sin.forEach(function (p) { adminVistos[p.pedido_id] = true; });
+    if (nuevo && adminVistosListo) { try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (e) {} }
+    adminVistosListo = true;
+    var d = new Date();
+    document.getElementById("apActTxt").textContent = "Actualizado " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+  // Documentos por revisar, reclamos abiertos y viajes de hoy: llamadas que ya existen, cada 60 s y solo con el panel a la vista.
+  function cargarStatsAdmin(forzar) {
+    if (MODO !== "admin" || adminStatsCargando) return;
+    if (!forzar && Date.now() - adminStatsEn < 55000) return;
+    adminStatsCargando = true; adminStatsEn = Date.now();
+    var hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+    var uno = function (body, alOk) { return apiPost(body).then(function (res) { if (res && res.ok) alOk(res); }).catch(function () {}); };
+    Promise.all([
+      uno({ accion: "documentos_admin" }, function (res) { adminStats.docs = docsPorRevisarAdmin(res); }),
+      uno({ accion: "reclamos_admin" }, function (res) { adminStats.reclamos = reclamosAbiertosAdmin(res); }),
+      uno({ accion: "registro_pedidos", mes: hoy.slice(0, 7) }, function (res) { adminStats.viajesHoy = viajesHoyAdmin(res.pedidos, hoy); })
+    ]).then(function () { adminStatsCargando = false; pintarPanelAdmin(); });
+  }
+  function aplicarVistaAdmin(v) {
+    if (MODO !== "admin") return;
+    adminVista = v === "mapa" ? "mapa" : "panel";
+    guardarLocalSeguro("rumbo_admin_vista", adminVista);
+    var b = document.body;
+    b.classList.toggle("admin-vista-panel", adminVista === "panel"); b.classList.toggle("admin-vista-mapa", adminVista === "mapa");
+    document.getElementById("adminPanel").hidden = false; document.getElementById("adminNav").hidden = false;
+    [].forEach.call(document.querySelectorAll("#adminNav [data-av]"), function (x) {
+      var on = x.dataset.av === adminVista;
+      x.classList.toggle("on", on); if (on) x.setAttribute("aria-current", "page"); else x.removeAttribute("aria-current");
+    });
+    if (adminVista === "panel") { pintarPanelAdmin(); cargarStatsAdmin(true); }
+    else setTimeout(function () { ajustarCond(); pintarMapaEspera(); pintarFlota(); }, 60);
+  }
+  document.getElementById("adminNav").addEventListener("click", function (ev) {
+    var x = ev.target.closest("[data-av]");
+    if (!x) return;
+    if (x.dataset.av === "mas") document.getElementById("btnMenuCond").click(); else aplicarVistaAdmin(x.dataset.av);
+  });
+  document.getElementById("adminPanel").addEventListener("click", function (ev) {
+    var k = ev.target.closest(".ap-k");
+    if (k) {
+      if (k.dataset.ir === "mapa") aplicarVistaAdmin("mapa");
+      else if (k.dataset.adm) { var it = document.querySelector('#menuLateral [data-adm="' + k.dataset.adm + '"]'); if (it) it.click(); }
+      return;
+    }
+    if (ev.target.closest("#apAvisoMapa")) {
+      var id = document.getElementById("apAvisoMapa").dataset.pedido;
+      aplicarVistaAdmin("mapa");
+      setTimeout(function () { if (id && flotaPas.some(function (p) { return p.pedido_id === id; })) seleccionarFlota("p", id); }, 400);
+    }
+  });
+
   function cargarFlota() {
     if (MODO !== "admin" || flotaCargando) return;
     flotaCargando = true;
@@ -8602,12 +9417,16 @@
       if (flotaSel && !parFlota()) flotaSel = null;   // el viaje elegido ya terminó
       pintarFlotaLista();
       pintarFlota();
+      if (MODO === "admin") pintarPanelAdmin();
     }).catch(function () { flotaCargando = false; document.getElementById("flotaNota").textContent = "Sin conexión. Reintentando…"; });
   }
   function iniciarFlota() {
     detenerFlota();
     flotaTimer = setInterval(function () {
-      if (!document.hidden && document.body.classList.contains("cond-pantalla") && !document.body.classList.contains("adm-abierta")) cargarFlota();
+      if (!document.hidden && document.body.classList.contains("cond-pantalla") && !document.body.classList.contains("adm-abierta")) {
+        cargarFlota();
+        if (MODO === "admin" && document.body.classList.contains("admin-vista-panel")) cargarStatsAdmin(false);
+      }
     }, 15000);
   }
   function detenerFlota() {
