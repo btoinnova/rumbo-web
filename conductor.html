@@ -576,7 +576,9 @@
   .buscando-txt strong b { display: inline-block; font-weight: 700; animation: buscPunto 1.2s infinite; } .buscando-txt strong b:nth-of-type(2) { animation-delay: .2s; } .buscando-txt strong b:nth-of-type(3) { animation-delay: .4s; }
   .buscando.quieto .radar i, .buscando.quieto .radar-auto, .buscando.quieto strong b { animation: none; }
   .buscando.quieto .radar i { display: none; }
-  .buscando.quieto .radar-auto { background: var(--border-strong, #b8c2ca); }
+  /* Indicador de ESTADO (semántico, fuera del 60-30-10 de la marca): verde = conectado; rojo suave con tajo = desconectado (no depende solo del color). */
+  .buscando.quieto .radar-auto { background: var(--alerta-tinte); color: var(--alerta); box-shadow: inset 0 0 0 2px var(--alerta); }
+  .buscando.quieto .radar-auto::after { content: ""; position: absolute; width: 3px; height: 30px; border-radius: 2px; background: var(--alerta); box-shadow: 0 0 0 1.5px var(--alerta-tinte); transform: rotate(45deg); }
   .buscando.quieto strong b { display: none; }
   @keyframes radarOnda { 0% { transform: scale(.55); opacity: .55; } 100% { transform: scale(1.25); opacity: 0; } }
   @keyframes radarLatido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
@@ -1522,6 +1524,12 @@
   .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:disabled::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):disabled::after { display: none; }
   @keyframes btnDestello { 0% { left: -40%; } 18% { left: 120%; } 100% { left: 120%; } }
   @media (prefers-reduced-motion: reduce) { .btn.btn-primario::after, button.btn-primario::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar)::after { animation: none; display: none; } }
+  /* Botón de peligro rojo «D» (Alberto, 1-nov-2026: «el rojo tiene estilo antiguo»): misma familia que el calipso D pero en rojo semántico: texto blanco ≥ 4,5:1, degradado sutil, filo de luz de 1 px que respeta el radio 18,
+     borde inferior sólido más oscuro de 3 px, presionado que baja 3 px y deshabilitado con color propio. Sin halo naranja ni destello (el rojo no compite con el naranja del mapa). Misma altura (60 px) que «Iniciar», para que el cambio Iniciar/Desconectar no salte. */
+  :root { --btn-peligro-grad: linear-gradient(180deg, #C2483A 0%, #B3392B 52%, #A03023 100%); }
+  .btn.btn-danger:not(#peRechazar), button.btn-peligro, button.btn-conexion.desconectar, body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar { position: relative; min-height: 60px; border: none; border-radius: 18px; background: var(--btn-peligro-grad); color: #FFFFFF; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B, 0 12px 22px -10px rgba(179, 57, 43, .45); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-danger:not(#peRechazar):active:not(:disabled), button.btn-peligro:active:not(:disabled), button.btn-conexion.desconectar:active:not(:disabled), body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #B3392B, #A03023); box-shadow: inset 0 2px 4px rgba(60, 12, 8, .35), 0 0 0 #7C241B, 0 4px 10px -6px rgba(179, 57, 43, .45); }
+  .btn.btn-danger:not(#peRechazar):disabled, button.btn-peligro:disabled, button.btn-conexion.desconectar:disabled, body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar:disabled { opacity: 1; background: #EBC9C5; color: #7F352D; box-shadow: none; transform: none; }
   /* Panel de inicio del administrador (aprobado por Alberto, 31-oct-2026): fondo 5 Niebla de Aurora, 6 indicadores de vidrio y barra inferior Panel · Mapa · Más. Solo administrador;
      el conductor no recibe nada de esto. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
   .admin-panel, .admin-nav { display: none; }
@@ -2884,10 +2892,16 @@
   // (ver ApkInstalador.java): nunca queda una copia vieja dando vueltas en
   // Descargas que el usuario pueda abrir por error. Si el plugin no está
   // (por ejemplo, corriendo en el navegador), se cae al método anterior.
+  // Lista blanca: el instalador solo acepta https de las publicaciones oficiales (misma regla que ApkInstalador.java).
+  function urlApkPermitida(u) {
+    if (typeof u !== "string" || u.indexOf("..") >= 0 || u.indexOf("@") >= 0 || u.indexOf("\\") >= 0) return false;
+    return u.indexOf("https://github.com/btoinnova/rumbo-web/releases/") === 0 || u.indexOf("https://btoinnova.github.io/rumbo-web/") === 0;
+  }
   document.getElementById("btnActualizar").addEventListener("click", function () {
     var boton = this;
     var plugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.ApkInstalador;
     if (!plugin) { window.open(URL_APK, "_system"); return; }
+    if (!urlApkPermitida(URL_APK)) { boton.textContent = "Actualización no disponible"; return; }
     boton.disabled = true; boton.textContent = "Descargando… 0 %";
     var escucha = plugin.addListener
       ? plugin.addListener("progreso", function (e) { boton.textContent = "Descargando… " + e.porcentaje + " %"; })
@@ -3036,6 +3050,8 @@
   function api(params) {
     var sesion = obtenerSesion();
     if (sesion && sesion.token) params.token = sesion.token;
+    // Seguridad A6: con token de sesión va por POST (el token no queda en la dirección).
+    if (params.token) return fetch(API_URL, conTimeout({ method: "POST", body: JSON.stringify(Object.assign({ _lectura: true }, params)) })).then(function (r) { return r.json(); }).then(verificarSesionValida);
     var url = API_URL + "?" + Object.keys(params).map(function (k) {
       return k + "=" + encodeURIComponent(params[k]);
     }).join("&");
@@ -4272,11 +4288,11 @@
         if (d.tipo === "SELFIE" && d.tiene_archivo) {
           var ced = c.documentos.filter(function (x) { return x.tipo === "CEDULA_FRENTE" && x.tiene_archivo; })[0], lic = c.documentos.filter(function (x) { return x.tipo === "LICENCIA_FRENTE" && x.tiene_archivo; })[0];
           var izq = c.documentos.filter(function (x) { return x.tipo === "SELFIE_IZQ" && x.tiene_archivo; })[0], der = c.documentos.filter(function (x) { return x.tipo === "SELFIE_DER" && x.tiene_archivo; })[0];
-          if (ced && (lic || c.es_pasajero)) acc += '<button class="btn btn-chico" type="button" data-comp-selfie="' + d.documento_id + '" data-comp-ced="' + ced.documento_id + '"' + (lic ? ' data-comp-lic="' + lic.documento_id + '"' : "") + (lic && lic.codigo === "LENTES" ? ' data-comp-lentes="SI"' : "") + (izq ? ' data-comp-izq="' + izq.documento_id + '"' : "") + (der ? ' data-comp-der="' + der.documento_id + '"' : "") + '>Comparar</button>';
+          if (ced && (lic || c.es_pasajero)) acc += '<button class="btn btn-chico" type="button" data-comp-selfie="' + escapar(d.documento_id) + '" data-comp-ced="' + escapar(ced.documento_id) + '"' + (lic ? ' data-comp-lic="' + escapar(lic.documento_id) + '"' : "") + (lic && lic.codigo === "LENTES" ? ' data-comp-lentes="SI"' : "") + (izq ? ' data-comp-izq="' + escapar(izq.documento_id) + '"' : "") + (der ? ' data-comp-der="' + escapar(der.documento_id) + '"' : "") + '>Comparar</button>';
         }
-        if (d.tiene_archivo) acc += '<button class="btn btn-chico" type="button" data-doc-ver="' + d.documento_id + '"' + (d.pdf ? ' data-doc-pdf' : '') + '>Ver</button>';
+        if (d.tiene_archivo) acc += '<button class="btn btn-chico" type="button" data-doc-ver="' + escapar(d.documento_id) + '"' + (d.pdf ? ' data-doc-pdf' : '') + '>Ver</button>';
         if (d.pdf && d.folio) acc += '<button class="btn btn-chico" type="button" data-doc-verificar>Verificar</button>';
-        if (d.estado === "EN_REVISION") acc += '<button class="btn btn-chico" type="button" data-doc-validar="' + d.documento_id + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Aceptar" : "Validar") + '</button><button class="btn btn-chico" type="button" data-doc-rechazar="' + d.documento_id + '" data-doc-tipo="' + d.tipo + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Rechazar" : "Objetar") + '</button>';
+        if (d.estado === "EN_REVISION") acc += '<button class="btn btn-chico" type="button" data-doc-validar="' + escapar(d.documento_id) + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Aceptar" : "Validar") + '</button><button class="btn btn-chico" type="button" data-doc-rechazar="' + escapar(d.documento_id) + '" data-doc-tipo="' + escapar(d.tipo) + '">' + (d.tipo.indexOf("SELFIE") === 0 ? "Rechazar" : "Objetar") + '</button>';
         return '<div class="docs-adm-item"><div><div class="nombre">' + escapar(d.nombre) + '</div><div class="sub">' + sub + '</div></div><div class="docs-adm-acciones">' + acc + '</div></div>';
       }).join("");
       return '<div class="cond-card"><div class="cond-cab"><div class="cond-avatar">' + escapar(String(c.nombre || "?").trim().charAt(0).toUpperCase()) + '</div><div class="cond-datos"><div class="cond-nombre">' + escapar(c.nombre) + '</div>' +
@@ -6204,7 +6220,7 @@
 
   function escapar(v) {
     return String(v === undefined || v === null ? "" : v)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/\'/g, "&#39;");
   }
 
   function horaCorta(iso) {
@@ -7984,11 +8000,35 @@
 
   // ubicaciones: {pedido_id: {lat,lng}} cuando viene de la sincronización;
   // null si viene de la consulta suelta (entonces se piden aparte).
+  // El pasajero canceló (antes de abordar): aviso con la compensación del conductor, una sola vez por viaje (también si la app se reabre); después el tablero vuelve a «Buscando viajes».
+  // El servidor manda res.cancelados = [{ pedido_id, compensacion }] con los cancelados recientes (contrato con la sesión del algoritmo).
+  // El pasajero eligió otro conductor (cambio sin cancelar): este conductor queda descartado y vuelve a «Buscando viajes». Una sola vez por viaje.
+  // El servidor manda res.descartados = [{ pedido_id }] con los descartados recientes (contrato con la sesión del algoritmo).
+  function avisarConductorDescartado(lista) {
+    (lista || []).forEach(function (c) {
+      var clave = "rb_descartado_avisado_" + c.pedido_id;
+      if (!c.pedido_id || leerLocalSeguro(clave)) return;
+      guardarLocalSeguro(clave, "1");
+      rbAlerta("El pasajero eligió otro conductor.", "info");
+    });
+  }
+  function pesosAviso(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " pesos"; }
+  function avisarCancelacionesPasajero(lista) {
+    (lista || []).forEach(function (c) {
+      var clave = "rb_cancel_avisado_" + c.pedido_id;
+      if (!c.pedido_id || leerLocalSeguro(clave)) return;
+      guardarLocalSeguro(clave, "1");   // visto: no se repite al reabrir la app
+      var comp = Number(c.compensacion) || 0;
+      rbAlerta("El pasajero canceló el viaje." + (comp > 0 ? "\nTe compensamos con " + pesosAviso(comp) + "." : ""), "info");
+    });
+  }
   function pintarViajesEnCurso(res, ubicaciones) {
     (function () {
       var grupo = document.getElementById("grupoEnCurso");
       var lista = document.getElementById("listaEnCurso");
       if (!res.ok) return;
+      avisarCancelacionesPasajero(res.cancelados);
+      avisarConductorDescartado(res.descartados);
       var antesViajes = pedidosEnCursoActuales.length;
       pedidosEnCursoActuales = res.pedidos || [];
       if (res.cobro_real !== undefined) cobroRealActivo = !!res.cobro_real;
@@ -8774,9 +8814,7 @@
       revisarPedidosSinResponder(res.pedidos);
 
       if (!res.pedidos.length) {
-        lista.innerHTML = conectadoManual
-          ? '<div class="vacio-bloque"><strong>Buscando viajes</strong><p>Estás conectado. Te avisamos apenas llegue uno.</p></div>'
-          : '<div class="vacio-bloque"><strong>Estás desconectado</strong><p>Conéctate para empezar a recibir viajes.</p></div>';
+        lista.innerHTML = "";   // el mensaje de espera lo da UNA sola vez el tablero (#tabBuscando); repetirlo aquí lo duplicaba
         mostrarTablero(true);
         actualizarEmergente([]);
         return;

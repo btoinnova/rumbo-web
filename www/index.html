@@ -1351,7 +1351,7 @@
     body.pas-pantalla #pinInicioNum i { flex: 1; height: 64px; display: grid; place-items: center; font-style: normal; font-size: 28px; font-weight: 800; color: #fff; background: #11304A; border-radius: 16px; box-shadow: inset 0 -3px 0 #14B8C4; }
     body.pas-pantalla .acciones-seg { grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 4px; }
     body.pas-pantalla .acciones-seg .btn { flex-direction: column; gap: 4px; min-height: 64px; font-size: 15px; font-weight: 800; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; border-radius: 18px; box-shadow: none; }
-    body.pas-pantalla #btnCancelarViaje { color: #C2362B; background: transparent; border: 0; font-weight: 800; min-height: 48px; box-shadow: none; margin-bottom: 0; }
+    body.pas-pantalla #btnCancelarViaje { margin-bottom: 0; }   /* el aspecto es el del rojo «D» (.btn.btn-peligro): ya no es un enlace de texto */
     body.pas-pantalla #btnCompartirViaje { display: none !important; }   /* lo reemplaza «Compartir» de la fila de acciones (mismo handler) */
   }
   /* Cierre como la maqueta (pasajero): sonrisa naranja, título 22/800, cifra 44/800, calificación en baldosas con estrellas naranjas, comentario y «Enviar» 60 px.
@@ -1457,6 +1457,38 @@
   .precio-descuento { margin: 2px 0 0; font-size: 14px; font-weight: 600; color: #4E5A6C; }
   .nota.pedir-peaje { font-size: 14px; font-weight: 600; line-height: 1.35; color: #4E5A6C; }
   .precio-incluye[hidden], .precio-descuento[hidden], .pedir-peaje[hidden] { display: none; }
+  /* Botón de peligro rojo «D» (Alberto, 1-nov-2026: «el rojo tiene estilo antiguo»): misma familia que el calipso D pero en rojo semántico: texto blanco ≥ 4,5:1, degradado sutil, filo de luz de 1 px que respeta el radio 18,
+     borde inferior sólido más oscuro de 3 px, presionado que baja 3 px y deshabilitado con color propio. Sin halo naranja ni destello (el rojo no compite con el naranja del mapa). Misma altura (60 px) que «Iniciar», para que el cambio Iniciar/Desconectar no salte. */
+  :root { --btn-peligro-grad: linear-gradient(180deg, #C2483A 0%, #B3392B 52%, #A03023 100%); }
+  .btn.btn-peligro { position: relative; min-height: 60px; border: none; border-radius: 18px; background: var(--btn-peligro-grad); color: #FFFFFF; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B, 0 12px 22px -10px rgba(179, 57, 43, .45); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-peligro:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #B3392B, #A03023); box-shadow: inset 0 2px 4px rgba(60, 12, 8, .35), 0 0 0 #7C241B, 0 4px 10px -6px rgba(179, 57, 43, .45); }
+  .btn.btn-peligro:disabled { opacity: 1; background: #EBC9C5; color: #7F352D; box-shadow: none; transform: none; }
+  /* Pop-up de cancelación (1-nov-2026): el costo se dice ANTES de cancelar. Botones apilados: arriba «Seguir esperando» (turquesa D, lo seguro) y abajo «Sí, cancelar» (rojo D). Borde superior rojo suave. */
+  .rb-pop-caja.peligro { border-top-color: #B3392B; }
+  .rb-pop-caja.peligro .rb-pop-texto { font-size: 18px; font-weight: 700; line-height: 1.4; color: #0A2236; margin-bottom: 20px; }
+  .rb-pop-caja.peligro .rb-pop-botones { flex-direction: column; gap: 12px; }
+  .rb-pop-caja.peligro .rb-pop-botones button { width: 100%; min-height: 56px; border-radius: 18px; font-size: 17px; font-weight: 800; position: relative; }
+  .rb-pop-caja.peligro .rb-pop-no { background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94; }
+  .rb-pop-caja.peligro .rb-pop-si { background: var(--btn-peligro-grad); color: #FFFFFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B; }
+  .rb-pop-caja.peligro .rb-pop-botones button:active { transform: translateY(3px); box-shadow: none; }
+  .aviso-cancel-gratis { margin: -6px 0 10px; font-size: 13px; font-weight: 600; color: #08626A; order: 1; }
+  .aviso-cancel-gratis[hidden] { display: none; }
+  /* Cambiar conductor (1-nov-2026): botón secundario hielo de 48 px arriba de «Cancelar viaje» (rojo D); pop-up con tarjetas de motivo de 56 px. «Sí, cambiar» va en turquesa D (no es peligro: no cuesta nada). */
+  .btn#btnCambiarConductor { min-height: 48px; border-radius: 16px; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-weight: 800; box-shadow: none; }
+  .btn#btnCambiarConductor:active:not(:disabled) { background: #E3F6F8; }
+  body.pas-pantalla #segHoja #btnCambiarConductor { order: 10; }
+  body.pas-pantalla #segHoja #avisoSinCambios { order: 10; }
+  body.pas-pantalla #segHoja #btnCancelarViaje { order: 11; }
+  .aviso-sin-cambios { margin: 0 0 8px; padding: 10px 12px; border-radius: 14px; background: #F2F4F5; color: #4A5A68; font-size: 14px; font-weight: 600; text-align: center; }
+  .aviso-sin-cambios[hidden] { display: none; }
+  .rb-pop-caja.cambio { border-top-color: #14B8C4; }
+  .rb-pop-caja.cambio .rb-pop-texto { margin-bottom: 14px; }
+  .rb-motivos { display: flex; flex-direction: column; gap: 10px; margin: 0 0 18px; }
+  .rb-motivo { width: 100%; min-height: 56px; padding: 0 16px; border-radius: 16px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font: 700 16px system-ui, sans-serif; text-align: left; cursor: pointer; }
+  .rb-motivo[aria-pressed="true"] { border-color: #14B8C4; background: #E3F6F8; box-shadow: inset 0 0 0 1px #14B8C4; color: #08626A; }
+  .rb-pop-caja.cambio .rb-pop-si { background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94; }
+  .rb-pop-caja.cambio .rb-pop-si:disabled { background: #BCE6EA; color: #4F7D85; box-shadow: none; }
+  .rb-pop-caja.cambio .rb-pop-no { background: #F2F4F5; color: #0A2236; box-shadow: none; }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro, pastillas con punto y hoja del pasajero. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. */
   .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
   .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
@@ -1949,6 +1981,7 @@
       Débito, crédito o cuotas. El interés de las cuotas lo cobra tu banco, no Rumbo.
     </p>
     <div class="estado-box pendiente" id="estadoBox">Esperando confirmación del conductor</div>
+    <p class="aviso-cancel-gratis" id="avisoCancelGratis" hidden>Tienes 3 minutos para cancelar sin costo</p>
     <div class="cambio-banner espera" id="avisoWeb" role="status" style="display:none;">
       Instala la app Rumbo para recibir los avisos de tu viaje.
       <a id="avisoWebInstalar" href="#" style="display:block;margin-top:6px;font-weight:700;">Descargar la app</a>
@@ -1991,7 +2024,9 @@
       <button type="button" class="btn" id="btnSegMensaje" aria-label="Escribirle un mensaje a tu conductor"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-4 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg><span>Mensaje</span></button>
       <button type="button" class="btn" id="btnSegCompartir" aria-label="Compartir mi viaje en vivo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="17" cy="6" r="2.6"/><circle cx="17" cy="18" r="2.6"/><path d="M8.3 10.8l6.4-3.4M8.3 13.2l6.4 3.4"/></svg><span>Compartir</span></button>
     </div>
-    <button type="button" class="btn btn-secundario" id="btnCancelarViaje" style="display:none;width:100%;margin-bottom:8px;">Cancelar viaje</button>
+    <button type="button" class="btn" id="btnCambiarConductor" style="display:none;width:100%;margin-bottom:8px;">Cambiar conductor</button>
+    <p class="aviso-sin-cambios" id="avisoSinCambios" hidden>Ya no puedes cambiar de conductor; puedes cancelar</p>
+    <button type="button" class="btn btn-peligro" id="btnCancelarViaje" style="display:none;width:100%;margin-bottom:8px;">Cancelar viaje</button>
     <button type="button" class="btn btn-chico" id="btnCompartirViaje" style="display:none;width:100%;margin-bottom:16px;">Compartir mi viaje en vivo</button>
     <!-- Al terminar el viaje: si el monto final es mayor que lo cotizado
          (el conductor midió más tiempo o distancia reales), se explica acá. -->
@@ -2141,7 +2176,7 @@
       </div>
       <p class="nota" id="identResumen" style="margin:0 0 6px;">Cargando...</p>
             <div id="identLista"></div>
-      <button class="btn btn-secundario" id="btnEliminarFotosIdentidad" type="button" style="margin-top:10px;">Eliminar mis fotos de identidad</button>
+      <button class="btn btn-peligro" id="btnEliminarFotosIdentidad" type="button" style="margin-top:10px;">Eliminar mis fotos de identidad</button>
       <p class="nota" id="identMsg" style="margin:8px 2px 0;"></p>
     </section>
 
@@ -2706,6 +2741,8 @@
     opciones.signal = ac.signal; return opciones;
   }
   function api(params) {
+    // Seguridad A6: con token de sesión va por POST (el token no queda en la dirección); sin token sigue el GET de siempre.
+    if (params.pasajero_token || params.token) return fetch(API_URL, conTimeout({ method: "POST", body: JSON.stringify(Object.assign({ _lectura: true }, params)) })).then(function (r) { return r.json(); });
     var url = API_URL + "?" + Object.keys(params).map(function (k) {
       return k + "=" + encodeURIComponent(params[k]);
     }).join("&");
@@ -2868,7 +2905,7 @@
   // ---- Alertas y confirmaciones: SIEMPRE pop-up flotante (regla de Alberto, 18-oct-2026). Reemplaza alert/confirm/prompt nativos y
   // las notas en linea ".nota/.msg" con clase error u ok (se ocultan por CSS y su texto sale en el pop-up). ----
   var rbPop = (function () {
-    var cola = [], abierto = false, raiz = null, caja, texto, campo, btnSi, btnNo, actual = null;
+    var cola = [], abierto = false, raiz = null, caja, texto, campo, btnSi, btnNo, actual = null, tVivo = null;
     function armar() {
       if (raiz) return;
       raiz = document.createElement("div");
@@ -2891,6 +2928,7 @@
     function cerrar(si) {
       if (!actual) return;
       var a = actual; actual = null; abierto = false; raiz.hidden = true;
+      if (tVivo) { clearInterval(tVivo); tVivo = null; }
       var valor = a.tipoDlg === "pedir" ? (si ? campo.value : null) : si;
       if (a.fin) a.fin(valor);
       siguiente();
@@ -2901,6 +2939,8 @@
       actual = cola.shift(); abierto = true;
       caja.className = "rb-pop-caja " + (actual.tipo || "info");
       texto.textContent = actual.texto;
+      // Texto «vivo»: se recalcula cada segundo mientras el pop-up está abierto (p. ej. el costo de cancelar cambia al cruzar los 3 minutos).
+      if (actual.vivo) tVivo = setInterval(function () { if (actual && actual.vivo) { var n = actual.vivo(); if (n !== texto.textContent) texto.textContent = n; } }, 1000);
       var conNo = actual.tipoDlg !== "alerta";
       btnNo.hidden = !conNo; btnNo.textContent = actual.no || "No";
       btnSi.textContent = actual.si || (conNo ? "Sí" : "Entendido");
@@ -2924,7 +2964,7 @@
       },
       confirmar: function (t, o) {
         o = o || {};
-        return new Promise(function (res) { poner({ tipoDlg: "confirmar", texto: String(t), tipo: o.tipo || "info", si: o.si, no: o.no, fin: res }); });
+        return new Promise(function (res) { poner({ tipoDlg: "confirmar", texto: String(t), tipo: o.tipo || "info", si: o.si, no: o.no, vivo: o.vivo, fin: res }); });
       },
       pedir: function (t, o) {
         o = o || {};
@@ -2972,7 +3012,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 86;
+  var APP_VERSION = 87;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -2987,10 +3027,16 @@
   // (ver ApkInstalador.java): nunca queda una copia vieja dando vueltas en
   // Descargas que el usuario pueda abrir por error. Si el plugin no está
   // (por ejemplo, corriendo en el navegador), se cae al método anterior.
+  // Lista blanca: el instalador solo acepta https de las publicaciones oficiales (misma regla que ApkInstalador.java).
+  function urlApkPermitida(u) {
+    if (typeof u !== "string" || u.indexOf("..") >= 0 || u.indexOf("@") >= 0 || u.indexOf("\\") >= 0) return false;
+    return u.indexOf("https://github.com/btoinnova/rumbo-web/releases/") === 0 || u.indexOf("https://btoinnova.github.io/rumbo-web/") === 0;
+  }
   document.getElementById("btnActualizar").addEventListener("click", function () {
     var boton = this;
     var plugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.ApkInstalador;
     if (!plugin) { window.open(URL_APK_PASAJERO, "_system"); return; }
+    if (!urlApkPermitida(URL_APK_PASAJERO)) { boton.textContent = "Actualización no disponible"; return; }
     boton.disabled = true; boton.textContent = "Descargando… 0 %";
     var escucha = plugin.addListener
       ? plugin.addListener("progreso", function (e) { boton.textContent = "Descargando… " + e.porcentaje + " %"; })
@@ -3294,7 +3340,7 @@
   var DOCS_BADGE = { FALTA: "badge-gris", EN_REVISION: "badge-azul", VALIDADO: "badge-verde", POR_VENCER: "badge-ambar", VENCIDO: "badge-rojo", RECHAZADO: "badge-rojo" };
   var DOCS_TEXTO_ESTADO = { FALTA: "Falta", EN_REVISION: "En revisión", VALIDADO: "Validado", POR_VENCER: "Por vencer", VENCIDO: "Vencido", RECHAZADO: "Rechazado" };
   var docsDatos = null;
-  function escapar(x) { return String(x == null ? "" : x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function escapar(x) { return String(x == null ? "" : x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
   function leerPdf() { return Promise.reject(new Error("este documento se sube como foto")); }   // el pasajero no sube PDF
   function tokenPasajero() { var s = obtenerSesionPasajero(); return s && s.token ? s.token : ""; }
   function cargarDocumentos() { return cargarIdentidad(); }
@@ -3419,12 +3465,12 @@
     grupo.caras.forEach(function (c) {
       var activo = !!pd.fotos[c.tipo] || pend.indexOf(c.tipo) !== -1;
       if (!activo) return;
-      if (c.doc.vence === "FECHA") campos += '<div class="campo"><label class="campo-label" for="dpV' + c.tipo + '">Vencimiento de ' + escapar(grupo.def.nombre.toLowerCase()) + '</label><input type="date" id="dpV' + c.tipo + '" data-dp-campo="' + c.tipo + '" value="' + dpValor(c.tipo) + '"></div>';
+      if (c.doc.vence === "FECHA") campos += '<div class="campo"><label class="campo-label" for="dpV' + c.tipo + '">Vencimiento de ' + escapar(grupo.def.nombre.toLowerCase()) + '</label><input type="date" id="dpV' + c.tipo + '" data-dp-campo="' + c.tipo + '" value="' + escapar(dpValor(c.tipo)) + '"></div>';
       if (c.tipo === "LICENCIA_FRENTE") campos += '<label class="dp-check"><input type="checkbox" data-dp-campo="lentes"' + (pd.valores.lentes === "SI" ? " checked" : "") + '> Mi licencia exige lentes</label>';
       if (c.tipo === "LICENCIA_FRENTE") campos += '<div class="campo"><label class="campo-label" for="dpClase">Clase de tu licencia</label><select id="dpClase" data-dp-campo="clase">' + ["", "B", "A1", "A2", "A3", "A4", "A5", "C", "D", "E", "F"].map(function (o) { return '<option value="' + o + '"' + (pd.valores.clase === o ? " selected" : "") + '>' + (o || "Elige tu clase") + '</option>'; }).join("") + '</select></div>';
-      if (c.doc.vence === "EMISION_6M") campos += '<div class="campo"><label class="campo-label" for="dpEmision">Fecha de emisión</label><input type="date" id="dpEmision" data-dp-campo="emision" value="' + dpValor("emision") + '"></div>' +
-        '<div class="campo"><label class="campo-label" for="dpFolio">Folio</label><input type="text" id="dpFolio" inputmode="numeric" autocomplete="off" data-dp-campo="folio" value="' + dpValor("folio") + '"></div>' +
-        '<div class="campo"><label class="campo-label" for="dpCodigo">Código de verificación</label><input type="text" id="dpCodigo" autocomplete="off" data-dp-campo="codigo" value="' + dpValor("codigo") + '"></div>';
+      if (c.doc.vence === "EMISION_6M") campos += '<div class="campo"><label class="campo-label" for="dpEmision">Fecha de emisión</label><input type="date" id="dpEmision" data-dp-campo="emision" value="' + escapar(dpValor("emision")) + '"></div>' +
+        '<div class="campo"><label class="campo-label" for="dpFolio">Folio</label><input type="text" id="dpFolio" inputmode="numeric" autocomplete="off" data-dp-campo="folio" value="' + escapar(dpValor("folio")) + '"></div>' +
+        '<div class="campo"><label class="campo-label" for="dpCodigo">Código de verificación</label><input type="text" id="dpCodigo" autocomplete="off" data-dp-campo="codigo" value="' + escapar(dpValor("codigo")) + '"></div>';
     });
     h += campos + '</div><div class="dp-pie">';
     if (!esPdf && faltan.length) h += '<button type="button" class="btn btn-ok" data-dp-empezar>' + (esRostro ? "Empezar: " + faltan.length + (faltan.length === 1 ? " foto" : " fotos") : (tomadas ? "Seguir: " : "Tomar foto: ") + (grupo.caras.filter(function (c) { return c.tipo === faltan[0]; })[0].cara || grupo.def.nombre).toLowerCase()) + '</button>';
@@ -4026,9 +4072,10 @@
 
   function esFinDeSemanaOFeriado(fecha) {
     var m = fecha.getMonth() + 1, d = fecha.getDate(), dia = fecha.getDay();
-    var dias = (tarifas && tarifas.diasPuntaTodoElDia) || [0, 5, 6];
+    var dias = (tarifas && tarifas.diasPuntaTodoElDia) || [0, 6];
     var esDiaElegido = dias.indexOf(dia) !== -1;
-    var esFeriado = FERIADOS_FIJOS.some(function (f) { return f[0] === m && f[1] === d; });
+    // El feriado solo cuenta en un día que no es de fin de semana (Alberto, 1-nov-2026), igual que el servidor (esFeriadoHabil).
+    var esFeriado = ((dia >= 1 && dia <= 5) || !esDiaElegido) && FERIADOS_FIJOS.some(function (f) { return f[0] === m && f[1] === d; });
     return esDiaElegido || esFeriado;
   }
 
@@ -4061,16 +4108,50 @@
     var fecha = fechaStr ? fechaLocal(fechaStr) : new Date();
     var nivel = calcularNivel(fecha, horaStr);
     var punta = nivel !== "VALLE";
-    // La fuerte nunca queda por debajo de la punta (igual que el servidor).
-    var valorHora = nivel === "FUERTE" ? Math.max(Number(tarifas.valorHoraFuerte), Number(tarifas.valorHoraPunta)) : punta ? tarifas.valorHoraPunta : tarifas.valorHoraValle;
-    return { punta: punta, nivel: nivel, valorHora: valorHora };
+    return { punta: punta, nivel: nivel, valorHora: valorHoraDeNivel(nivel) };
+  }
+
+  // La fuerte nunca queda por debajo de la punta (igual que el servidor). Con franjas V2 existe la MEDIA (valorHoraMedia).
+  function valorHoraDeNivel(nivel) {
+    if (nivel === "FUERTE") return Math.max(Number(tarifas.valorHoraFuerte), Number(tarifas.valorHoraPunta));
+    if (tarifas.franjasV2 === true && nivel === "MEDIA") return tarifas.valorHoraMedia;
+    return nivel !== "VALLE" ? tarifas.valorHoraPunta : tarifas.valorHoraValle;
+  }
+
+  /* FRANJAS V2 (Alberto, 2-nov-2026): copia exacta de nivelHoraV2 del servidor (backend/Codigo.gs). Si cambia una, cambia la otra. */
+  var FRANJAS_SEMANA = {
+    0: [[0, "PUNTA"], [240, "MEDIA"], [780, "PUNTA"], [1080, "MEDIA"]],
+    1: [[0, "MEDIA"], [570, "VALLE"], [1320, "MEDIA"]],
+    2: [[0, "MEDIA"], [570, "VALLE"], [1320, "MEDIA"]],
+    3: [[0, "MEDIA"], [570, "VALLE"], [1320, "MEDIA"]],
+    4: [[0, "MEDIA"], [570, "VALLE"], [1320, "MEDIA"]],
+    5: [[0, "MEDIA"], [1320, "PUNTA"]],
+    6: [[0, "PUNTA"], [240, "MEDIA"], [1320, "PUNTA"]]
+  };
+  var FUERTE_FECHAS = [[12, 24, 1080, 1440], [12, 25, 0, 240], [12, 31, 1200, 1440], [1, 1, 0, 360]];
+  function esDiaDeLaMadre(fecha) { return fecha.getMonth() === 4 && fecha.getDay() === 0 && fecha.getDate() >= 8 && fecha.getDate() <= 14; }
+  function nivelHoraV2(fecha, horaStr) {
+    if (!horaStr) return "MEDIA";
+    var p = String(horaStr).split(":"), minuto = Number(p[0]) * 60 + Number(p[1]);
+    var m = fecha.getMonth() + 1, d = fecha.getDate();
+    if (Number(tarifas.valorHoraFuerte) > 0) {
+      if (FUERTE_FECHAS.some(function (f) { return f[0] === m && f[1] === d && minuto >= f[2] && minuto < f[3]; })) return "FUERTE";
+      if (esDiaDeLaMadre(fecha) && minuto >= 480) return "FUERTE";
+    }
+    var tramos = FRANJAS_SEMANA[fecha.getDay()], nivel = tramos[0][1];
+    for (var i = 0; i < tramos.length; i++) if (minuto >= tramos[i][0]) nivel = tramos[i][1];
+    var dia = fecha.getDay();
+    if (nivel === "VALLE" && dia >= 1 && dia <= 5 && FERIADOS_FIJOS.some(function (f) { return f[0] === m && f[1] === d; })) return "MEDIA";
+    return nivel;
   }
 
   // Punta fuerte (valorHoraFuerte > 0): días de diasFuerte (lunes a viernes) en su rango; gana incluso sobre el valle del viernes; un feriado no.
   function calcularNivel(fecha, horaStr) {
+    if (tarifas && tarifas.franjasV2 === true) return nivelHoraV2(fecha, horaStr);
     if (tarifas && Number(tarifas.valorHoraFuerte) > 0 && horaStr) {
       var m = fecha.getMonth() + 1, d = fecha.getDate();
-      var feriado = FERIADOS_FIJOS.some(function (f) { return f[0] === m && f[1] === d; });
+      var finde = ((tarifas && tarifas.diasPuntaTodoElDia) || [0, 6]).indexOf(fecha.getDay()) !== -1;
+      var feriado = ((fecha.getDay() >= 1 && fecha.getDay() <= 5) || !finde) && FERIADOS_FIJOS.some(function (f) { return f[0] === m && f[1] === d; });
       var dias = tarifas.diasFuerte || [1, 2, 3, 4, 5];
       if (!feriado && dias.indexOf(fecha.getDay()) !== -1 && horaEnRango(horaStr, tarifas.horaFuerteInicio || "07:00", tarifas.horaFuerteFin || "09:30")) return "FUERTE";
     }
@@ -4086,6 +4167,8 @@
     // que hacer el otro tramo vacío (fuera de Santiago, o un viaje al
     // aeropuerto aunque quede dentro de Gran Santiago por comuna).
     var FACTOR = (rutaActual.cobraRegresoSiempre || idaYVuelta) ? 2 : 1;
+    // Opción B del aeropuerto (Alberto, 1-nov-2026): el regreso vacío cobra x2 la bencina y el peaje, pero el tiempo una sola vez (igual que el servidor).
+    var FACTOR_TIEMPO = idaYVuelta ? 2 : (rutaActual.cobraRegresoSiempre && !fueraDeSantiago) ? 1 : FACTOR;
 
     var kmTotal = km * FACTOR;
     var consumo = fueraDeSantiago ? tarifas.consumoRuta : tarifas.consumoCiudad;
@@ -4096,7 +4179,7 @@
     // se usa el valor por defecto en vez de arrastrar un NaN que termine
     // mostrándose como "$0" al pasajero.
     var busquedaMin = typeof tarifas.busquedaMin === "number" ? tarifas.busquedaMin : 30;
-    var minutosViaje = minutos * FACTOR + busquedaMin;
+    var minutosViaje = minutos * FACTOR_TIEMPO + busquedaMin;
     var espera = idaYVuelta ? obtenerHorasEspera() : 0;
     var horas = (minutosViaje / 60) + espera;
     var tarifaH = calcularTarifaHoraria();
@@ -5380,8 +5463,11 @@
     }
     var b = document.getElementById("cambioBanner");
     if (b) { b.textContent = cambioAvisoTexto; b.className = "cambio-banner " + cambioAvisoClase; b.style.display = cambioAvisoTexto ? "block" : "none"; }
-    var bc = document.getElementById("btnCancelarViaje");   // solo mientras ningún conductor lo haya confirmado
-    if (bc) bc.style.display = !!pedidoActualId && !viajeCerrado && res.estado === "PENDIENTE" ? "block" : "none";
+    var bcc = document.getElementById("btnCambiarConductor"), asc = document.getElementById("avisoSinCambios"), ecc = estadoCambioConductor(res);
+    if (bcc) bcc.style.display = !!pedidoActualId && !viajeCerrado && ecc === "boton" ? "block" : "none";
+    if (asc) asc.hidden = !(!!pedidoActualId && !viajeCerrado && ecc === "tope");
+    var bc = document.getElementById("btnCancelarViaje");   // buscando, conductor en camino o conductor llegó: nunca después de iniciar el viaje con el PIN
+    if (bc) bc.style.display = !!pedidoActualId && !viajeCerrado && puedeCancelarViaje(res) ? "block" : "none";
     var e = document.getElementById("btnEditarViaje");
     if (e) {
       // Solo antes de llegar al destino: en la espera o el regreso de un viaje de ida y vuelta el servidor no lo permite.
@@ -5431,17 +5517,101 @@
     return apiPost(Object.assign({ accion: "proponer_cambio_pasajero", pasajero_token: sesion.token, pedido_id: pedidoActualId }, d, extra || {}));
   }
   document.getElementById("btnEditarViaje").addEventListener("click", abrirEditarViaje);
+  // Cambiar conductor o vehículo (decisión de Alberto, 1-nov-2026): sin cancelar, conserva el viaje y el precio, SIN cobro. El servidor manda cuántos cambios quedan (cambios_restantes).
+  var MOTIVOS_CAMBIO = [{ id: "VEHICULO", texto: "El vehículo no es el indicado" }, { id: "LEJOS", texto: "Tarda o está muy lejos" }, { id: "OTRO", texto: "Prefiero otro conductor" }];
+  function estadoCambioConductor(res) {
+    if (!res || res.estado !== "CONFIRMADO" || res.viaje_iniciado) return "oculto";
+    var n = Number(res.cambios_restantes);
+    if (res.cambios_restantes === undefined || res.cambios_restantes === null || !isFinite(n)) return "oculto";   // sin dato del servidor no se promete nada
+    return n > 0 ? "boton" : "tope";
+  }
+  function htmlDialogoCambio() {
+    return '<div class="rb-pop-caja peligro cambio"><p class="rb-pop-texto">Cambiar no tiene costo. Buscaremos otro conductor para ti.</p>' +
+      '<div class="rb-motivos" role="group" aria-label="Motivo del cambio">' + MOTIVOS_CAMBIO.map(function (m) { return '<button type="button" class="rb-motivo" data-motivo="' + m.id + '" aria-pressed="false">' + m.texto + '</button>'; }).join("") + '</div>' +
+      '<div class="rb-pop-botones"><button type="button" class="rb-pop-si" disabled>Sí, cambiar</button><button type="button" class="rb-pop-no">Volver</button></div></div>';
+  }
+  // Devuelve el motivo elegido o null si vuelve atrás. «Sí, cambiar» queda deshabilitado hasta elegir un motivo.
+  function elegirMotivoCambio() {
+    return new Promise(function (resolver) {
+      var raiz = document.createElement("div");
+      raiz.className = "rb-pop"; raiz.setAttribute("role", "alertdialog"); raiz.setAttribute("aria-modal", "true");
+      raiz.innerHTML = htmlDialogoCambio();
+      document.body.appendChild(raiz);
+      var si = raiz.querySelector(".rb-pop-si"), no = raiz.querySelector(".rb-pop-no"), elegido = "";
+      function cerrar(v) { raiz.remove(); resolver(v); }
+      [].forEach.call(raiz.querySelectorAll(".rb-motivo"), function (b) {
+        b.addEventListener("click", function () {
+          elegido = b.getAttribute("data-motivo");
+          [].forEach.call(raiz.querySelectorAll(".rb-motivo"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+          si.disabled = false;
+        });
+      });
+      si.addEventListener("click", function () { if (elegido) cerrar(elegido); });
+      no.addEventListener("click", function () { cerrar(null); });
+    });
+  }
+  document.getElementById("btnCambiarConductor").addEventListener("click", async function () {
+    var s = obtenerSesionPasajero(), b = this;
+    if (!pedidoActualId || !s || !s.token) return;
+    var motivo = await elegirMotivoCambio();
+    if (!motivo) return;
+    b.disabled = true;
+    apiPost({ accion: "cambiar_conductor_pasajero", pasajero_token: s.token, pedido_id: pedidoActualId, motivo: motivo }).then(function (res) {
+      b.disabled = false;
+      if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo cambiar de conductor."); return; }
+      viajeConfirmadoMostrado = false; conductorLlegoActual = false;   // el conductor nuevo se muestra como una asignación nueva
+      var eb = document.getElementById("estadoBox"); if (eb) eb.textContent = "Buscando otro conductor…";
+      rbAlerta("Buscamos otro conductor para ti.", "ok");
+      sincronizarViaje();
+    }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
+  });
+  // Cancelación del pasajero (decisión de Alberto, 1-nov-2026): en cualquier momento antes de abordar; pasados 3 minutos desde que se ASIGNÓ el conductor se cobran 1.500 pesos, antes no hay cargo; sin conductor nunca se cobra.
+  // El reloj es el del SERVIDOR (asignado_en + servidor_ahora; si cambia de conductor, la nueva asignación reinicia los 3 minutos): el desfase se mide al recibir cada estado y se aplica al reloj del teléfono.
+  var relojCancelacion = { pedido: "", conductor: false, asignadoMs: 0, desfaseMs: 0, gratisMin: 3, costo: 1500 };
+  function guardarRelojCancelacion(res) {
+    if (!res) return;
+    var sol = Date.parse(res.asignado_en), srv = Date.parse(res.servidor_ahora), hay = isFinite(sol) && isFinite(srv);
+    // «conductor» = hay conductor asignado (CONFIRMADO). Sin conductor (buscando / sin conductor) NUNCA se cobra, pase el tiempo que pase: el estado manda.
+    relojCancelacion = { pedido: pedidoActualId, conductor: res.estado === "CONFIRMADO", asignadoMs: hay ? sol : 0, desfaseMs: hay ? srv - Date.now() : 0, gratisMin: Number(res.cancelacion_gratis_min) > 0 ? Number(res.cancelacion_gratis_min) : 3, costo: Number(res.cancelacion_costo) > 0 ? Number(res.cancelacion_costo) : 1500 };
+  }
+  // Aviso discreto bajo el título de la hoja: solo los 3 minutos iniciales de una asignación (hora del servidor).
+  function avisoCancelGratisVisible(ahoraMs, r) {
+    if (!r || r.conductor !== true || !isFinite(r.asignadoMs) || !r.asignadoMs) return false;
+    return ahoraMs + (r.desfaseMs || 0) - r.asignadoMs <= r.gratisMin * 60000;
+  }
+  function pintarAvisoCancelGratis() {
+    var a = document.getElementById("avisoCancelGratis"); if (!a) return;
+    a.hidden = !(pedidoActualId && relojCancelacion.pedido === pedidoActualId && avisoCancelGratisVisible(Date.now(), relojCancelacion));
+  }
+  setInterval(pintarAvisoCancelGratis, 1000);
+  function puedeCancelarViaje(res) {
+    return res.estado === "PENDIENTE" || (res.estado === "CONFIRMADO" && !res.viaje_iniciado);
+  }
+  function pesosCancelacion(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " pesos"; }
+  // ahoraMs = reloj del teléfono; se corrige con el desfase medido contra el servidor (r.desfaseMs). Sin la hora de asignación del servidor no se promete «sin costo»: se dice la regla completa.
+  function textoCancelacion(ahoraMs, r) {
+    if (r && r.conductor === false) return { cobra: false, texto: "Cancelar no tiene costo." };   // sin conductor asignado no se cobra nada nunca
+    if (!r || !isFinite(r.asignadoMs) || !r.asignadoMs) return { cobra: null, texto: "Cancelar no tiene costo si pasaron menos de 3 minutos desde que se asignó tu conductor; después cuesta 1.500 pesos." };
+    var pasoMin = r.gratisMin;
+    if (ahoraMs + (r.desfaseMs || 0) - r.asignadoMs > pasoMin * 60000) return { cobra: true, texto: "Cancelar cuesta " + pesosCancelacion(r.costo) + " porque pasaron más de " + pasoMin + " minutos desde que se asignó tu conductor." };
+    return { cobra: false, texto: "Cancelar no tiene costo." };
+  }
   document.getElementById("btnCancelarViaje").addEventListener("click", async function () {
     var s = obtenerSesionPasajero(), b = this;
     if (!pedidoActualId || !s || !s.token) return;
-    if (!(await rbConfirmar("¿Cancelar tu viaje? No se te cobrará nada."))) return;
+    var ultimo = null;
+    var vivo = function () { ultimo = textoCancelacion(Date.now(), relojCancelacion.pedido === pedidoActualId ? relojCancelacion : null); return ultimo.texto; };
+    if (!(await rbConfirmar(vivo(), { si: "Sí, cancelar", no: "Seguir esperando", tipo: "peligro", vivo: vivo }))) return;
+    var cobraAlPedir = !!ultimo && ultimo.cobra === true;
     b.disabled = true;
     apiPost({ accion: "cancelar_pedido_pasajero", pasajero_token: s.token, pedido_id: pedidoActualId }).then(function (res) {
       b.disabled = false;
       if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo cancelar el viaje."); return; }
+      var cobrado = res.cargo_cancelacion !== undefined && res.cargo_cancelacion !== null ? Number(res.cargo_cancelacion) > 0 : cobraAlPedir;   // manda lo que cobró el servidor
       viajeInvalido(false);
       mostrarPestana("cotizar");
-      rbAlerta("Cancelaste tu viaje. No se te cobró nada.", "ok");
+      if (cobrado) rbAlerta("Se cobró la cancelación porque pasaron más de 3 minutos desde que se asignó tu conductor.");
+      else rbAlerta("Cancelaste tu viaje, sin costo.", "ok");
     }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
   });
   document.getElementById("edAgregarParada").addEventListener("click", function () { filaEditar(""); edInvalidarPrecio(); });
@@ -5669,6 +5839,7 @@
     var cab = document.createElement("div"); cab.id = "segCab"; cab.className = "seg-cab";
     var eb = document.getElementById("estadoBox"); eb.parentNode.insertBefore(cab, eb);
     cab.appendChild(document.getElementById("estadoBox")); cab.appendChild(document.getElementById("etaConductor"));
+    cab.parentNode.insertBefore(document.getElementById("avisoCancelGratis"), cab.nextSibling);   // bajo el título de la hoja
   })();
   try { new ResizeObserver(function () { aplicarHojaP(); }).observe(document.getElementById("segTop")); } catch (e) {}   // al aparecer o irse el PIN cambia lo que tapa: se vuelve a medir
   // PIN en casillas oscuras (una por dígito); solo dígitos, nada de HTML ajeno.
@@ -5704,6 +5875,8 @@
   function manejarEstado(res) {
     (function () {
         if (!res.ok) return;
+        guardarRelojCancelacion(res);   // reloj del servidor para el costo de cancelar
+        pintarAvisoCancelGratis();
         procesarCambioDeViaje(res);
         pintarPinInicio(res);
         if (res.estado === "CONFIRMADO" || res.estado === "PENDIENTE") ajustarComparticionUbicacion(res.compartir_ubicacion === true);   // el servidor decide la ventana
