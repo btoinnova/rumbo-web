@@ -880,6 +880,9 @@
   .modal-opc.pagina .tyc-cuerpo { flex: 1 1 auto; max-height: none; min-height: 0; }
   .modal-opc.pagina #listaOtrosLugares, .modal-opc.pagina #listaReclamosP { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
   .lugar-tarjeta .lugar-accion-btn { margin-left: auto; }
+  /* Detalle del viaje: contenido largo (calificar + repetir), la hoja se desplaza entera. */
+  #modalViajeDetalle .modal-opc-hoja { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  #modalViajeDetalle .modal-opc-hoja > * { flex-shrink: 0; }
   #lugarEditor[hidden] { display: none !important; }
   #listaOtrosNombrados .lugar-item { margin-bottom: 0; }
   .modal-opc.pagina .lugar-otro .lugar-info { flex: 1; min-width: 0; cursor: pointer; }
@@ -1437,8 +1440,8 @@
      hunde al presionar (A+B), deshabilitado con color propio (A) y un halo turquesa más amplio pero contenido + destello lento solo en botones activos (C). El halo no usa naranja ni sube de .55 de alfa:
      el naranja del mapa y del tirador sigue siendo el único acento cálido. Misma altura, radio y texto que antes. Va antes de «Rediseño etapa 2»; la especificidad (.btn.btn-primario) le gana a ese bloque. */
   :root { --btn-d-grad: linear-gradient(180deg, #32CCD7 0%, #14B8C4 52%, #0FA3AF 100%); }
-  .btn.btn-primario, button.btn-primario, #avisoWebInstalar { position: relative; overflow: hidden; background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94, 0 14px 26px -10px rgba(20, 184, 196, .55); transition: transform .08s ease, box-shadow .08s ease; }
-  .btn.btn-primario:active:not(:disabled), button.btn-primario:active:not(:disabled), #avisoWebInstalar:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #14B8C4, #0FA3AF); box-shadow: inset 0 2px 4px rgba(7, 24, 42, .25), 0 0 0 #0C8A94, 0 4px 10px -6px rgba(20, 184, 196, .5); }
+  .btn.btn-primario, button.btn-primario, #avisoWebInstalar { position: relative; overflow: hidden; background: linear-gradient(180deg, #1B4F78, #11304A); color: #FFFFFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 3px 0 #07182A, 0 14px 26px -10px rgba(7, 24, 42, .55); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-primario:active:not(:disabled), button.btn-primario:active:not(:disabled), #avisoWebInstalar:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #16405F, #11304A); box-shadow: inset 0 2px 4px rgba(7, 24, 42, .35), 0 0 0 #07182A, 0 4px 10px -6px rgba(7, 24, 42, .5); }
   .btn.btn-primario:disabled, button.btn-primario:disabled, #avisoWebInstalar:disabled { opacity: 1; background: #BCE6EA; color: #4F7D85; box-shadow: none; transform: none; }
   .btn.btn-primario::after, button.btn-primario::after, #avisoWebInstalar::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 34%; background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .34), rgba(255, 255, 255, 0)); transform: skewX(-18deg); pointer-events: none; animation: btnDestello 10s ease-in-out 1s infinite; }
   .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, #avisoWebInstalar:disabled::after { display: none; }
@@ -1490,8 +1493,8 @@
   .rb-pop-caja.cambio .rb-pop-si:disabled { background: #BCE6EA; color: #4F7D85; box-shadow: none; }
   .rb-pop-caja.cambio .rb-pop-no { background: #F2F4F5; color: #0A2236; box-shadow: none; }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro, pastillas con punto y hoja del pasajero. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. */
-  .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
-  .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
+  .btn-primario { background: linear-gradient(180deg, #1B4F78, #11304A); color: #FFFFFF; box-shadow: 0 10px 26px -10px rgba(7,24,42,.7), 0 2px 0 rgba(255,255,255,.25) inset; min-height: 56px; font-size: 17px; font-weight: 700; }
+  .btn-primario:hover:not(:disabled) { background: linear-gradient(180deg, #22608F, #16405F); }
   .btn-primario:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   .btn.btn-secundario { background: var(--hielo); color: var(--ink); border: 1.5px solid var(--linea); }
   .btn.btn-secundario:hover:not(:disabled) { background: var(--turq-tinte); }
@@ -3012,7 +3015,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 87;
+  var APP_VERSION = 88;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -6232,6 +6235,7 @@
     if (!estrellaElegida || !pedidoActualId || !sesion) return;
     var boton = this, msg = document.getElementById("calificarMsg");
     boton.disabled = true;
+    var idCalificado = pedidoActualId;
     apiPost({
       accion: "calificar_conductor", pasajero_token: sesion.token, pedido_id: pedidoActualId,
       estrellas: estrellaElegida, comentario: document.getElementById("comentarioCalificar").value.trim()
@@ -6239,6 +6243,8 @@
       if (!res.ok) { msg.textContent = res.error; msg.className = "nota error"; boton.disabled = false; return; }
       document.getElementById("cardCalificar").style.display = "none";
       document.getElementById("calificacionEnviada").style.display = "block";
+      // Se deja ver el «gracias» un par de segundos y vuelve solo a pedir un viaje nuevo (sin esperar un botón).
+      setTimeout(function () { if (pedidoActualId === idCalificado) document.getElementById("btnNuevoPedido").click(); }, 2500);
     }).catch(function (err) {
       msg.textContent = TEXTO_SIN_CONEXION; msg.className = "nota error"; boton.disabled = false;
     });

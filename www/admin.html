@@ -1517,8 +1517,8 @@
      hunde al presionar (A+B), deshabilitado con color propio (A) y un halo turquesa más amplio pero contenido + destello lento solo en botones activos (C). El halo no usa naranja ni sube de .55 de alfa:
      el naranja del mapa y del tirador sigue siendo el único acento cálido. Misma altura, radio y texto que antes. Va antes de «Rediseño etapa 2»; la especificidad (.btn.btn-primario) le gana a ese bloque. */
   :root { --btn-d-grad: linear-gradient(180deg, #32CCD7 0%, #14B8C4 52%, #0FA3AF 100%); }
-  .btn.btn-primario, button.btn-primario, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar) { position: relative; overflow: hidden; background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94, 0 14px 26px -10px rgba(20, 184, 196, .55); transition: transform .08s ease, box-shadow .08s ease; }
-  .btn.btn-primario:active:not(:disabled), button.btn-primario:active:not(:disabled), body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:active:not(:disabled), body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #14B8C4, #0FA3AF); box-shadow: inset 0 2px 4px rgba(7, 24, 42, .25), 0 0 0 #0C8A94, 0 4px 10px -6px rgba(20, 184, 196, .5); }
+  .btn.btn-primario, button.btn-primario, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar) { position: relative; overflow: hidden; background: linear-gradient(180deg, #1B4F78, #11304A); color: #FFFFFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 3px 0 #07182A, 0 14px 26px -10px rgba(7, 24, 42, .55); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-primario:active:not(:disabled), button.btn-primario:active:not(:disabled), body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:active:not(:disabled), body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #16405F, #11304A); box-shadow: inset 0 2px 4px rgba(7, 24, 42, .35), 0 0 0 #07182A, 0 4px 10px -6px rgba(7, 24, 42, .5); }
   .btn.btn-primario:disabled, button.btn-primario:disabled, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:disabled, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):disabled { opacity: 1; background: #BCE6EA; color: #4F7D85; box-shadow: none; transform: none; }
   .btn.btn-primario::after, button.btn-primario::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar)::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 34%; background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .34), rgba(255, 255, 255, 0)); transform: skewX(-18deg); pointer-events: none; animation: btnDestello 10s ease-in-out 1s infinite; }
   .btn.btn-primario:disabled::after, button.btn-primario:disabled::after, body.cond-pantalla:not(.modo-admin) .btn.pe-aceptar:disabled::after, body.cond-pantalla:not(.modo-admin) button.btn-conexion:not(.desconectar):disabled::after { display: none; }
@@ -1614,9 +1614,34 @@
     body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 800; }
     body.modo-admin .adm-pantalla .campo input, body.modo-admin .adm-pantalla .campo select, body.modo-admin .adm-pantalla .campo textarea, body.modo-admin .adm-pantalla input[type=text], body.modo-admin .adm-pantalla input[type=search] { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
   }
+  /* Web de computador (≥900 px, 3-nov-2026): conductor y administrador dejan de ser una columna de celular.
+     Barra de arriba de lado a lado, panel de 420 px a la izquierda (sin asa ni alturas) y el mapa ocupa el resto;
+     el administrador suma una columna de menú de 200 px a la izquierda y sus pantallas ocupan todo el ancho.
+     Sin ids ni handlers nuevos; el celular (<900 px) no cambia. */
+  @media (min-width: 900px) {
+    body.cond-pantalla .app { max-width: none; }
+    body.cond-pantalla .topbar { position: fixed; top: 0; left: 0; right: 0; margin: 0; padding: 14px 32px; border-radius: 0; z-index: 45; }
+    body.cond-pantalla .cond-mapa { top: var(--topbar-h, 80px); left: 420px; }
+    body.cond-pantalla #panelPedidos, body.cond-pantalla #panelEnCurso {
+      left: 0; top: var(--topbar-h, 80px); bottom: 0; transform: none; width: 420px; max-width: 420px; height: auto !important;
+      border-radius: 0; border-left: 0; box-shadow: none; padding-bottom: 16px; transition: none;
+    }
+    body.cond-pantalla .hoja-asa { display: none; }
+    body.modo-admin.cond-pantalla:not(.adm-abierta):not(.aj-solo) .admin-nav {
+      display: flex; flex-direction: column; gap: 6px; position: fixed; left: 0; top: var(--topbar-h, 80px); bottom: 0; transform: none; width: 200px; max-width: 200px;
+      padding: 16px 12px; border-radius: 0; box-shadow: none; border-right: 1px solid var(--border);
+    }
+    body.modo-admin.cond-pantalla .cond-mapa { left: 620px; }
+    body.modo-admin.cond-pantalla #panelPedidos, body.modo-admin.cond-pantalla #panelEnCurso { left: 200px; }
+    body.modo-admin.admin-vista-panel .admin-panel { left: 200px; right: 0; transform: none; width: auto; max-width: none; padding: 24px 40px 24px; }
+    body.modo-admin.admin-vista-panel .ap-grid { grid-template-columns: repeat(3, 1fr); max-width: 1000px; }
+    body.modo-admin .adm-pantalla { left: 0; right: 0; transform: none; width: auto; max-width: none; padding: 20px max(40px, calc((100% - 1120px) / 2)); }
+    body.modo-admin .menu-lateral { width: 340px; }
+    #listaConductores { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+  }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro y pastillas con punto. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. La hoja y «Iniciar» del conductor van en la etapa 5. */
-  .btn-primario { background: var(--turq); color: var(--noche); box-shadow: var(--luz-turq); min-height: 56px; font-size: 17px; font-weight: 700; }
-  .btn-primario:hover:not(:disabled) { background: var(--turq-2); }
+  .btn-primario { background: linear-gradient(180deg, #1B4F78, #11304A); color: #FFFFFF; box-shadow: 0 10px 26px -10px rgba(7,24,42,.7), 0 2px 0 rgba(255,255,255,.25) inset; min-height: 56px; font-size: 17px; font-weight: 700; }
+  .btn-primario:hover:not(:disabled) { background: linear-gradient(180deg, #22608F, #16405F); }
   .btn-primario:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   .btn.btn-secundario { background: var(--hielo); color: var(--ink); border: 1.5px solid var(--linea); }
   .btn.btn-secundario:hover:not(:disabled) { background: var(--turq-tinte); }
@@ -2878,7 +2903,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 82;
+  var APP_VERSION = 83;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -3211,8 +3236,10 @@
     var tb = document.querySelector("#pantallaApp .topbar");
     var arriba = tb ? tb.offsetHeight : 60;
     var m = medidasHoja(window.innerHeight, barra, arriba);
-    var vis = m[hojaEstado], b = document.body;
-    HOJA_ESTADOS.forEach(function (e) { b.classList.toggle("hoja-" + e, e === hojaEstado); });   // qué se muestra en cada altura
+    var compu = !!(window.matchMedia && matchMedia("(min-width: 900px)").matches);   // web de computador: panel lateral, siempre con todo a la vista
+    var estado = compu ? "alto" : hojaEstado;
+    var vis = compu ? 0 : m[estado], b = document.body;
+    HOJA_ESTADOS.forEach(function (e) { b.classList.toggle("hoja-" + e, e === estado); });   // qué se muestra en cada altura
     b.style.setProperty("--nav-h", barra + "px");
     b.style.setProperty("--topbar-h", arriba + "px");
     fijarAlturaHoja(vis);
@@ -7923,6 +7950,13 @@
       if ("vibrate" in navigator) navigator.vibrate([250, 120, 250]);
     }, 8000);
   }
+  // Recién aceptado el viaje, «En curso» aún no cargó: dice «Cargando» en vez de «aparecerá aquí».
+  function textoVacioEnCurso(cargando) {
+    var v = document.getElementById("sinViajesEnCurso");
+    v.querySelector("strong").textContent = cargando ? "Cargando tu viaje…" : "Tu viaje en curso aparecerá aquí";
+    v.querySelector("p").style.display = cargando ? "none" : "";
+    v.querySelector("button").style.display = cargando ? "none" : "";
+  }
   function responderEmergente(accion, boton) {
     var id = emergenteId;
     if (!id) return;
@@ -7933,7 +7967,7 @@
       emergenteDescartado[id] = true;
       cerrarEmergente();
       cargarPedidos(); cargarViajesEnCurso();
-      if (accion === "confirmar_pedido") { ultimoAceptar = Date.now(); cerrarDetalleViaje(); mostrarPestana("enCurso"); ponerHoja("medio"); }
+      if (accion === "confirmar_pedido") { ultimoAceptar = Date.now(); cerrarDetalleViaje(); textoVacioEnCurso(true); mostrarPestana("enCurso"); ponerHoja("medio"); }
     }).catch(function (err) { boton.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
   }
   document.getElementById("peAceptar").addEventListener("click", function () { responderEmergente("confirmar_pedido", this); });
@@ -8040,6 +8074,7 @@
         sincronizarPanelesChat([]);
         grupo.style.display = "none";
         vacio.style.display = "flex";
+        textoVacioEnCurso(Date.now() - ultimoAceptar < 8000);
         lista.innerHTML = "";
         lista.dataset.ids = "";
         detenerNavegacion(true);   // sin viaje no hay a dónde navegar (si no, la voz seguía sin controles)
