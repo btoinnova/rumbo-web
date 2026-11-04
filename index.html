@@ -3015,7 +3015,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 89;
+  var APP_VERSION = 90;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -6860,7 +6860,7 @@ function svgAuto(rumbo, color, tipo) {
   function encuadrarRuta(limites) {
     mapa.fitBounds(limites, paddingMapa());
     google.maps.event.addListenerOnce(mapa, "idle", function () {
-      if (mapa.getZoom() < 7) { mapa.setZoom(13); centrarMapaVisible(mapa, limites.getCenter().toJSON(), false); }
+      if (mapa.getZoom() < 4) { mapa.setZoom(13); centrarMapaVisible(mapa, limites.getCenter().toJSON(), false); }
     });
   }
 
