@@ -3015,7 +3015,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 88;
+  var APP_VERSION = 89;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -3154,6 +3154,7 @@
   function restaurarDesdeCache() {
     var g = leerViajeGuardado();
     if (!g || pedidoActualId) return false;
+    if (g.info && reservaLejana(g.info.fecha, g.info.hora)) { borrarViajeLocal(); return false; }   // reserva guardada por una versión anterior
     var s = obtenerSesionPasajero();
     if (!s || !s.token || !s.pasajero || g.pasajero_id !== s.pasajero.pasajero_id) { borrarViajeLocal(); return false; }   // otra cuenta o sin sesión
     pedidoActualId = g.pedido_id;
@@ -3178,6 +3179,7 @@
       // Lo mostrado desde el teléfono ya no coincide con el servidor (terminó, otro viaje): se descarta.
       if (viajeDesdeCache && pedidoActualId === viajeDesdeCache && (!v || v.pedido_id !== pedidoActualId)) viajeInvalido(false);
       if (!v || pedidoActualId) return;   // sin viaje activo, o ya está en pantalla y coincide
+      if (reservaLejana(v.fecha, v.hora)) return;   // reserva a más de 1 h: se ve en Reservas, no en el seguimiento
       pedidoActualId = v.pedido_id;
       tokenSeguimientoActual = v.token_seguimiento || "";
       document.getElementById("btnCompartirViaje").style.display = tokenSeguimientoActual ? "block" : "none";
@@ -3193,6 +3195,14 @@
       iniciarPolling();
     }).catch(function () { viajeRestauradoPara = ""; });   // sin red: se reintenta la próxima vez
   }
+  // Al volver a la app sin viaje en pantalla se revisa de nuevo (como máximo cada 3 min): una reserva ya a 1 h o menos pasa a seguimiento.
+  var ultimaRevisionActivo = 0;
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden || pedidoActualId || Date.now() - ultimaRevisionActivo < 180000) return;
+    ultimaRevisionActivo = Date.now();
+    viajeRestauradoPara = "";
+    restaurarViajeActivo();
+  });
 
   /* Historial de viajes completados: se consulta cada vez que se entra a
      "Mi cuenta" (no hay sondeo — no es información que cambie mientras se
@@ -5084,7 +5094,8 @@
     var pedirTexto = document.getElementById("pedirTexto");
     var sesion = obtenerSesionPasajero();
     // Con un viaje en curso no se pide otro encima: se perdería el seguimiento del actual.
-    if (pedidoActualId && !viajeCerrado) {
+    // Un viaje AGENDADO que aún no empieza (faltan más de 1 h) no cuenta: sigue en «Mis viajes» y se puede pedir otro para ahora.
+    if (pedidoActualId && !viajeCerrado && !esperaProgramada()) {
       pedirTexto.textContent = "Termina tu viaje en curso para pedir otro.";
       pedirTexto.className = "nota error";
       return;
@@ -5169,6 +5180,13 @@
       }
       if (!res.ok) throw new Error(res.error || "error desconocido");
       if (esParaOtro) guardarContacto(document.getElementById("nombreTercero").value, document.getElementById("telefonoTercero").value.trim());
+      if (reservaLejana(fechaHoraCotizada.fecha, fechaHoraCotizada.hora)) {
+        // Agendado para más tarde: no abre el seguimiento. Queda en Reservas y la app sigue libre.
+        var cuandoRes = textoCuando(fechaHoraCotizada.fecha, fechaHoraCotizada.hora);
+        document.getElementById("btnNuevoPedido").click();
+        rbAlerta("Viaje agendado para " + cuandoRes + ". Lo ves en Mis viajes → Reservas. Te avisaremos cuando tu conductor salga a buscarte.");
+        return;
+      }
       pedidoActualId = res.pedido_id;
       tokenSeguimientoActual = res.token_seguimiento || "";
       document.getElementById("btnCompartirViaje").style.display = tokenSeguimientoActual ? "block" : "none";
@@ -5290,6 +5308,13 @@
   var faseViajeActual = "", esperaIncluidaActual = 0;
   function esperaProgramada() {
     return !paraAhoraActual && viajeMsActual > 0 && viajeMsActual - Date.now() > 60 * 60 * 1000;
+  }
+  // Reserva lejana: viaje agendado que empieza en más de 1 h. Vive en «Mis viajes → Reservas»; el seguimiento se abre recién 1 h antes
+  // (mismo momento en que el servidor avisa «sale a buscarte»). Mientras tanto la app queda libre para pedir otro viaje.
+  function reservaLejana(fecha, hora) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha || "") || !/^\d{2}:\d{2}$/.test(hora || "")) return false;
+    var ms = new Date(fecha + "T" + hora + ":00").getTime();
+    return !isNaN(ms) && ms - Date.now() > 60 * 60 * 1000;
   }
   var puntosRutaActuales = [];      // [{lat,lng}] origen, paradas, destino
   var puntosPintados = "";
@@ -5741,6 +5766,12 @@
       if (!esOrigen && !esDestino) opciones.label = { text: String(i), color: "#FFFFFF", fontWeight: "700", fontSize: "12px" };
       marcadoresPuntos.push(new google.maps.Marker(opciones));
     });
+    // Sin línea de ruta (viaje agendado o sin polilínea) el mapa se encuadra en los puntos del viaje, no en el auto.
+    if (!lineaRuta) {
+      var lim = new google.maps.LatLngBounds();
+      puntosRutaActuales.forEach(function (pt) { lim.extend({ lat: pt.lat, lng: pt.lng }); });
+      encuadrarRuta(lim);
+    }
   }
 
   // Antes de iniciar el viaje el mapa encuadra al auto y al pasajero; al
@@ -6822,7 +6853,15 @@ function svgAuto(rumbo, color, tipo) {
     if (recolorear) return;
     var limites = new google.maps.LatLngBounds();
     puntos.forEach(function (pt) { limites.extend(pt); });
+    encuadrarRuta(limites);
+  }
+
+  // Encuadra la ruta; si Google deja el zoom de continente (mapa sin tamaño al encuadrar, ventana muy alta), se vuelve a la zona de la ruta.
+  function encuadrarRuta(limites) {
     mapa.fitBounds(limites, paddingMapa());
+    google.maps.event.addListenerOnce(mapa, "idle", function () {
+      if (mapa.getZoom() < 7) { mapa.setZoom(13); centrarMapaVisible(mapa, limites.getCenter().toJSON(), false); }
+    });
   }
 
   function moverAutoEnMapa(ubicacion) {

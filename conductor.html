@@ -1086,6 +1086,10 @@
   .tv-accion.verde { background: #0B7A4B; color: #fff; }
   .tv-accion:disabled { opacity: 0.6; }
   /* PIN del pasajero: 4 casillas */
+  /* Tarjeta flotante sobre el mapa: no depende de la hoja de abajo ni oscurece la pantalla. */
+  .pin-flotante { position: fixed; left: 50%; transform: translateX(-50%); top: calc(var(--topbar-h, 96px) + 10px); width: calc(100% - 24px); max-width: 420px; z-index: 55; box-sizing: border-box; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: 0 14px 34px -10px rgba(7, 24, 42, .45); }
+  .pin-flotante h2 { margin: 0 0 4px; font-size: 18px; }
+  .pin-flotante .pin-casillas { margin: 12px 0; }
   .pin-casillas { display: flex; justify-content: center; gap: 12px; margin: 16px 0; }
   .pin-casillas input { width: 56px; height: 64px; text-align: center; font: inherit; font-size: 28px; font-weight: 700; color: var(--primary); border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface); }
   .pin-casillas input:focus { outline: none; border-color: #1FB3BF; box-shadow: 0 0 0 2px #1FB3BF; }
@@ -2903,7 +2907,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 83;
+  var APP_VERSION = 84;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -7553,12 +7557,12 @@
   function pedirPin() {
     return new Promise(function (resolve) {
       var fondo = document.createElement("div");
-      fondo.className = "modal-fondo"; fondo.setAttribute("role", "dialog"); fondo.setAttribute("aria-label", "PIN del pasajero");
-      fondo.innerHTML = '<div class="modal-hoja"><h2 style="margin:0 0 4px;font-size:18px;">PIN del pasajero</h2>' +
+      fondo.className = "pin-flotante"; fondo.setAttribute("role", "dialog"); fondo.setAttribute("aria-label", "PIN del pasajero");
+      fondo.innerHTML = '<h2>PIN del pasajero</h2>' +
         '<p class="nota" style="margin:0;">Pídele su PIN de 4 dígitos (está en su app).</p>' +
         '<div class="pin-casillas">' + [0, 1, 2, 3].map(function (i) { return '<input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Dígito ' + (i + 1) + '">'; }).join("") + '</div>' +
         '<button class="btn btn-ok pin-ok" type="button" disabled style="width:100%;">Iniciar viaje</button>' +
-        '<button class="btn btn-chico pin-cancelar" type="button" style="width:100%;margin-top:10px;">Cancelar</button></div>';
+        '<button class="btn btn-chico pin-cancelar" type="button" style="width:100%;margin-top:10px;">Cancelar</button>';
       document.body.appendChild(fondo);
       var cas = [].slice.call(fondo.querySelectorAll("input")), ok = fondo.querySelector(".pin-ok");
       function valor() { return cas.map(function (c) { return c.value; }).join(""); }
@@ -8014,6 +8018,12 @@
      vista del viaje, y al quedarse sin viajes vuelve al inicio. Solo en la transición (no pelea con el conductor si
      está en Ajustes o mirando pedidos) y, tras aceptar, se ignora una respuesta vieja del sondeo que aún no trae el viaje. */
   var ultimoAceptar = 0;
+  // Reserva futura: viaje agendado (hora a más de 25 min de cuando se pidió) que empieza en más de 1 h y no se inició. No ocupa la pantalla de «en curso».
+  function esReservaFutura(p) {
+    if (!p || p.inicio_viaje_en || p.estado !== "CONFIRMADO" || !/^\d{4}-\d{2}-\d{2}$/.test(p.fecha_viaje || "") || !/^\d{2}:\d{2}$/.test(p.hora_viaje || "")) return false;
+    var ms = new Date(p.fecha_viaje + "T" + p.hora_viaje + ":00").getTime(), creado = new Date(p.creado_en).getTime();
+    return !isNaN(ms) && ms - Date.now() > 60 * 60 * 1000 && (isNaN(creado) || ms - creado > 25 * 60 * 1000);
+  }
   function pestanaActual() {
     var r = "";
     PESTANAS.forEach(function (p) { if (document.getElementById("tab" + capitalizar(p)).classList.contains("activo")) r = p; });
@@ -8064,7 +8074,8 @@
       avisarCancelacionesPasajero(res.cancelados);
       avisarConductorDescartado(res.descartados);
       var antesViajes = pedidosEnCursoActuales.length;
-      pedidosEnCursoActuales = res.pedidos || [];
+      res.pedidos = (res.pedidos || []).filter(function (p) { return !esReservaFutura(p); });   // las reservas lejanas viven en Mis viajes → Reservas; el conductor sigue trabajando
+      pedidosEnCursoActuales = res.pedidos;
       if (res.cobro_real !== undefined) cobroRealActivo = !!res.cobro_real;
       if (res.pin_activo !== undefined) pinActivoServ = !!res.pin_activo;
       alternarSegunViaje(antesViajes, pedidosEnCursoActuales.length);
