@@ -22,7 +22,8 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
     linear-gradient(180deg, #0A2540 0%, var(--noche) 70%); }
 .hero::before { content:""; position:absolute; z-index:4; left:0; right:0; top:0; height:150px; pointer-events:none; background:linear-gradient(180deg, rgba(7,24,42,.75) 0%, rgba(7,24,42,.4) 55%, rgba(7,24,42,0) 100%); }
 .escena { position:relative; flex:1 1 auto; min-height:300px; perspective:1500px; perspective-origin:50% 35%;
-  -webkit-mask-image:radial-gradient(75% 70% at 50% 50%, #000 55%, transparent 100%); mask-image:radial-gradient(75% 70% at 50% 50%, #000 55%, transparent 100%); }
+  }
+.escena::after { content:""; position:absolute; inset:0; z-index:3; pointer-events:none; background:radial-gradient(75% 70% at 50% 50%, rgba(7,24,42,0) 55%, rgba(7,24,42,.96) 100%); }
 .plano { position:absolute; left:50%; top:50%; width:500px; height:500px; margin:-108px 0 0 -268px; transform-origin:250px 200px;
   transform-style:preserve-3d; transform:scale3d(var(--s,.6),var(--s,.6),var(--s,.6)) rotateX(var(--rx)) rotateZ(var(--rz)); will-change:transform; }
 .plano > * { position:absolute; }
@@ -84,6 +85,9 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
 @keyframes corre { from { transform:translate3d(-60px,0,1px); } to { transform:translate3d(560px,0,1px); } }
 @keyframes correV { from { transform:translate3d(0,-60px,1px); } to { transform:translate3d(0,560px,1px); } }
 @keyframes aparece { from { opacity:0; } }
+.torre { animation: none; }
+.torre .sombra { display: none; }
+
 </style></head><body>
 <header class="hero" id="hero" data-fase="pide">
   <div class="escena" id="escena" aria-hidden="true">
@@ -128,7 +132,7 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
     var e = document.createElement("div");
     e.className = "cubo " + (o.cls || "");
     e.style.cssText = "left:" + o.x + "px;top:" + o.y + "px;width:" + o.w + "px;height:" + o.d + "px;--h:" + o.h + "px;" + (o.z ? "transform:translateZ(" + o.z + "px);" : "") + (o.st || "");
-    e.innerHTML = (o.sombra ? '<i class="sombra"></i>' : "") + '<i class="n"></i><i class="e"></i><i class="s"></i><i class="w"></i><i class="t"></i>';
+    e.innerHTML = (o.sombra ? '<i class="sombra"></i>' : "") + (o.ligero ? "" : '<i class="n"></i><i class="e"></i>') + '<i class="s"></i><i class="w"></i><i class="t"></i>';
     parent.appendChild(e); return e;
   }
   var calles = $("calles"), rayas = $("rayas"), ns = "http://www.w3.org/2000/svg", k;
@@ -143,9 +147,10 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
   for (k = 0; k <= 80; k++) { var q = rp.getPointAtLength(rl * k / 80); rpts.push([q.x, q.y]); }
   function dRuta(x, y) { var m = 1e9, z; for (z = 0; z < rpts.length; z++) { var a = rpts[z][0] - x, b = rpts[z][1] - y, dd = a * a + b * b; if (dd < m) m = dd; } return Math.sqrt(m); }
   for (j = -1; j <= 5; j++) for (i = -1; i <= 5; i++) {
+    if (Math.hypot(i * 100 + 50 - 250, j * 100 + 50 - 200) > 330) continue;
     var bx = i * 100 + 15, by = j * 100 + 15, bs = 70, mode = R(), items = [];
-    if (mode < .34) items.push([bx + 4, by + 4, bs - 8, bs - 8]);
-    else if (mode < .67) items.push([bx, by, 33, bs], [bx + 37, by, 33, bs]);
+    if (mode < .45) items.push([bx + 4, by + 4, bs - 8, bs - 8]);
+    else if (mode < .85) items.push([bx, by, 33, bs], [bx + 37, by, 33, bs]);
     else items.push([bx, by, 33, 33], [bx + 37, by, 33, 33], [bx, by + 37, 33, 33], [bx + 37, by + 37, 33, 33]);
     var inU = i >= 1 && i <= 3 && j >= 1 && j <= 2;
     items.forEach(function (b) {
@@ -159,7 +164,7 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
       var cx = b[0] + b[2] / 2 - 250, cy = b[1] + b[3] / 2 - 200;
       var dl = (Math.sqrt(cx * cx + cy * cy) / 700 * 0.9 + R() * .25).toFixed(2);
       var cls = "torre " + tones[Math.floor(R() * 3)] + (R() < .35 ? " v" : "");
-      cubo(ciudad, { x: b[0], y: b[1], w: b[2], d: b[3], h: h, cls: cls, sombra: h > 24 && !reduce, st: "--dl:" + dl + "s;--win:" + (winK + R() * .16).toFixed(2) + ";" });
+      cubo(ciudad, { x: b[0], y: b[1], w: b[2], d: b[3], h: h, cls: cls, sombra: false, ligero: true, st: "--dl:" + dl + "s;--win:" + (winK + R() * .16).toFixed(2) + ";" });
       n++;
     });
   }
