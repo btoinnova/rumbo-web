@@ -2905,7 +2905,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 86;
+  var APP_VERSION = 87;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -6444,6 +6444,8 @@
       var intermedias = dirs.slice(1, dirs.length - 1), nuevo = 1;
       prev.slice(1, idxPrev).forEach(function (d) { if (intermedias.indexOf(d) >= 0) nuevo++; });
       guardarTramo(p.pedido_id, Math.min(nuevo, dirs.length - 1));
+      // Cambió la ruta con el viaje en curso (lo editó el conductor o el pasajero): el GPS se vuelve a abrir solo hacia el punto que toca (Alberto, 8-nov-2026).
+      if (!p.llegada_destino_en) { try { abrirNavegacion(puntosDelViaje(p), Math.min(nuevo, dirs.length - 1)); } catch (e) {} }
     }
     try { localStorage.setItem(clave, JSON.stringify(dirs)); } catch (e) {}
   }
