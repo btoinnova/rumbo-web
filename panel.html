@@ -1329,7 +1329,7 @@
   #pantallaLogin .card { box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 12px 32px rgba(0, 0, 0, .45); }
   /* ---------- Splash del panel EXACTO a la maqueta (diseno/apps/capturas/splash-3-roles.png, columnas Conductor y Administrador), decisión de Alberto 1-nov-2026 ----------
      Fase 1 (viene del splash del sistema): SOLO la carita, en la MISMA medida y lugar (--sb / --nb los pone MainActivity; sin ellos, centrada en la página) sobre #11304A.
-     Fase 2 (.fase2, 800 ms después de verse): la carita se funde y entra la escena de la maqueta: lockup horizontal grande con halo arriba, ciudad 3D iluminada,
+     Fase 2 (.fase2, 500 ms después de verse): la carita se funde y entra la escena de la maqueta: lockup horizontal grande con halo arriba, ciudad 3D iluminada,
      «Ingresando •••» sobre la ciudad y, al pie, «Sigue tu rumbo.» (conductor) / «Ordena tu rumbo.» (administrador) entre dos filetes y «by BTo Innova soluciones» sutil. Todo estático salvo los tres puntos. */
   /* En la app nativa el splash del HTML espera los bordes que manda MainActivity (misma posición que el del sistema): sin salto. */
   html.nativo:not(.bordes-ok) .splash .splash-centro, html.nativo:not(.bordes-ok) .splash .by { visibility: hidden; }
@@ -1341,8 +1341,19 @@
   .splash::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-splash-pasajero.webp) center top / cover no-repeat; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
   .splash.fase2::before { opacity: 1; }
   /* Escena de la pagina de descarga detras del logo (Alberto, 8-nov-2026): la misma ciudad 3D, ruta en U y luces de autos. Entra con la fase 2; con movimiento reducido queda el fondo quieto. */
-  .splash-escena { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; pointer-events: none; transition: opacity .6s ease; }
+  .splash-escena { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: .35; pointer-events: none; transition: opacity .6s ease; }
   .splash.fase2 .splash-escena { opacity: 1; }
+  /* Primer cuadro menos simple (Alberto, 8-nov-2026): la ciudad entra tenue desde el principio (en la app nativa, solo cuando ya se ve la carita: sin salto con el splash del sistema),
+     la carita tiene un halo que respira sin moverse, y en la fase 2 el logo se dibuja con el destello de luz de la pagina de descarga. */
+  html.nativo:not(.bordes-ok) .splash .splash-escena { opacity: 0; }
+  .splash:not(.fase2) .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 260%; aspect-ratio: 1; transform: translate(-50%, -50%); z-index: -1; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgba(20, 184, 196, .38), rgba(20, 184, 196, 0)); animation: splashRespira 2.4s ease-in-out infinite; }
+  @keyframes splashRespira { 0%, 100% { opacity: .45; transform: translate(-50%, -50%) scale(.92); } 50% { opacity: .95; transform: translate(-50%, -50%) scale(1.08); } }
+  .splash.fase2 .splash-marca img { animation: splashDibuja 1.25s cubic-bezier(.65, 0, .25, 1) .1s backwards; }
+  @keyframes splashDibuja { from { clip-path: inset(0 100% 0 0); } }
+  .splash-marca::after { content: ""; position: absolute; top: -8%; bottom: -8%; left: 0; width: 4px; margin-left: -2px; border-radius: 2px; opacity: 0; pointer-events: none; background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff 30%, #fff 70%, rgba(255, 255, 255, 0)); box-shadow: 0 0 22px 8px rgba(95, 211, 219, .85), 0 0 60px 18px rgba(20, 184, 196, .45); }
+  .splash.fase2 .splash-marca::after { animation: splashScan 1.25s cubic-bezier(.65, 0, .25, 1) .1s both; }
+  @keyframes splashScan { 0% { left: 0; opacity: 1; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .splash:not(.fase2) .splash-centro::before { animation: none; } .splash.fase2 .splash-marca img { animation: none; } .splash-marca::after { display: none; } }
   @media (prefers-reduced-motion: reduce) { .splash-escena { display: none; } }
   .splash-marca { position: absolute; top: 96px; left: 50%; width: min(78%, 330px); transform: translateX(-50%); aspect-ratio: 1200 / 445; transition: opacity .5s ease .1s; }
   .splash-marca img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 14px rgba(95, 211, 219, .55)); }
@@ -1691,10 +1702,10 @@
   <div class="by">by BTo Innova soluciones</div>
 </div>
 <script>
-  /* Splash: fase 2 a los 800 ms de verse (en la app nativa, cuando MainActivity ya mandó los bordes: misma posición que el splash del sistema). Movimiento reducido: de inmediato. */
+  /* Splash: fase 2 a los 500 ms de verse (en la app nativa, cuando MainActivity ya mandó los bordes: misma posición que el splash del sistema). Movimiento reducido: de inmediato. */
   (function () {
     var s = document.getElementById("splashIngresando");
-    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 800); }
+    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 500); }
     var h = document.documentElement;
     if (h.classList.contains("nativo") && !h.classList.contains("bordes-ok")) {
       var o = new MutationObserver(function () { if (h.classList.contains("bordes-ok")) { o.disconnect(); ir(); } });
@@ -2910,7 +2921,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 87;
+  var APP_VERSION = 88;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
