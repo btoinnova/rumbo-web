@@ -1270,6 +1270,17 @@
   .rb-pop-no { background: #E8EEF3; color: #11304A; }
   /* Rediseño etapa 4 (pasajero): seguimiento con el mensaje de estado y el PIN ARRIBA, sobre el mapa y siempre a la vista; la hoja de abajo lleva primero conductor/vehículo y la ruta.
      Solo estilos: los nodos se reubican (mismos ids y handlers). En escritorio flotan sobre el mapa, a la derecha del panel. */
+  /* PIN y espera del pasajero: ventana flotante sobre el mapa y pastilla del PIN. */
+  .llegada-pop { position: fixed; left: 12px; right: 12px; top: calc(var(--topbar-h, 91px) + 12px); z-index: 62; max-width: 420px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #fff; color: #0A2236; border-radius: 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); }
+  .llegada-pop[hidden] { display: none; }
+  .llegada-pop h2 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
+  .llegada-pop #esperaRecogida { margin: 0; }
+  .llegada-pop #pinInicio { margin: 0; }
+  .llegada-pop #pinInicio .pin-et { display: none; }   /* el título de la ventana ya lo dice */
+  .llegada-pop-ok { width: 100%; min-height: 48px; }
+  .pin-chip { position: fixed; left: 12px; top: calc(var(--topbar-h, 91px) + 12px); z-index: 57; min-height: 44px; padding: 6px 16px; display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 22px; background: #11304A; color: #fff; font: inherit; font-weight: 700; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+  .pin-chip b { font-size: 20px; font-weight: 800; letter-spacing: .14em; }
+  .pin-chip[hidden] { display: none; }
   .seg-top { display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
   .seg-top > * { pointer-events: auto; }
   .seg-top .estado-box { margin: 0; background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); border-radius: 16px; padding: 12px 14px; font-size: 17px; font-weight: 700; }
@@ -1920,6 +1931,13 @@
         busca conductor) y una hoja que sube con el estado, el conductor y el cobro. -->
    <div class="wiz seg" id="seg">
     <div class="seg-top" id="segTop"></div>
+    <!-- PIN y espera en ventana flotante (Alberto, 7-nov-2026): se abre sola al llegar el conductor; «Entendido» la deja en la pastilla del PIN. -->
+    <div class="llegada-pop" id="llegadaPop" role="dialog" aria-labelledby="llegadaPopTit" hidden>
+      <h2 id="llegadaPopTit">Tu PIN para iniciar el viaje</h2>
+      <div id="llegadaPopCuerpo"></div>
+      <button type="button" class="btn btn-ok llegada-pop-ok" id="llegadaPopEntendido">Entendido</button>
+    </div>
+    <button type="button" class="pin-chip" id="pinChip" aria-label="Ver mi PIN" hidden><span>PIN</span> <b id="pinChipNum"></b></button>
     <div class="wiz-mapa">
       <div class="radar-buscando" id="radarBuscando" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
       <div id="mapaConductor"></div>
@@ -3015,7 +3033,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 90;
+  var APP_VERSION = 91;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -5705,7 +5723,7 @@
     document.getElementById("erTexto").textContent = e.texto;
     el.classList.toggle("cobrando", e.cobrando);
     el.style.display = "flex";
-    if (e.cobrando && !cobrandoEsperaAntes) { try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (x) {} }
+    if (e.cobrando && !cobrandoEsperaAntes) { reabrirLlegadaPop(); try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (x) {} }
     cobrandoEsperaAntes = e.cobrando;
   }
   setInterval(pintarEsperaRecogida, 1000);
@@ -5883,10 +5901,37 @@
     n.innerHTML = htmlPinCasillas(pin);
     n.setAttribute("aria-label", "PIN " + String(pin || "").replace(/\D/g, "").split("").join(" "));
   }
+  /* LLEGADA-POP:inicio */
+  var llegadaPopEstado = { id: "", minimizado: false, llego: false, manual: false };
+  function pintarLlegadaPop(pin, llego) {
+    var pop = document.getElementById("llegadaPop"), chip = document.getElementById("pinChip");
+    if (!pop || !chip) return;
+    if (!pin) { pop.hidden = true; chip.hidden = true; llegadaPopEstado.llego = false; llegadaPopEstado.manual = false; return; }
+    var id = pedidoActualId || "";
+    if (llegadaPopEstado.id !== id) llegadaPopEstado = { id: id, minimizado: false, llego: false, manual: false };
+    if (llego && !llegadaPopEstado.llego) llegadaPopEstado.minimizado = false;   // la primera vez que llega el conductor se abre sola
+    llegadaPopEstado.llego = llego;
+    var abierta = (llego && !llegadaPopEstado.minimizado) || llegadaPopEstado.manual;
+    document.getElementById("llegadaPopTit").textContent = llego ? "Tu conductor llegó" : "Tu PIN para iniciar el viaje";
+    document.getElementById("pinChipNum").textContent = pin;
+    pop.hidden = !abierta; chip.hidden = abierta;
+  }
+  function abrirLlegadaPop() { llegadaPopEstado.manual = true; llegadaPopEstado.minimizado = false; document.getElementById("llegadaPop").hidden = false; document.getElementById("pinChip").hidden = true; }
+  function minimizarLlegadaPop() { llegadaPopEstado.manual = false; llegadaPopEstado.minimizado = true; document.getElementById("llegadaPop").hidden = true; document.getElementById("pinChip").hidden = false; }
+  function reabrirLlegadaPop() { if (!document.getElementById("pinChip").hidden || !document.getElementById("llegadaPop").hidden) abrirLlegadaPop(); }
+  /* LLEGADA-POP:fin */
+  (function () {
+    var cuerpo = document.getElementById("llegadaPopCuerpo");
+    cuerpo.appendChild(document.getElementById("esperaRecogida"));
+    cuerpo.appendChild(document.getElementById("pinInicio"));
+    document.getElementById("pinChip").addEventListener("click", abrirLlegadaPop);
+    document.getElementById("llegadaPopEntendido").addEventListener("click", minimizarLlegadaPop);
+  })();
   function pintarPinInicio(res) {
     var caja = document.getElementById("pinInicio");
     var pin = res.estado === "CONFIRMADO" && !res.viaje_iniciado ? String(res.pin_inicio || "") : "";
     caja.hidden = !pin;
+    pintarLlegadaPop(String(pin || "").replace(/\D/g, ""), !!res.conductor_llego);
     if (!pin) return;
     ponerPinCasillas(pin);
     // Con el conductor ya en la puerta, el aviso pasa a primer plano.

@@ -2907,7 +2907,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 84;
+  var APP_VERSION = 86;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -7437,23 +7437,30 @@
       return;
     }
     if (tipo === "iniciar") {
-      // PIN de inicio: el pasajero se lo dice al subir (lo ve en su app). Sin el PIN correcto el servidor no inicia.
-      var pinIngresado = "";
+      // PIN de inicio: el pasajero se lo dice al subir (lo ve en su app). Sin el PIN correcto el servidor no inicia. Con PIN activo, la ventana lo envía sola al 4.º
+      // dígito y, si está mal, lo vuelve a pedir (resultadoPin); sin PIN activo se confirma como antes.
+      var respuesta = null;
       if (pinActivoServ) {
-        pinIngresado = await pedirPin();
-        if (pinIngresado === null) return;
-      } else if (!(await rbConfirmar("¿Iniciar el viaje? Desde aquí se miden tiempo y km."))) return;
-      conBotonOcupado(apiPost({ accion: "iniciar_viaje", pedido_id: id, pin: String(pinIngresado || "").trim() }).then(function (res) {
-        if (!res.ok) { rbAlerta("Error: " + res.error); return; }
-        refrescarViajes();
-        // Con el pasajero ya arriba se navega solo: Google Maps recibe la ruta completa con TODAS las
-        // paradas; Waze solo admite un destino por enlace, así que va a la primera parada (o al destino).
-        if (p) {
-          var puntos = puntosDelViaje(p);
-          var urlGps = gpsPreferido === "GOOGLE_MAPS" ? urlMapsDesde(puntos, 1) : urlWazePunto(puntos[1]);
-          if (urlGps) window.open(urlGps, "_system");
-        }
-      })).catch(function (err) { rbAlerta(TEXTO_SIN_CONEXION); });
+        var rPin = await pedirPin(function (pin) {
+          return conBotonOcupado(apiPost({ accion: "iniciar_viaje", pedido_id: id, pin: String(pin || "").trim() })).then(function (res) {
+            respuesta = res; return resultadoPin(res);
+          }).catch(function () { return { tipo: "sin_conexion" }; });
+        });
+        if (rPin === null) return;
+        if (rPin.tipo !== "ok") { rbAlerta("Error: " + (rPin.mensaje || "")); return; }
+      } else {
+        if (!(await rbConfirmar("¿Iniciar el viaje? Desde aquí se miden tiempo y km."))) return;
+        try { respuesta = await conBotonOcupado(apiPost({ accion: "iniciar_viaje", pedido_id: id, pin: "" })); } catch (err) { rbAlerta(TEXTO_SIN_CONEXION); return; }
+        if (!respuesta || !respuesta.ok) { rbAlerta("Error: " + ((respuesta && respuesta.error) || "")); return; }
+      }
+      refrescarViajes();
+      // Con el pasajero ya arriba se navega solo: Google Maps recibe la ruta completa con TODAS las
+      // paradas; Waze solo admite un destino por enlace, así que va a la primera parada (o al destino).
+      if (p) {
+        var puntos = puntosDelViaje(p);
+        var urlGps = gpsPreferido === "GOOGLE_MAPS" ? urlMapsDesde(puntos, 1) : urlWazePunto(puntos[1]);
+        if (urlGps) window.open(urlGps, "_system");
+      }
       return;
     }
     if (tipo === "llegue-destino") {
@@ -7553,35 +7560,66 @@
   // El aviso de navegación y la lista del viaje no cambian: solo se mueven los bloques ya existentes.
   document.getElementById("tvNav").appendChild(document.getElementById("navPie"));
   document.getElementById("detalleCuerpo").appendChild(document.getElementById("grupoEnCurso"));
-  // PIN de inicio: ventana con 4 casillas (el pasajero se lo dice al subir). Devuelve los 4 dígitos o null si se cancela.
-  function pedirPin() {
+  // PIN de inicio: ventana flotante con 4 casillas (el pasajero se lo dice al subir). Al escribir el 4.º dígito se ENVÍA SOLO, sin botón: «enviar(pin)» devuelve
+  // resultadoPin(...). Si el PIN está mal, la misma ventana lo informa, limpia las casillas y vuelve a pedirlo. Devuelve null si se cancela o el resultado final (ok, bloqueado, error).
+  function resultadoPin(res) {
+    if (!res) return { tipo: "sin_conexion" };
+    if (res.ok) return { tipo: "ok" };
+    if (res.bloqueado) return { tipo: "bloqueado", mensaje: res.error || "" };
+    if (res.requiere_pin) return { tipo: "reintentar", mensaje: res.error || "PIN incorrecto" };
+    return { tipo: "error", mensaje: res.error || "" };
+  }
+  function pedirPin(enviar) {
     return new Promise(function (resolve) {
       var fondo = document.createElement("div");
       fondo.className = "pin-flotante"; fondo.setAttribute("role", "dialog"); fondo.setAttribute("aria-label", "PIN del pasajero");
       fondo.innerHTML = '<h2>PIN del pasajero</h2>' +
         '<p class="nota" style="margin:0;">Pídele su PIN de 4 dígitos (está en su app).</p>' +
-        '<div class="pin-casillas">' + [0, 1, 2, 3].map(function (i) { return '<input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Dígito ' + (i + 1) + '">'; }).join("") + '</div>' +
-        '<button class="btn btn-ok pin-ok" type="button" disabled style="width:100%;">Iniciar viaje</button>' +
+        '<div class="pin-casillas">' + [0, 1, 2, 3].map(function (i) { return '<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Dígito ' + (i + 1) + '">'; }).join("") + '</div>' +
+        '<p class="pin-error" role="alert" aria-live="assertive" hidden></p>' +
         '<button class="btn btn-chico pin-cancelar" type="button" style="width:100%;margin-top:10px;">Cancelar</button>';
       document.body.appendChild(fondo);
-      var cas = [].slice.call(fondo.querySelectorAll("input")), ok = fondo.querySelector(".pin-ok");
+      var cas = [].slice.call(fondo.querySelectorAll("input")), error = fondo.querySelector(".pin-error"), cancelar = fondo.querySelector(".pin-cancelar");
+      var enviando = false;
       function valor() { return cas.map(function (c) { return c.value; }).join(""); }
-      function revisar() { ok.disabled = !/^\d{4}$/.test(valor()); }
       function cerrar(v) { fondo.remove(); resolve(v); }
+      function limpiar() { cas.forEach(function (c) { c.value = ""; }); cas[0].focus(); }
+      function mostrarError(texto) { error.textContent = texto; error.hidden = false; limpiar(); }
+      function soltarEnvio() { enviando = false; cancelar.disabled = false; cas.forEach(function (c) { c.disabled = false; }); }
+      function intentar() {
+        if (enviando || !/^\d{4}$/.test(valor())) return;
+        enviando = true; cancelar.disabled = true; error.hidden = true;
+        var pin = valor();
+        cas.forEach(function (c) { c.disabled = true; });
+        Promise.resolve(enviar(pin)).then(function (r) {
+          soltarEnvio();
+          if (r && r.tipo === "ok") { cerrar(r); return; }
+          if (r && r.tipo === "reintentar") { mostrarError(r.mensaje); return; }
+          if (!r || r.tipo === "sin_conexion") { mostrarError(TEXTO_SIN_CONEXION); return; }
+          cerrar(r);   // bloqueado u otro error: lo informa quien llamó
+        }).catch(function () { soltarEnvio(); mostrarError(TEXTO_SIN_CONEXION); });
+      }
       cas.forEach(function (c, i) {
         c.addEventListener("input", function () {
           var d = c.value.replace(/\D/g, "");
           if (d.length > 1) { for (var k = 0; k < d.length && i + k < 4; k++) cas[i + k].value = d[k]; c.value = d[0]; cas[Math.min(3, i + d.length - 1)].focus(); }
           else { c.value = d; if (d && i < 3) cas[i + 1].focus(); }
-          revisar();
+          intentar();
         });
         c.addEventListener("keydown", function (ev) {
-          if (ev.key === "Backspace" && !c.value && i > 0) { cas[i - 1].focus(); cas[i - 1].value = ""; revisar(); }
-          if (ev.key === "Enter" && !ok.disabled) cerrar(valor());
+          if (ev.key === "Backspace" && !c.value && i > 0) { cas[i - 1].focus(); cas[i - 1].value = ""; }
+          if (ev.key === "Enter") intentar();
+        });
+        c.addEventListener("paste", function (ev) {   // maxlength=1 recortaría el pegado: se reparte el PIN completo en las casillas
+          var texto = String((ev.clipboardData || window.clipboardData).getData("text") || "").replace(/\D/g, "");
+          if (texto.length < 2) return;
+          ev.preventDefault();
+          for (var k = 0; k < texto.length && k < 4; k++) cas[k].value = texto[k];
+          cas[Math.min(3, texto.length - 1)].focus();
+          intentar();
         });
       });
-      ok.addEventListener("click", function () { cerrar(valor()); });
-      fondo.querySelector(".pin-cancelar").addEventListener("click", function () { cerrar(null); });
+      cancelar.addEventListener("click", function () { if (!enviando) cerrar(null); });
       setTimeout(function () { cas[0].focus(); }, 50);
     });
   }
@@ -7670,7 +7708,6 @@
     if (r.ida_vuelta && r.llegada_marcada && !r.regreso_marcado) av.push("Sin «Iniciar regreso»: la espera cuenta hasta ahora.");
     if (!r.cobro_real && r.metodo !== "COTIZADO") av.push("El cobro con valores reales está desactivado: se cobra lo cotizado.");
     else if (r.cobro_real && r.metodo === "RECALCULADO") av.push("El viaje terminó antes del destino indicado: se recalculó y se cobra lo recorrido (menos que lo cotizado).");
-    else if (r.cobro_real && r.metodo === "MINIMO") av.push("Se cobra el mínimo: lo cotizado.");
     else if (r.cobro_real && r.metodo === "TOPE") av.push("Se cobra el tope de +30 %.");
     return av;
   }
