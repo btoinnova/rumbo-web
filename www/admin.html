@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="img/favicon-admin-192.png?v=70">
 <!-- Montserrat va DENTRO de la app (www/fonts, licencia SIL OFL de Google Fonts): sin internet el splash y la app no cambian de letra. -->
 <style>@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/Montserrat-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }</style>
-<style>@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400 600; font-display: swap; src: url("fonts/IBMPlexSans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+<style>@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("fonts/IBMPlexSans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Carlito"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/Carlito-400-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Carlito"; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/Carlito-700-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }</style>
 <style>
@@ -41,7 +41,7 @@
     --info: #2455A4; --info-soft: #E7EFFB; --info-border: #BDD3F0;
     --shadow-sm: none;
     --shadow-md: none;
-    --r-card: 14px; --r-input: 12px; --r-btn: 12px;
+    --r-card: 8px; --r-input: 8px; --r-btn: 8px;
     /* Rediseño (maquetas de diseno/apps, etapa 0): tokens NUEVOS, aún sin uso; nada cambia a la vista. Quedan fuera --naranja, --naranja-texto, --r-card y --r-btn de la maqueta porque ya existen arriba con otro valor. */
     --noche: #07182A; --noche-2: #0B2238; --petroleo: #11304A; --petroleo-2: #16405F;
     --turq: #14B8C4; --turq-2: #0EA5B0; --turq-claro: #5FD3DB; --turq-tinte: #E3F6F8; --turq-texto: #08626A;
@@ -62,7 +62,7 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--bg); }
   body {
-    color: var(--text); font-family: "Montserrat", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: var(--text); font-family: "IBM Plex Sans", "Montserrat", ui-sans-serif, system-ui, -apple-system, sans-serif;   /* letra formal (8-nov-2026) */
     font-weight: 400;
     font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
     min-height: 100vh; display: flex; justify-content: center;
@@ -1342,7 +1342,11 @@
   .splash.fase2 .splash-centro { opacity: 0; }
   .splash::before { content: ""; position: absolute; inset: 0; background: url(img/fondo-splash-pasajero.webp) center top / cover no-repeat; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
   .splash.fase2::before { opacity: 1; }
-  .splash-marca { position: absolute; top: 96px; left: 50%; width: min(78%, 330px); transform: translateX(-50%); aspect-ratio: 803 / 309; transition: opacity .5s ease .1s; }
+  /* Escena de la pagina de descarga detras del logo (Alberto, 8-nov-2026): la misma ciudad 3D, ruta en U y luces de autos. Entra con la fase 2; con movimiento reducido queda el fondo quieto. */
+  .splash-escena { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; pointer-events: none; transition: opacity .6s ease; }
+  .splash.fase2 .splash-escena { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .splash-escena { display: none; } }
+  .splash-marca { position: absolute; top: 96px; left: 50%; width: min(78%, 330px); transform: translateX(-50%); aspect-ratio: 1200 / 445; transition: opacity .5s ease .1s; }
   .splash-marca img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 14px rgba(95, 211, 219, .55)); }
   .splash-marca::before { content: ""; position: absolute; left: -18%; right: -18%; top: -60%; bottom: -60%; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 184, 196, .45), rgba(20, 184, 196, 0)); }
   .splash-rol { position: absolute; left: 0; right: 0; top: 230px; text-align: center; transition: opacity .5s ease .15s; }
@@ -1445,7 +1449,7 @@
     body.cond-pantalla:not(.modo-admin) .kpi-card { background: #F2F4F5; border: 1px solid #D9DFE3; border-radius: 20px; padding: 14px 16px; box-shadow: none; }
     body.cond-pantalla:not(.modo-admin) .kpi-etiqueta { font-size: 15px; font-weight: 600; color: #4E5A6C; }
     body.cond-pantalla:not(.modo-admin) .kpi-valor { font-size: 36px; font-weight: 800; letter-spacing: -.03em; color: #0A2236; }
-    body.cond-pantalla:not(.modo-admin) .btn-conexion { background: #14B8C4; color: #07182A; min-height: 60px; border-radius: 18px; font-size: 18px; font-weight: 800; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
+    body.cond-pantalla:not(.modo-admin) .btn-conexion { background: #14B8C4; color: #07182A; min-height: 60px; border-radius: 8px; font-size: 18px; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
     body.cond-pantalla:not(.modo-admin) .btn-conexion.desconectar { background: var(--danger); color: #fff; box-shadow: none; }
   }
   /* Oferta y viaje en curso como la maqueta (conductor): diseno/apps/conductor-oferta.html y conductor-viaje.html. Misma estructura de hoy (oferta emergente; ruta arriba y deslizador
@@ -1461,19 +1465,19 @@
     body.cond-pantalla:not(.modo-admin) .pe-linea { font-size: 17px; font-weight: 700; color: #0A2236; }
     body.cond-pantalla:not(.modo-admin) .pe-pto { border-color: #EF6D19; }
     body.cond-pantalla:not(.modo-admin) .pe-pto-d { background: #14B8C4; border-color: #14B8C4; border-radius: 3px; }
-    body.cond-pantalla:not(.modo-admin) .pe-aceptar { min-height: 60px; border-radius: 18px; background: #14B8C4; color: #07182A; font-size: 20px; font-weight: 800; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
-    body.cond-pantalla:not(.modo-admin) .pe-segundo .btn { min-height: 56px; border-radius: 18px; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 16px; font-weight: 800; }
+    body.cond-pantalla:not(.modo-admin) .pe-aceptar { min-height: 60px; border-radius: 8px; background: #14B8C4; color: #07182A; font-size: 20px; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
+    body.cond-pantalla:not(.modo-admin) .pe-segundo .btn { min-height: 56px; border-radius: 8px; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 16px; font-weight: 600; }
     body.cond-pantalla:not(.modo-admin) .tarjeta-viaje { border-radius: 24px; padding: 16px 18px; background: #fff; border: 0; box-shadow: 0 12px 32px -10px rgba(7, 24, 42, .45); }
     body.cond-pantalla:not(.modo-admin) .tv-et { font-size: 13px; font-weight: 800; letter-spacing: .04em; color: #08626A; }
     body.cond-pantalla:not(.modo-admin) .tv-dir { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
     body.cond-pantalla:not(.modo-admin) .tv-sub { font-size: 15px; font-weight: 600; color: #4E5A6C; }
     body.cond-pantalla:not(.modo-admin) .tv-mas { width: 44px; height: 44px; background: #F2F4F5; color: #11304A; }
-    body.cond-pantalla:not(.modo-admin) .tv-act { min-height: 56px; border-radius: 16px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font-size: 14px; font-weight: 800; }
+    body.cond-pantalla:not(.modo-admin) .tv-act { min-height: 56px; border-radius: 8px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font-size: 14px; font-weight: 600; }
     body.cond-pantalla:not(.modo-admin) .tv-info { border: 0; border-radius: 18px; background: #F2F4F5; }
     body.cond-pantalla:not(.modo-admin) .tv-accion { min-height: 64px; border-radius: 18px; background: linear-gradient(90deg, #11304A, #1D4A66); font-size: 17px; font-weight: 800; box-shadow: none; }
     body.cond-pantalla:not(.modo-admin) .tv-accion .tv-texto { padding: 0 20px 0 64px; text-align: right; }
     body.cond-pantalla:not(.modo-admin) .tv-accion .tv-tirador { left: 6px; top: 6px; width: 52px; height: 52px; border-radius: 14px; background: #EF6D19; color: #07182A; }
-    body.cond-pantalla:not(.modo-admin) .tv-navegar { min-height: 48px; border-radius: 18px; background: #11304A; font-weight: 800; }
+    body.cond-pantalla:not(.modo-admin) .tv-navegar { min-height: 48px; border-radius: 8px; background: #11304A; font-weight: 600; }
   }
   /* Menú y pantallas hijas como la maqueta (conductor): cajón del menú en tarjetas hielo (mismo lenguaje que el del pasajero), títulos 22/800 petróleo, tarjetas hielo radio 18,
      botones 60 px radio 18, chips 48, campos 52, documentos con filas hielo y barra turquesa; sin la barra vieja en las pantallas de ajuste. Solo teléfono y solo conductor
@@ -1500,8 +1504,8 @@
     body.aj-solo:not(.modo-admin) .topbar { display: none; }
     body.aj-solo:not(.modo-admin) #panelAjustes { padding-top: max(14px, env(safe-area-inset-top)); }
     body:not(.modo-admin) #panelAjustes .card, body:not(.modo-admin) #panelAjustes details.aj-solo-item { background: #F2F4F5; border: 0; border-radius: 18px; box-shadow: none; padding: 16px; }
-    body:not(.modo-admin) #panelAjustes .btn:not(.btn-chico) { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
-    body:not(.modo-admin) #panelAjustes .btn.btn-chico { min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 800; }
+    body:not(.modo-admin) #panelAjustes .btn:not(.btn-chico) { min-height: 60px; border-radius: 8px; font-size: 17px; font-weight: 600; }
+    body:not(.modo-admin) #panelAjustes .btn.btn-chico { min-height: 48px; border-radius: 8px; font-size: 15px; font-weight: 600; }
     body:not(.modo-admin) #panelAjustes .campo input, body:not(.modo-admin) #panelAjustes .campo select, body:not(.modo-admin) #panelAjustes .campo textarea { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
     body:not(.modo-admin) .docs-grupo { font-size: 17px; font-weight: 800; letter-spacing: -.01em; color: #11304A; }
     body:not(.modo-admin) .docs-lista > * { background: #F2F4F5; border: 0; border-radius: 16px; }
@@ -1614,8 +1618,8 @@
     body.modo-admin .adm-pantalla .ajustes-cab { gap: 10px; padding: 6px 0 12px; border-bottom: 0; }
     body.modo-admin .adm-pantalla .ajustes-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
     body.modo-admin .adm-pantalla .ajustes-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
-    body.modo-admin .adm-pantalla .btn:not(.btn-chico) { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
-    body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: 14px; font-size: 15px; font-weight: 800; }
+    body.modo-admin .adm-pantalla .btn:not(.btn-chico) { min-height: 60px; border-radius: 8px; font-size: 17px; font-weight: 600; }
+    body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: 8px; font-size: 15px; font-weight: 600; }
     body.modo-admin .adm-pantalla .campo input, body.modo-admin .adm-pantalla .campo select, body.modo-admin .adm-pantalla .campo textarea, body.modo-admin .adm-pantalla input[type=text], body.modo-admin .adm-pantalla input[type=search] { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
   }
   /* Web de computador (≥900 px, 3-nov-2026): conductor y administrador dejan de ser una columna de celular.
@@ -1677,11 +1681,12 @@
   </div>
 </div>
 <div class="splash" id="splashIngresando">
+  <iframe class="splash-escena" src="splash-escena.html" title="" aria-hidden="true" tabindex="-1"></iframe>
   <div class="splash-centro">
     <div class="splash-texto" id="splashTexto"></div>
     <img src="img/logo-carita.png" alt="" id="splashLogo">
   </div>
-  <div class="splash-marca" role="img" aria-label="Rumbo"><img src="img/logo-rumbo-wordmark.png" alt=""></div>
+  <div class="splash-marca" role="img" aria-label="Rumbo"><img src="img/logo-rumbo-descarga.png" alt=""></div>
   <div class="splash-rol"><span class="splash-titulo" id="splashTitulo">Conductor</span></div>
   <p class="splash-cargando" role="status">Ingresando <i></i><i></i><i></i></p>
   <p class="splash-eslogan" id="splashEslogan"><span><span id="splashFrase">Sigue tu</span> <span class="r">rumbo</span>.</span></p>
