@@ -87,6 +87,10 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
 @keyframes aparece { from { opacity:0; } }
 .torre { animation: none; }
 .torre .sombra { display: none; }
+.ojo-o, .ojo-d-w, .ojo-d-w .giro { animation: none; }
+.aro, .amb { display: none; }
+.faro { left: 18px; top: -16px; width: 86px; height: 32px; background: linear-gradient(90deg, rgba(255,230,150,.95), rgba(255,214,110,0)); }
+.fl { width: 8px; height: 8px; box-shadow: 0 0 16px 8px rgba(255,236,170,1); }
 
 </style></head><body>
 <header class="hero" id="hero" data-fase="pide">
@@ -170,7 +174,7 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
   }
   // luces ambientales sobre las calles
   var amb = $("ambiente");
-  if (!reduce) for (k = 0; k < 7; k++) {
+  if (false) for (k = 0; k < 7; k++) {
     var a = document.createElement("div"), vert = k % 2 === 1, line = [200, 300, 400, 200, 100, 300, 200][k] || 200;
     a.className = "amb" + (vert ? " vert" : "") + (k % 3 === 0 ? " v" : "");
     a.style.cssText = (vert ? "left:" + (line - 3) + "px;top:0;" : "top:" + (line - 3) + "px;left:0;") + "--du:" + (9 + R() * 8).toFixed(1) + "s;--de:-" + (R() * 9).toFixed(1) + "s;" + (k > 3 ? "animation-direction:reverse;" : "");
@@ -210,17 +214,17 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
     var ang = Math.atan2(pt2.y - pt0.y, pt2.x - pt0.x) * 180 / Math.PI;
     coche.style.transform = "translate3d(" + pt.x.toFixed(1) + "px," + pt.y.toFixed(1) + "px,1px) rotateZ(" + ang.toFixed(1) + "deg) scale(2.5)";
   }
-  var T0 = null, LOOP = 11, running = true;
+  var T0 = null, LOOP = 5.2, running = true;
   function tick(now) {
-    if (T0 === null) T0 = now + 1300;
+    if (T0 === null) T0 = now + 300;
     var t = (now - T0) / 1000, p = 0, op = 1, cu = 0;
     if (t < 0) { setFase("pide"); p = 0; cu = 1; }
     else {
       t = t % LOOP;
-      if (t < 1.2) { setFase("pide"); p = 0; cu = 1; }
-      else if (t < 5.8) { setFase("sigue"); p = ease((t - 1.2) / 4.6); cu = 1; }
-      else if (t < 9.6) { setFase("llega"); p = 1; cu = 1; }
-      else { setFase("llega"); p = 1; op = Math.max(0, 1 - (t - 9.6) / 1.2); cu = op; if (t > 10.9) setFase("pide"); }
+      if (t < .2) { setFase("pide"); p = 0; cu = 1; }
+      else if (t < 2.8) { setFase("sigue"); p = ease((t - .2) / 2.6); cu = 1; }
+      else if (t < 4.2) { setFase("llega"); p = 1; cu = 1; }
+      else { setFase("llega"); p = 1; op = Math.max(0, 1 - (t - 4.2) / 0.8); cu = op; if (t > 5.0) setFase("pide"); }
     }
     pinta(p, op); coche.style.opacity = cu;
     if (running) requestAnimationFrame(tick);

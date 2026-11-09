@@ -1348,14 +1348,11 @@
   /* Primer cuadro menos simple (Alberto, 8-nov-2026): la ciudad entra tenue desde el principio (en la app nativa, solo cuando ya se ve la carita: sin salto con el splash del sistema),
      la carita tiene un halo que respira sin moverse, y en la fase 2 el logo se dibuja con el destello de luz de la pagina de descarga. */
   html.nativo:not(.bordes-ok) .splash .splash-escena { opacity: 0; }
-  .splash:not(.fase2) .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 260%; aspect-ratio: 1; transform: translate(-50%, -50%); z-index: -1; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgba(20, 184, 196, .38), rgba(20, 184, 196, 0)); animation: splashRespira 2.4s ease-in-out infinite; }
-  @keyframes splashRespira { 0%, 100% { opacity: .45; transform: translate(-50%, -50%) scale(.92); } 50% { opacity: .95; transform: translate(-50%, -50%) scale(1.08); } }
-  .splash.fase2 .splash-marca img { animation: splashDibuja 1.25s cubic-bezier(.65, 0, .25, 1) .1s backwards; }
-  @keyframes splashDibuja { from { clip-path: inset(0 100% 0 0); } }
-  .splash-marca::after { content: ""; position: absolute; top: -8%; bottom: -8%; left: 0; width: 4px; margin-left: -2px; border-radius: 2px; opacity: 0; pointer-events: none; background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff 30%, #fff 70%, rgba(255, 255, 255, 0)); box-shadow: 0 0 22px 8px rgba(95, 211, 219, .85), 0 0 60px 18px rgba(20, 184, 196, .45); }
-  .splash.fase2 .splash-marca::after { animation: splashScan 1.25s cubic-bezier(.65, 0, .25, 1) .1s both; }
-  @keyframes splashScan { 0% { left: 0; opacity: 1; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .splash:not(.fase2) .splash-centro::before { animation: none; } .splash.fase2 .splash-marca img { animation: none; } .splash-marca::after { display: none; } }
+  .splash:not(.fase2) .splash-centro::before { content: ""; position: absolute; left: 50%; top: 50%; width: 260%; aspect-ratio: 1; transform: translate(-50%, -50%); z-index: -1; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgba(20, 184, 196, .38), rgba(20, 184, 196, 0)); opacity: .8; }
+  /* Una cosa a la vez (Alberto, 8-nov-2026): la carita se va primero (.3 s); despues aparece el logo, fijo, que se desvanece despacio, y la ciudad se enciende con el. El unico movimiento es el autito. */
+  .splash .splash-centro { transition: opacity .3s ease; }
+  .splash.fase2 .splash-marca { transition: opacity 1.4s ease .45s; }
+  .splash.fase2 .splash-escena { transition: opacity 1.4s ease .45s; }
   @media (prefers-reduced-motion: reduce) { .splash-escena { display: none; } }
   .splash-marca { position: absolute; top: 96px; left: 50%; width: min(78%, 330px); transform: translateX(-50%); aspect-ratio: 1200 / 445; transition: opacity .5s ease .1s; }
   .splash-marca img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 14px rgba(95, 211, 219, .55)); }
@@ -1692,7 +1689,7 @@
   </div>
 </div>
 <div class="splash" id="splashIngresando">
-  <iframe class="splash-escena" src="splash-escena.html" title="" aria-hidden="true" tabindex="-1"></iframe>
+  <iframe class="splash-escena" data-src="splash-escena.html" title="" aria-hidden="true" tabindex="-1"></iframe>
   <div class="splash-centro">
     <div class="splash-texto" id="splashTexto"></div>
     <img src="img/logo-carita.png" alt="" id="splashLogo">
@@ -1707,6 +1704,9 @@
   /* Splash: fase 2 a los 500 ms de verse (en la app nativa, cuando MainActivity ya mandó los bordes: misma posición que el splash del sistema). Movimiento reducido: de inmediato. */
   (function () {
     var s = document.getElementById("splashIngresando");
+    var ifr = s.querySelector(".splash-escena");
+    function cargarEscena() { try { if (!ifr || ifr.getAttribute("src") || matchMedia("(prefers-reduced-motion: reduce)").matches) return; } catch (e) {} ifr.setAttribute("src", ifr.getAttribute("data-src")); }
+    if (document.readyState === "complete") cargarEscena(); else addEventListener("load", cargarEscena);
     function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 500); }
     var h = document.documentElement;
     if (h.classList.contains("nativo") && !h.classList.contains("bordes-ok")) {
@@ -1714,6 +1714,8 @@
       o.observe(h, { attributes: true, attributeFilter: ["class"] });
     } else ir();
     window.__splashFase2 = function () { s.classList.remove("fase2"); setTimeout(ir, 30); };   // mostrarSplash lo vuelve a usar
+    // Primer dibujo hecho (2 cuadros): avisa a Android para que suelte SU splash ya. Antes esperaba al evento load, que retenía la pantalla azul ~3 s (la API de Maps lo alargaba). Sin puente (web) no hace nada.
+    try { if (window.RumboNativo && window.RumboNativo.splashListo) requestAnimationFrame(function () { requestAnimationFrame(function () { try { window.RumboNativo.splashListo(); } catch (e) {} }); }); } catch (e) {}
   })();
 </script>
 <script>
@@ -2923,7 +2925,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 89;
+  var APP_VERSION = 90;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -3055,6 +3057,8 @@
 
   function cargarGoogleMaps() {
     if (document.getElementById("gmapsScript")) return;
+    // Después del evento load: la API de Google (≈400 KB desde la red) ya no retiene la carga de la página ni, con ella, el splash del sistema.
+    if (document.readyState !== "complete") { addEventListener("load", function () { setTimeout(cargarGoogleMaps, 0); }, { once: true }); return; }
     var script = document.createElement("script");
     script.id = "gmapsScript";
     script.src = "https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_MAPS_JS_KEY + "&libraries=geometry,places&callback=alGoogleMapsListo";
@@ -6738,7 +6742,9 @@
       }
       nav.cum = largosRuta(nav.pts); nav.acum = acumPasos(nav.pasos);
       if (nav.linea) nav.linea.setMap(null);
-      if (mapaEspera && nav.pts.length) { var pfoco = elegirFoco(pedidosEnCursoActuales, focoManualId); nav.linea = dibujarRutaNaranja(mapaEspera, nav.pts, !!(pfoco && pfoco.inicio_viaje_en)); }
+      var pfoco = elegirFoco(pedidosEnCursoActuales, focoManualId);
+      if (mapaEspera && nav.pts.length) nav.linea = dibujarRutaNaranja(mapaEspera, nav.pts, !!(pfoco && pfoco.inicio_viaje_en));
+      if (pfoco && nav.dest && nav.dest.coord) publicarRutaViva(pfoco.pedido_id, res.polilinea);   // ruta viva: al recalcular, el pasajero y el admin ven el camino nuevo
       pintarNav();
       if (nav.voz) hablarNav(nav.pasos[0].texto);
     }).catch(function () { if (nav) { nav.pidiendo = false; document.getElementById("navInstr").textContent = "Sin conexión. Usa Waze o Maps."; } });
@@ -7378,7 +7384,17 @@
       if (viajeMapa.linea) { viajeMapa.linea.setMap(null); viajeMapa.linea = null; }
       viajeMapa.tramo = dibujarRutaNaranja(mapaEspera, pts, !!enCurso);
       viajeMapa.tramoPts = pts; viajeMapa.tramoPara = claveObjetivo;
+      publicarRutaViva(pedidoId, res.polilinea);   // ruta viva: el pasajero y el admin dibujan este mismo camino
     }).catch(function () { if (alFallar) alFallar(); });
+  }
+
+  /* Ruta viva: la polilínea que el conductor acaba de pedir (al salir a buscar o al desviarse) se publica en el servidor para que el
+     PASAJERO y el ADMIN dibujen el mismo camino. No agrega consultas a la Routes API (usa la respuesta que ya se pidió) y no repite la misma ruta. */
+  var rutaVivaPublicada = {};
+  function publicarRutaViva(pedidoId, cod) {
+    if (!pedidoId || !cod || rutaVivaPublicada[pedidoId] === cod) return;
+    rutaVivaPublicada[pedidoId] = cod;
+    api({ accion: "actualizar_ruta_viva", pedido_id: pedidoId, polilinea: cod }).then(function (r) { if (!r || !r.ok) delete rutaVivaPublicada[pedidoId]; }).catch(function () { delete rutaVivaPublicada[pedidoId]; });   // si falla, se reintenta con la próxima ruta
   }
 
   /* Si el conductor toma una calle distinta a la que se dibuja (más de 70 m fuera de la línea), la ruta se vuelve a
@@ -9409,7 +9425,10 @@
       var dest = new google.maps.LatLng(par.p.destino_lat, par.p.destino_lng);
       flotaDestino = new google.maps.Marker({ map: mapaEspera, position: dest, title: "Destino", icon: iconoDestinoFlota(), zIndex: 2 });
       if (par.p.estado === "CON_PASAJERO") limites.extend(dest);
-      if (par.c && conPosicionFlota(par.c)) {
+      if (par.p.ruta && google.maps.geometry) {
+        // Ruta real del viaje (la viva si el conductor se desvió): sólida, naranja, la misma que ven el conductor y el pasajero.
+        flotaLinea = new google.maps.Polyline({ map: mapaEspera, path: google.maps.geometry.encoding.decodePath(par.p.ruta), strokeColor: "#EF6D19", strokeOpacity: 0.9, strokeWeight: 5, zIndex: 1 });
+      } else if (par.c && conPosicionFlota(par.c)) {
         var aPasajero = par.p.estado !== "CON_PASAJERO" && conPosicionFlota(par.p);
         var hasta = aPasajero ? new google.maps.LatLng(par.p.lat, par.p.lng) : dest;
         flotaLinea = new google.maps.Polyline({
