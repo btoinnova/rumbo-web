@@ -3053,7 +3053,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 94;
+  var APP_VERSION = 95;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -4172,7 +4172,8 @@
     if (!tarifas || tarifas.demandaDinamica !== true) return 1;
     var tope = Number(tarifas.demandaTope) > 1 ? Number(tarifas.demandaTope) : 1.3;
     var m = 1;
-    var tramos = DEMANDA_PISO[fecha.getDay()];
+    // Tarifas v1: tabla de dinámica por calendario regulable (demandaTabla); sin ella, la constante de respaldo.
+    var tramos = (tarifas.demandaTabla || DEMANDA_PISO)[fecha.getDay()];
     if (tramos && horaStr) {
       var p = String(horaStr).split(":"), minuto = Number(p[0]) * 60 + Number(p[1]);
       for (var i = 0; i < tramos.length; i++) if (minuto >= tramos[i][0]) m = tramos[i][1];
@@ -4184,7 +4185,20 @@
   function tarifaKmUrbanoDe(kmTotal, kmTramo, fueraDeSantiago, cobraRegresoSiempre) {
     var porKm = Number(tarifas && tarifas.tarifaKmUrbano);
     if (!(porKm > 0) || fueraDeSantiago || cobraRegresoSiempre) return 0;
+    var porKmLargo = Number(tarifas && tarifas.tarifaKmLargo);
+    // Tarifas v1 (opción C): porKm hasta 10 km y tarifaKmLargo por cada km sobre 10, sin apagarse; por tramo, multiplicado por los tramos cobrados.
+    if (porKmLargo > 0) return Number(kmTramo) > 0 ? adicionalPorKmTramo(Number(kmTramo), tarifas) * Number(kmTotal) / Number(kmTramo) : 0;
     return porKm * Number(kmTotal) * Math.min(1, Math.max(0, (20 - Number(kmTramo)) / 10));
+  }
+  function adicionalPorKmTramo(km, tarifas) {
+    var porKm = Number(tarifas && tarifas.tarifaKmUrbano) || 0, largo = Number(tarifas && tarifas.tarifaKmLargo) || 0;
+    if (largo > 0) return porKm * Math.min(km, 10) + largo * Math.max(0, km - 10);
+    return porKm * km * Math.min(1, Math.max(0, (20 - km) / 10));
+  }
+  // Tarifas v1: la mínima al pasajero es regulable (tarifaMinima); sin ella, TARIFA_MINIMA_VIAJE.
+  function tarifaMinimaDe(tarifas) {
+    var m = Number(tarifas && tarifas.tarifaMinima);
+    return m > 0 ? m : TARIFA_MINIMA_VIAJE;
   }
 
   // La fuerte nunca queda por debajo de la punta (igual que el servidor). Con franjas V2 existe la MEDIA (valorHoraMedia).
@@ -4214,7 +4228,10 @@
       if (FUERTE_FECHAS.some(function (f) { return f[0] === m && f[1] === d && minuto >= f[2] && minuto < f[3]; })) return "FUERTE";
       if (esDiaDeLaMadre(fecha) && minuto >= 480) return "FUERTE";
     }
-    var tramos = FRANJAS_SEMANA[fecha.getDay()], nivel = tramos[0][1];
+    // Tarifas v1: la tabla semanal viene de las tarifas (franjasSemana); sin ella, la constante de respaldo.
+    var tabla = (tarifas && tarifas.franjasSemana) || FRANJAS_SEMANA, tramos = tabla[fecha.getDay()];
+    if (!Array.isArray(tramos) || !tramos.length) tramos = FRANJAS_SEMANA[fecha.getDay()];   // un día vacío o ausente cae a la constante (igual que el servidor)
+    var nivel = tramos[0][1];
     for (var i = 0; i < tramos.length; i++) if (minuto >= tramos[i][0]) nivel = tramos[i][1];
     var dia = fecha.getDay();
     if (nivel === "VALLE" && dia >= 1 && dia <= 5 && FERIADOS_FIJOS.some(function (f) { return f[0] === m && f[1] === d; })) return "MEDIA";
@@ -4255,15 +4272,17 @@
     // Si el backend todavía no tiene el campo (versión vieja publicada),
     // se usa el valor por defecto en vez de arrastrar un NaN que termine
     // mostrándose como "$0" al pasajero.
-    var busquedaMin = typeof tarifas.busquedaMin === "number" ? tarifas.busquedaMin : 30;
+    var busquedaMin = typeof tarifas.busquedaMin === "number" ? tarifas.busquedaMin : 0;   // 0 como el servidor (TARIFAS_DEFECTO, 9-nov-2026)
     var minutosViaje = minutos * FACTOR_TIEMPO + busquedaMin;
     var espera = idaYVuelta ? obtenerHorasEspera() : 0;
     var horas = (minutosViaje / 60) + espera;
     var tarifaH = calcularTarifaHoraria();
-    var peajeTotal = peaje * FACTOR;
-    // La dinámica multiplica solo el tiempo; todo viaje lleva la tarifa mínima (oferta mínima = 1.500 × (1 − cargo)), igual que el servidor.
+    // Tarifas v1: el regreso vacío del aeropuerto no cobra el peaje de vuelta con peajeRegresoVacio = false (igual que el servidor).
+    var FACTOR_PEAJE = (FACTOR === 2 && rutaActual.cobraRegresoSiempre && !fueraDeSantiago && !idaYVuelta && tarifas.peajeRegresoVacio === false) ? 1 : FACTOR;
+    var peajeTotal = peaje * FACTOR_PEAJE;
+    // La dinámica multiplica solo el tiempo; todo viaje lleva la tarifa mínima (oferta mínima = mínima × (1 − cargo)), igual que el servidor.
     var time = horas * tarifaH.valorHora * tarifaH.factorDemanda;
-    var total = Math.max(fuel + time + peajeTotal, Math.round(TARIFA_MINIMA_VIAJE * (1 - (Number(cargoApp) || 0))));
+    var total = Math.max(fuel + time + peajeTotal, Math.round(tarifaMinimaDe(tarifas) * (1 - (Number(cargoApp) || 0))));
 
     return {
       fueraDeSantiago: fueraDeSantiago, punta: tarifaH.punta, nivel: tarifaH.nivel,
