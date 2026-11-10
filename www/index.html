@@ -158,6 +158,7 @@
     display: none; align-items: center; justify-content: center; padding: 0;
   }
   .icon-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  :where(button, a[href], summary, [role="button"], [tabindex]):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }   /* anillo general (especificidad 0): las reglas propias de abajo lo pisan */
   .icon-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
   .menu {
     position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
@@ -1188,6 +1189,20 @@
   .by-pie { text-align: center; color: #4E5A6C; font-size: 14px; margin: 4px 0 18px; }
   .splash.oculta { opacity: 0; pointer-events: none; }
   .splash[hidden] { display: none; }
+  /* Splash calmo (Alberto, 10-nov-2026; propuesta B de diseno/apps/splash-propuesta): entradas ease-in-out y escalonadas, menos piezas (sin halo del logo, puntos fijos, sin banda del eslogan, ciudad más tenue)
+     y un solo movimiento: la ruta y el auto (splash-escena.html). La fase 1 (carita quieta 0-0,5 s) y el logo no cambian de lugar, medida ni aspecto. */
+  .splash { --io: cubic-bezier(.45, 0, .55, 1); }
+  .splash .splash-centro { transition: opacity 1s var(--io); }
+  .splash::before { transition: opacity 1.2s var(--io); }
+  .splash.fase2 .splash-escena { opacity: .6; transition: opacity 1.6s var(--io) 1s; }
+  .splash.fase2 .splash-marca { transition: opacity 1.4s var(--io) .45s; }
+  .splash.fase2 .splash-cargando { transition: opacity .9s var(--io) 1.9s; }
+  .splash.fase2 .splash-eslogan { transition: opacity 1s var(--io) 2.1s; }
+  .splash .by { transition: bottom 1s var(--io), font-size 1s var(--io), color 1s var(--io); }
+  .splash-marca::before { display: none; }
+  .splash-cargando i { animation: none; opacity: .8; }
+  .splash-eslogan { background: none; }
+  @media (prefers-reduced-motion: reduce) { .splash .splash-centro, .splash::before, .splash.fase2 .splash-escena, .splash.fase2 .splash-marca, .splash.fase2 .splash-cargando, .splash.fase2 .splash-eslogan, .splash .by { transition: none; } }
 
   /* ---------- Actualización obligatoria (pantalla completa, no se puede
      cerrar hasta descargar) — mismo criterio que DAOMA. ---------- */
@@ -1269,15 +1284,15 @@
   .rb-pop { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center;
     padding: 24px; background: rgba(11,34,54,0.55); }
   .rb-pop[hidden] { display: none; }
-  .rb-pop-caja { width: 100%; max-width: 360px; background: #fff; color: #11304A; border-radius: 14px; padding: 22px 20px 16px;
+  .rb-pop-caja { width: 100%; max-width: 360px; background: #fff; color: #11304A; border-radius: var(--r-card); padding: 22px 20px 16px;
     box-shadow: 0 0 0 1px var(--border); border-top: 6px solid var(--acento, #0EA5B0); max-height: 80vh; overflow-y: auto; }
   .rb-pop-caja.error { border-top-color: #B3392B; }
   .rb-pop-caja.ok { border-top-color: #0B7A4B; }
-  .rb-pop-texto { margin: 0 0 18px; font: 500 16px/1.45 system-ui, sans-serif; white-space: pre-line; word-wrap: break-word; }
-  .rb-pop-campo { width: 100%; box-sizing: border-box; margin: 0 0 18px; padding: 11px 12px; font: 16px system-ui, sans-serif;
-    border: 1px solid #C9D3DE; border-radius: 12px; }
+  .rb-pop-texto { margin: 0 0 18px; font: 500 16px/1.45 "IBM Plex Sans", system-ui, sans-serif; white-space: pre-line; word-wrap: break-word; }
+  .rb-pop-campo { width: 100%; box-sizing: border-box; margin: 0 0 18px; padding: 11px 12px; font: 16px "IBM Plex Sans", system-ui, sans-serif;
+    border: 1px solid #C9D3DE; border-radius: var(--r-input); }
   .rb-pop-botones { display: flex; gap: 10px; justify-content: flex-end; }
-  .rb-pop-botones button { min-width: 96px; padding: 11px 16px; border-radius: 12px; font: 600 15px system-ui, sans-serif; cursor: pointer; border: 0; }
+  .rb-pop-botones button { min-width: 96px; padding: 11px 16px; border-radius: var(--r-btn); font: 600 15px "IBM Plex Sans", system-ui, sans-serif; cursor: pointer; border: 0; }
   .rb-pop-si { background: #11304A; color: #fff; }
   .rb-pop-no { background: #E8EEF3; color: #11304A; }
   /* Rediseño etapa 4 (pasajero): seguimiento con el mensaje de estado y el PIN ARRIBA, sobre el mapa y siempre a la vista; la hoja de abajo lleva primero conductor/vehículo y la ruta.
@@ -1285,13 +1300,13 @@
   /* PIN y espera del pasajero: ventana flotante sobre el mapa y pastilla del PIN. */
   .llegada-pop { position: fixed; left: 12px; right: 12px; top: calc(var(--topbar-h, 91px) + 12px); z-index: 62; max-width: 420px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #fff; color: #0A2236; border-radius: 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); }
   .llegada-pop[hidden] { display: none; }
-  .llegada-pop h2 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
+  .llegada-pop h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
   .llegada-pop #esperaRecogida { margin: 0; }
   .llegada-pop #pinInicio { margin: 0; }
   .llegada-pop #pinInicio .pin-et { display: none; }   /* el título de la ventana ya lo dice */
   .llegada-pop-ok { width: 100%; min-height: 48px; }
   .pin-chip { position: fixed; left: 12px; top: calc(var(--topbar-h, 91px) + 12px); z-index: 57; min-height: 44px; padding: 6px 16px; display: inline-flex; align-items: center; gap: 8px; border: 2px solid #fff; border-radius: 22px; background: #14B8C4; color: #07182A; font: inherit; font-weight: 700; box-shadow: 0 8px 24px rgba(0, 0, 0, .45), 0 0 0 4px rgba(20, 184, 196, .35); }   /* calipso con borde blanco: sobre el mapa azul el azul oscuro se perdia (Alberto, 8-nov-2026) */
-  .pin-chip b { font-size: 22px; font-weight: 800; letter-spacing: .14em; }
+  .pin-chip b { font-size: 22px; font-weight: 700; letter-spacing: .14em; }
   .pin-chip[hidden] { display: none; }
   .seg-top { display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
   .seg-top > * { pointer-events: auto; }
@@ -1299,7 +1314,7 @@
   .seg-top .pin-inicio { margin: 0; display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; padding: 10px 14px; background: #fff; border: 2px solid var(--turq); border-radius: 16px; box-shadow: var(--sombra-card); text-align: left; }
   .seg-top .pin-inicio[hidden] { display: none; }
   .seg-top .pin-et { grid-column: 1; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: none; }
-  #pinInicioNum { grid-column: 2; grid-row: 1 / span 3; font-size: 40px; line-height: 1; font-weight: 800; letter-spacing: .14em; margin: 0; padding-left: 2px; }
+  #pinInicioNum { grid-column: 2; grid-row: 1 / span 3; font-size: 40px; line-height: 1; font-weight: 700; letter-spacing: .14em; margin: 0; padding-left: 2px; }
   .seg-top .pin-ayuda { grid-column: 1; font-size: 13px; line-height: 1.3; }
   .seg-top .btn-link { grid-column: 1; justify-self: start; min-height: 32px; font-size: 13px; }
   @media (max-width: 899px) {
@@ -1328,18 +1343,18 @@
     body.pas-pantalla .wiz-hoja { padding: 0 20px calc(12px + env(safe-area-inset-bottom)); }
     body.pas-pantalla .hoja-asa { margin: 0 -20px; }
     body.pas-pantalla .hoja-asa span { width: 44px; height: 5px; border-radius: 3px; background: #D9DFE3; }
-    body.pas-pantalla .wiz-titulo { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; margin: 0 0 12px; }
+    body.pas-pantalla .wiz-titulo { font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; margin: 0 0 12px; }
     body.pas-pantalla .wiz-hoja .chip-opc { min-height: 48px; padding: 0 13px; font-size: 15px; font-weight: 700; border: 1.5px solid #D9DFE3; background: #fff; color: #0A2236; }
     body.pas-pantalla .wiz-chips-fijos .chip-opc { background: #E3F6F8; border: 1.5px solid #14B8C4; color: #08626A; box-shadow: none; padding: 0 8px; font-size: 15px; }
     body.pas-pantalla .wiz-hoja .ruta { background: #F2F4F5; border-radius: 16px; padding: 6px 10px 6px 6px; }
     body.pas-pantalla .wiz-hoja .ruta-input-wrap input { border: 0; background: transparent; box-shadow: none; border-radius: 0; font-size: 17px; font-weight: 700; padding: 13px 40px 13px 4px; color: #0A2236; }
     body.pas-pantalla .wiz-hoja .precio-card { border: 1px solid #D9DFE3; border-radius: 16px; box-shadow: none; }
-    body.pas-pantalla .wiz-hoja .precio-valor { font-size: 44px; font-weight: 800; letter-spacing: -.03em; }
+    body.pas-pantalla .wiz-hoja .precio-valor { font-size: 44px; font-weight: 700; letter-spacing: -.03em; }
     body.pas-pantalla .acepta-arriendo { font-size: 12px; line-height: 1.4; color: #4E5A6C; }
     body.pas-pantalla .wiz-hoja #origen { box-shadow: inset 0 -1px 0 #D9DFE3; }   /* filete entre origen y destino, como en la maqueta */
     body.pas-pantalla .wiz-hoja .ruta-input-wrap input::placeholder { color: #6C7A8A; font-weight: 600; }
     body.pas-pantalla .wiz-pie .btn-primario { min-height: 60px; font-size: 18px; font-weight: 600; border-radius: 8px; }
-    body.pas-pantalla .wiz-hoja .btn-agregar-parada { font-size: 16px; font-weight: 800; color: #08626A; min-height: 48px; margin-top: 2px; padding: 4px 6px; }
+    body.pas-pantalla .wiz-hoja .btn-agregar-parada { font-size: 16px; font-weight: 700; color: #08626A; min-height: 48px; margin-top: 2px; padding: 4px 6px; }
   }
   /* Seguimiento como la maqueta (pasajero): título «Tu conductor viene» + chip de minutos, conductor con avatar y patente ámbar, PIN en casillas oscuras,
      acciones Mensaje · Compartir y «Cancelar viaje» en rojo. El mapa real queda libre arriba. Solo teléfono; mismos ids y handlers.
@@ -1360,21 +1375,21 @@
     body.pas-pantalla #segHoja #btnEditarViaje { order: 9; }
     body.pas-pantalla #segHoja #btnCancelarViaje { order: 10; }
     body.pas-pantalla #segHoja .seg-cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; }
-    body.pas-pantalla #segHoja .estado-box { flex: 1; min-width: 0; margin: 0; padding: 0; background: transparent; border: 0; box-shadow: none; font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
+    body.pas-pantalla #segHoja .estado-box { flex: 1; min-width: 0; margin: 0; padding: 0; background: transparent; border: 0; box-shadow: none; font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
     body.pas-pantalla #segHoja .estado-box::before { display: none; }
-    body.pas-pantalla #segHoja .eta { flex: none; margin: 0; padding: 8px 14px; border-radius: 18px; background: #E3F6F8; color: #08626A; font-weight: 800; text-align: right; box-shadow: none; border: 0; }
-    body.pas-pantalla #segHoja .eta > :first-child { font-size: 17px; font-weight: 800; }
+    body.pas-pantalla #segHoja .eta { flex: none; margin: 0; padding: 8px 14px; border-radius: 18px; background: #E3F6F8; color: #08626A; font-weight: 700; text-align: right; box-shadow: none; border: 0; }
+    body.pas-pantalla #segHoja .eta > :first-child { font-size: 17px; font-weight: 700; }
     body.pas-pantalla #segHoja .eta > :nth-child(2) { font-size: 12px; font-weight: 600; }
     body.pas-pantalla .conductor-banner { display: flex; align-items: center; gap: 14px; background: transparent; border: 0; box-shadow: none; padding: 0; margin: 0 0 12px; }
     body.pas-pantalla .conductor-banner .cab-cond { display: none; }
-    body.pas-pantalla .conductor-banner .nombre { font-size: 19px; font-weight: 800; color: #0A2236; }
+    body.pas-pantalla .conductor-banner .nombre { font-size: 19px; font-weight: 700; color: #0A2236; }
     body.pas-pantalla .conductor-banner .nombre span { color: #EF6D19 !important; font-weight: 700 !important; }
-    body.pas-pantalla .conductor-banner .patente { display: inline-block; margin-top: 4px; padding: 3px 10px; border-radius: 8px; background: #FFD479; color: #2a1b00; font-weight: 800; letter-spacing: .08em; font-size: 15px; border: 0; }
-    body.pas-pantalla .cond-av { flex: none; width: 52px; height: 52px; border-radius: 50%; background: #11304A; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 20px; box-shadow: inset 0 0 0 2px #14B8C4; }
+    body.pas-pantalla .conductor-banner .patente { display: inline-block; margin-top: 4px; padding: 3px 10px; border-radius: 8px; background: #FFD479; color: #2a1b00; font-weight: 700; letter-spacing: .08em; font-size: 15px; border: 0; }
+    body.pas-pantalla .cond-av { flex: none; width: 52px; height: 52px; border-radius: 50%; background: #11304A; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 20px; box-shadow: inset 0 0 0 2px #14B8C4; }
     body.pas-pantalla #pinInicio { margin: 0 0 4px; padding: 0; background: transparent; border: 0; box-shadow: none; }
     body.pas-pantalla #pinInicio .pin-et { font-size: 16px; font-weight: 700; color: #0A2236; text-transform: none; letter-spacing: 0; }
     body.pas-pantalla #pinInicioNum { display: flex; width: 100%; align-self: stretch; gap: 10px; margin: 8px 0; letter-spacing: 0; }
-    body.pas-pantalla #pinInicioNum i { flex: 1; height: 64px; display: grid; place-items: center; font-style: normal; font-size: 28px; font-weight: 800; color: #fff; background: #11304A; border-radius: 16px; box-shadow: inset 0 -3px 0 #14B8C4; }
+    body.pas-pantalla #pinInicioNum i { flex: 1; height: 64px; display: grid; place-items: center; font-style: normal; font-size: 28px; font-weight: 700; color: #fff; background: #11304A; border-radius: 16px; box-shadow: inset 0 -3px 0 #14B8C4; }
     body.pas-pantalla .acciones-seg { grid-template-columns: 1fr; justify-items: start; gap: 10px; margin: 8px 0 4px; }
     body.pas-pantalla .acciones-seg .btn { flex-direction: row; gap: 8px; width: auto; min-height: 44px; padding: 0 18px; font-size: 15px; font-weight: 700; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; border-radius: 8px; box-shadow: none; }   /* compacta: antes una tarjeta de 64 px a todo el ancho (Alberto, 8-nov-2026) */
     body.pas-pantalla .acciones-seg .btn svg { width: 18px; height: 18px; }
@@ -1386,20 +1401,20 @@
   @media (max-width: 899px) {
     body.pas-pantalla .fin-icono { width: 56px; height: 56px; background: transparent; color: #EF6D19; }
     body.pas-pantalla .fin-icono svg { width: 48px; height: 48px; }
-    body.pas-pantalla .fin-titulo { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: #0A2236; }
-    body.pas-pantalla .fin-total { font-size: 44px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #0A2236; }
+    body.pas-pantalla .fin-titulo { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: #0A2236; }
+    body.pas-pantalla .fin-total { font-size: 44px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; color: #0A2236; }
     body.pas-pantalla #cardCalificar { background: transparent; border: 0; box-shadow: none; padding: 0; }
-    body.pas-pantalla #cardCalificar .card-title { font-size: 18px; font-weight: 800; color: #0A2236; }
+    body.pas-pantalla #cardCalificar .card-title { font-size: 18px; font-weight: 700; color: #0A2236; }
     body.pas-pantalla .estrellas { gap: 8px; justify-content: space-between; }
     body.pas-pantalla .estrella { flex: 1; max-width: 68px; width: 64px; height: 64px; border-radius: 16px; background: #F2F4F5; border: 0; font-size: 30px; color: #C5CDD3; }
     body.pas-pantalla .estrella.activa { color: #EF6D19; }
     body.pas-pantalla #comentarioCalificar { border: 1.5px solid #D9DFE3; border-radius: 16px; background: #fff; padding: 14px 16px; font-size: 16px; }
-    body.pas-pantalla #btnEnviarCalificacion { min-height: 60px; font-size: 18px; font-weight: 800; border-radius: 18px; width: 100%; }
+    body.pas-pantalla #btnEnviarCalificacion { min-height: 60px; font-size: 18px; font-weight: 700; border-radius: 18px; width: 100%; }
     body.en-cierre #segHoja #accionesSeg { display: none !important; }
     body.en-cierre #segHoja .estado-box { font-size: 16px; font-weight: 700; }
     body.en-cierre #segHoja #avisoWeb { order: 90; margin-top: 16px; }   /* la invitación a instalar va después de calificar */
     body.pas-pantalla .pago-op { min-height: 64px; border-radius: 16px; }
-    body.pas-pantalla .pago-op strong { font-size: 16px; font-weight: 800; }
+    body.pas-pantalla .pago-op strong { font-size: 16px; font-weight: 700; }
     body.pas-pantalla .pago-op small { font-size: 13px; }
     body.pas-pantalla .pago-op[aria-pressed="true"] { border: 2px solid #14B8C4; background: #E3F6F8; color: #08626A; }
     body.pas-pantalla #btnNuevoPin { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #08626A; }
@@ -1414,43 +1429,43 @@
      botones 60 px radio 18, campos 52 px, fondo blanco y sin la barra vieja en Mi cuenta / Mis viajes. Solo teléfono; mismos ids, handlers y textos (los legales no se tocan).
      Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
   @media (max-width: 899px) {
-    .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: var(--r-card) 0 0 var(--r-card); padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
     .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
     .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
-    .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
-    .menu-lateral-quien strong { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 700; }
+    .menu-lateral-quien strong { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: #11304A; }
     .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
-    .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
-    .menu-lateral-item { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: var(--r-btn); background: #F2F4F5; font-size: 26px; color: #11304A; }
+    .menu-lateral-item { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; color: #0A2236; }
     .menu-lateral-item::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
     .menu-lateral-item:active { background: #E3F6F8; }
     .menu-punto.contador { margin-left: 8px; }
     .menu-pie { margin-top: 14px; padding-top: 0; border-top: 0; }
-    .menu-pie-item { min-height: 48px; background: none; border-radius: 12px; font-size: 15px; font-weight: 600; color: #08626A; }
+    .menu-pie-item { min-height: 48px; background: none; border-radius: var(--r-btn); font-size: 15px; font-weight: 600; color: #08626A; }
     .menu-pie-item::after { display: none; }
     .pagina-cab, .cuenta-cab { gap: 10px; margin: 0 0 16px; }
-    .pagina-cab h3, .cuenta-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
-    .pagina-cab button, .cuenta-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
+    .pagina-cab h3, .cuenta-cab h2 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    .pagina-cab button, .cuenta-cab button { width: 44px; height: 44px; border-radius: var(--r-btn); background: #F2F4F5; color: #11304A; }
     .modal-opc.pagina, .modal-opc.pagina .modal-opc-hoja { background: #fff; }
     .modal-opc.pagina .modal-opc-hoja { padding-left: 20px; padding-right: 20px; }
     body.cta-solo { background: #fff; }
     body.cta-solo .topbar { display: none; }
     body.cta-solo #vistaCuenta { padding-top: max(14px, env(safe-area-inset-top)); }
-    .modal-opc.pagina .card, #vistaCuenta .card { background: #F2F4F5; border: 0; border-radius: 18px; box-shadow: none; padding: 16px; }
-    #vistaCuenta .card-title { font-size: 17px; font-weight: 800; color: #11304A; }
+    .modal-opc.pagina .card, #vistaCuenta .card { background: #F2F4F5; border: 0; border-radius: var(--r-card); box-shadow: none; padding: 16px; }
+    #vistaCuenta .card-title { font-size: 17px; font-weight: 700; color: #11304A; }
     .modal-opc.pagina .nota, .modal-opc.pagina .tyc-p, #vistaCuenta .nota { color: #4E5A6C; }
-    .msg-fila, .viaje-fila { background: #F2F4F5; border: 0; border-radius: 16px; padding: 14px 16px; }
+    .msg-fila, .viaje-fila { background: #F2F4F5; border: 0; border-radius: var(--r-card); padding: 14px 16px; }
     .msg-fila:active, .viaje-fila.viaje-tocar:active { background: #E3F6F8; }
-    .modal-opc.pagina .lugar-item { margin-bottom: 8px; padding: 12px 14px; background: #F2F4F5; border: 0; border-radius: 16px; }
-    .modal-opc.pagina .lugar-info strong { font-size: 17px; font-weight: 800; color: #0A2236; }
-    .pago-opcion { min-height: 64px; background: #F2F4F5; border: 2px solid transparent; border-radius: 18px; }
-    .pago-opcion strong { font-weight: 800; color: #0A2236; }
+    .modal-opc.pagina .lugar-item { margin-bottom: 8px; padding: 12px 14px; background: #F2F4F5; border: 0; border-radius: var(--r-card); }
+    .modal-opc.pagina .lugar-info strong { font-size: 17px; font-weight: 700; color: #0A2236; }
+    .pago-opcion { min-height: 64px; background: #F2F4F5; border: 2px solid transparent; border-radius: var(--r-card); }
+    .pago-opcion strong { font-weight: 700; color: #0A2236; }
     .pago-opcion.elegida { border-color: #14B8C4; background: #E3F6F8; }
-    .modal-opc.pagina .btn, #vistaCuenta .btn { min-height: 60px; border-radius: 18px; font-size: 17px; font-weight: 800; }
-    .modal-opc.pagina .btn.btn-chico { min-height: 48px; width: auto; padding: 0 16px; border-radius: 14px; background: #E3F6F8; color: #08626A; font-size: 15px; box-shadow: none; }
+    .modal-opc.pagina .btn, #vistaCuenta .btn { min-height: 60px; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; }
+    .modal-opc.pagina .btn.btn-chico { min-height: 48px; width: auto; padding: 0 16px; border-radius: var(--r-btn); background: #E3F6F8; border: 1.5px solid #14B8C4; color: #08626A; font-size: 15px; box-shadow: none; }
     .modal-opc.pagina .chip-opc, .modal-opc.pagina .lugar-accion-btn { min-height: 48px; }
-    .modal-opc.pagina .campo input, #vistaCuenta .campo input, .modal-opc.pagina .campo textarea, #vistaCuenta .campo textarea { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
-    .modal-opc.pagina .campo select { min-height: 52px !important; border-radius: 14px !important; border: 1.5px solid #D9DFE3 !important; font-weight: 600; }
+    .modal-opc.pagina .campo input, #vistaCuenta .campo input, .modal-opc.pagina .campo textarea, #vistaCuenta .campo textarea { min-height: 52px; border-radius: var(--r-input); border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+    .modal-opc.pagina .campo select { min-height: 52px !important; border-radius: var(--r-input) !important; border: 1.5px solid #D9DFE3 !important; font-weight: 600; }
   }
   /* Sin movimiento lateral (pedido de Alberto, 31-oct-2026): la hoja inferior, su contenedor, el menú y la página NO se arrastran de lado. Con overflow-y: auto el eje X
      queda en «auto» y un texto largo lo vuelve desplazable; aquí se cierra y el gesto se limita a vertical. A PROPÓSITO siguen horizontales: el deslizador «Iniciar/Finalizar viaje»
@@ -1474,7 +1489,7 @@
   /* Aeropuerto: panel de las dos terminales (Impecable, 31-oct-2026). Solo estilo, aplicado únicamente con body.solo-aeropuerto: tarjeta con radio 18 y sombra para separarla de la hoja, título 14/800 en turquesa-texto
      (antes 12 px gris) y filas de 56 px 16/700; el texto puede pasar a dos líneas para que «Terminal 2 (internacional)» no se corte. La lógica (pintarOpcionesAeropuerto, fijarTerminal…) no se toca. */
   body.solo-aeropuerto .recientes-rapidos { border: 1px solid #D9DFE3; border-radius: 18px; box-shadow: 0 14px 30px -12px rgba(7, 24, 42, .35); }
-  body.solo-aeropuerto .rec-tit { padding: 12px 16px 6px; font-size: 14px; font-weight: 800; letter-spacing: .02em; opacity: 1; color: #08626A; }
+  body.solo-aeropuerto .rec-tit { padding: 12px 16px 6px; font-size: 14px; font-weight: 700; letter-spacing: .02em; opacity: 1; color: #08626A; }
   .rec-item.rec-aero { min-height: 56px; padding: 6px 16px; border-top: 1px solid #D9DFE3; font-size: 16px; font-weight: 700; color: #0A2236; }
   .rec-item.rec-aero span { white-space: normal; }
   .rec-item.rec-aero .ico { color: #08626A; }
@@ -1487,21 +1502,21 @@
   /* Botón de peligro rojo «D» (Alberto, 1-nov-2026: «el rojo tiene estilo antiguo»): misma familia que el calipso D pero en rojo semántico: texto blanco ≥ 4,5:1, degradado sutil, filo de luz de 1 px que respeta el radio 18,
      borde inferior sólido más oscuro de 3 px, presionado que baja 3 px y deshabilitado con color propio. Sin halo naranja ni destello (el rojo no compite con el naranja del mapa). Misma altura (60 px) que «Iniciar», para que el cambio Iniciar/Desconectar no salte. */
   :root { --btn-peligro-grad: linear-gradient(180deg, #C2483A 0%, #B3392B 52%, #A03023 100%); }
-  .btn.btn-peligro { position: relative; min-height: 60px; border: none; border-radius: 18px; background: var(--btn-peligro-grad); color: #FFFFFF; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B, 0 12px 22px -10px rgba(179, 57, 43, .45); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-peligro { position: relative; min-height: 60px; border: none; border-radius: var(--r-btn); background: var(--btn-peligro-grad); color: #FFFFFF; font-weight: 600; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B, 0 12px 22px -10px rgba(179, 57, 43, .45); transition: transform .08s ease, box-shadow .08s ease; }
   .btn.btn-peligro:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #B3392B, #A03023); box-shadow: inset 0 2px 4px rgba(60, 12, 8, .35), 0 0 0 #7C241B, 0 4px 10px -6px rgba(179, 57, 43, .45); }
   .btn.btn-peligro:disabled { opacity: 1; background: #EBC9C5; color: #7F352D; box-shadow: none; transform: none; }
   /* Pop-up de cancelación (1-nov-2026): el costo se dice ANTES de cancelar. Botones apilados: arriba «Seguir esperando» (turquesa D, lo seguro) y abajo «Sí, cancelar» (rojo D). Borde superior rojo suave. */
   .rb-pop-caja.peligro { border-top-color: #B3392B; }
   .rb-pop-caja.peligro .rb-pop-texto { font-size: 18px; font-weight: 700; line-height: 1.4; color: #0A2236; margin-bottom: 20px; }
   .rb-pop-caja.peligro .rb-pop-botones { flex-direction: column; gap: 12px; }
-  .rb-pop-caja.peligro .rb-pop-botones button { width: 100%; min-height: 56px; border-radius: 18px; font-size: 17px; font-weight: 800; position: relative; }
+  .rb-pop-caja.peligro .rb-pop-botones button { width: 100%; min-height: 56px; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; position: relative; }
   .rb-pop-caja.peligro .rb-pop-no { background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94; }
   .rb-pop-caja.peligro .rb-pop-si { background: var(--btn-peligro-grad); color: #FFFFFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B; }
   .rb-pop-caja.peligro .rb-pop-botones button:active { transform: translateY(3px); box-shadow: none; }
   .aviso-cancel-gratis { margin: -6px 0 10px; font-size: 13px; font-weight: 600; color: #08626A; order: 1; }
   .aviso-cancel-gratis[hidden] { display: none; }
   /* Cambiar conductor (1-nov-2026): botón secundario hielo de 48 px arriba de «Cancelar viaje» (rojo D); pop-up con tarjetas de motivo de 56 px. «Sí, cambiar» va en turquesa D (no es peligro: no cuesta nada). */
-  .btn#btnCambiarConductor { min-height: 48px; border-radius: 16px; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-weight: 800; box-shadow: none; }
+  .btn#btnCambiarConductor { min-height: 48px; border-radius: var(--r-btn); background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-weight: 600; box-shadow: none; }
   .btn#btnCambiarConductor:active:not(:disabled) { background: #E3F6F8; }
   body.pas-pantalla #segHoja #btnCambiarConductor { order: 10; }
   body.pas-pantalla #segHoja #avisoSinCambios { order: 10; }
@@ -1511,7 +1526,7 @@
   .rb-pop-caja.cambio { border-top-color: #14B8C4; }
   .rb-pop-caja.cambio .rb-pop-texto { margin-bottom: 14px; }
   .rb-motivos { display: flex; flex-direction: column; gap: 10px; margin: 0 0 18px; }
-  .rb-motivo { width: 100%; min-height: 56px; padding: 0 16px; border-radius: 16px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font: 700 16px system-ui, sans-serif; text-align: left; cursor: pointer; }
+  .rb-motivo { width: 100%; min-height: 56px; padding: 0 16px; border-radius: var(--r-btn); border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font: 600 16px "IBM Plex Sans", system-ui, sans-serif; text-align: left; cursor: pointer; }
   .rb-motivo[aria-pressed="true"] { border-color: #14B8C4; background: #E3F6F8; box-shadow: inset 0 0 0 1px #14B8C4; color: #08626A; }
   .rb-pop-caja.cambio .rb-pop-si { background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94; }
   .rb-pop-caja.cambio .rb-pop-si:disabled { background: #BCE6EA; color: #4F7D85; box-shadow: none; }
@@ -3053,7 +3068,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 95;
+  var APP_VERSION = 96;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {

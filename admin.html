@@ -148,6 +148,7 @@
   }
   .switch input:checked ~ .switch-pista { background: var(--accent); }
   .switch input:checked ~ .switch-pista::after { transform: translateX(19px); }
+  :where(button, a[href], summary, [role="button"], [tabindex]):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }   /* anillo general (especificidad 0): las reglas propias lo pisan */
   .switch input:focus-visible ~ .switch-pista { outline: 2px solid var(--primary); outline-offset: 2px; }
 
   /* ---------- Pestañas ---------- */
@@ -193,7 +194,7 @@
   .oferta { padding: 16px; }
   .oferta-cabeza { margin-bottom: 8px; font-size: 16px; font-weight: 600; }
   .oferta-precio { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 10px; }
-  .oferta-monto { font-size: 40px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .oferta-monto { font-size: 40px; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .oferta-etq { font-size: 14px; color: var(--text-2); }
   .oferta-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .oferta-chip { display: inline-block; font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-soft-ink); font-variant-numeric: tabular-nums; }
@@ -268,7 +269,7 @@
   .cobro-pantalla .modal-hoja { min-height: 70vh; display: flex; flex-direction: column; }
   .cobro-tit { margin: 0 0 20px; font-size: 19px; }
   .cobro-quien { margin: 0; font-size: 18px; color: var(--text-2); }
-  .cobro-monto { margin: 4px 0 12px; font-size: 56px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .cobro-monto { margin: 4px 0 12px; font-size: 56px; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .cobro-que { margin: 0 0 12px; font-size: 18px; font-weight: 600; }
   .cobro-nota { margin: 0 0 12px; font-size: 15px; color: var(--text-2); white-space: pre-line; }
   .cobro-neto { margin: auto 0 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 15px; color: var(--text-2); white-space: pre-line; }
@@ -400,11 +401,34 @@
   .xp-fila small { font-size: 13px; }
   .xp-aviso { margin: 4px 0 0; font-size: 13.5px; font-weight: 600; }
   .xp-sec { margin: 18px 0 4px; font-size: 15px; }
+  /* Tarifas v1 (pestaña «Semana»): selector de día, barra del día, filas de tramos y vista previa. Colores de nivel con texto oscuro (AA). */
+  .v1-dias { display: flex; gap: 4px; margin-top: 10px; }
+  .v1-dia { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0; border: 1.5px solid var(--border); border-radius: 8px; background: var(--surface); font: inherit; font-weight: 600; font-size: 14px; color: var(--text-2); cursor: pointer; }
+  .v1-dia.activo { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .v1-barra { display: flex; height: 14px; margin-top: 12px; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); }
+  .v1-s-VALLE { background: #8FD3B0; } .v1-s-MEDIA { background: #F2CF7A; } .v1-s-PUNTA { background: #D9776B; }
+  .v1-horas { display: flex; justify-content: space-between; margin-top: 2px; font-size: 12px; color: var(--text-3); }
+  .v1-leyenda { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 4px; }
+  .v1-chip { padding: 3px 10px; border-radius: 99px; font-size: 13px; font-weight: 700; }
+  .v1-c-VALLE { background: var(--ok-tinte); color: var(--ok-texto); } .v1-c-MEDIA { background: var(--ambar-tinte); color: var(--ambar-texto); } .v1-c-PUNTA { background: var(--alerta-tinte); color: #8A2C20; }
+  .v1-cab, .v1-fila { display: grid; grid-template-columns: 112px minmax(0, 1fr) 48px; gap: 8px; align-items: center; }
+  .v1-cab { margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--text-2); }
+  .v1-fila { margin-top: 6px; }
+  .v1-fila input, .v1-fila select { width: 100%; min-height: 48px; box-sizing: border-box; }
+  .v1-x { min-height: 48px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 22px; line-height: 1; color: var(--text-2); cursor: pointer; }
+  .v1-acc { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .v1-acc .btn { flex: 1 1 150px; }
+  .v1-aviso { margin: 4px 0 0; padding: 10px 12px; border-radius: 8px; background: var(--warn-soft); border: 1px solid var(--warn-border); color: #5C4208; font-size: 14px; line-height: 1.45; }
+  .v1-estado:empty { display: none; } .v1-estado { margin: 0; font-size: 14px; font-weight: 600; color: var(--text-2); }
+  .v1-prev { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .v1-prev > div { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; }
+  .v1-prev strong { font-size: 20px; line-height: 1.2; }
+  .v1-prev small { font-size: 13px; color: var(--text-2); }
   .xp-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
   .xp-fila > span { min-width: 0; color: var(--text-2); }
   .xp-fila > b { flex: none; text-align: right; }
   .xp-fila.xp-fuerte > span, .xp-fila.xp-fuerte > b { color: var(--text); font-weight: 700; }
-  .aviso-tarifas { flex: none; margin: 0 0 12px; padding: 12px 14px; border: 1.5px solid var(--primary); border-radius: 12px; background: var(--surface-2); }
+  .aviso-tarifas { flex: none; margin: 0 0 12px; padding: 12px 14px; border: 1.5px solid var(--primary); border-radius: var(--r-card); background: var(--surface-2); }
   .aviso-tarifas strong { display: block; font-size: 15px; }
   .aviso-tarifas .ayuda { margin: 4px 0 0; font-size: 13.5px; }
   .aviso-tarifas table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 13.5px; }
@@ -790,7 +814,7 @@
   #mpEmpresaEstado, #mpEstado { padding: 12px 14px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); font-weight: 600; line-height: 1.4; }
   #mpEmpresaEstado.ok, #mpEstado.ok { background: var(--accent-soft); border-color: transparent; }
   /* Liquidaciones: tarjeta por conductor con el saldo a la derecha */
-  .liq-saldo { flex: none; text-align: right; font-weight: 800; font-size: 18px; line-height: 1.15; font-variant-numeric: tabular-nums; color: var(--text); }
+  .liq-saldo { flex: none; text-align: right; font-weight: 700; font-size: 18px; line-height: 1.15; font-variant-numeric: tabular-nums; color: var(--text); }
   .liq-saldo small { display: block; font-size: 12px; font-weight: 600; color: var(--text-3); letter-spacing: 0; }
   .liq-saldo.a-favor { color: var(--accent); }
   .liq-saldo.debe { color: var(--warn); }
@@ -809,8 +833,8 @@
   .adm-kpis .kpi-nota { font-size: 12px; }
   .adm-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
   .adm-fijo { flex: none; }
-  .adm-tabs { display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: var(--surface-2); flex: none; }
-  .adm-tabs button { flex: 1; min-height: 40px; border: none; border-radius: 12px; background: none; font: inherit; font-weight: 700; font-size: 14px; color: var(--text-2); cursor: pointer; }
+  .adm-tabs { display: flex; gap: 4px; padding: 4px; border-radius: var(--r-card); background: var(--surface-2); flex: none; }
+  .adm-tabs button { flex: 1; min-height: 40px; border: none; border-radius: var(--r-btn); background: none; font: inherit; font-weight: 600; font-size: 14px; color: var(--text-2); cursor: pointer; }
   .adm-tabs button.activo { background: var(--surface); color: var(--primary); box-shadow: 0 0 0 1px var(--border); }
   .adm-panel-tab[hidden] { display: none; }
   .adm-pantalla .plegable { border-top: none; margin: 0; }
@@ -831,7 +855,7 @@
   .flota-estado span { font-size: 12px; font-weight: 500; color: var(--text-3); }
   .flota-ver { display: flex; gap: 8px; margin: 0 0 8px; }
   .flota-ver-btn { flex: 1; min-height: 44px; border: 2px solid var(--border-strong); border-radius: 12px; background: var(--surface); color: var(--text-2); font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
-  .flota-ver-btn b { font-weight: 800; margin-left: 4px; }
+  .flota-ver-btn b { font-weight: 700; margin-left: 4px; }
   .flota-ver-btn.activo { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
   body.cond-pantalla.hoja-medio .flota-resumen { display: none; }   /* los botones ya muestran los totales */
   .mem-barra { height: 10px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); overflow: hidden; }
@@ -871,7 +895,7 @@
   .pe-barra.poco span { background: var(--danger); }
   .pe-tiempo { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 48px; text-align: right; }
   .pe-etiqueta { font-size: 14px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-3); }
-  .pe-precio { font-size: 46px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin: 2px 0 6px; }
+  .pe-precio { font-size: 46px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin: 2px 0 6px; }
   .pe-cuando { margin-bottom: 10px; }
   .pe-cuando .pedido-programacion, .pe-cuando > div { margin: 0; }
   .pe-ruta { display: grid; gap: 8px; margin-bottom: 10px; }
@@ -1384,6 +1408,21 @@
   .by-pie { text-align: center; color: #4E5A6C; font-size: 14px; margin: 4px 0 18px; }
   .splash.oculta { opacity: 0; pointer-events: none; }
   .splash[hidden] { display: none; }
+  /* Splash calmo (Alberto, 10-nov-2026; propuesta B de diseno/apps/splash-propuesta): entradas ease-in-out y escalonadas, menos piezas (sin halo del logo, puntos fijos, sin banda del eslogan, ciudad más tenue)
+     y un solo movimiento: la ruta y el auto (splash-escena.html). La fase 1 (carita quieta 0-0,5 s) y el logo no cambian de lugar, medida ni aspecto. */
+  .splash { --io: cubic-bezier(.45, 0, .55, 1); }
+  .splash .splash-centro { transition: opacity 1s var(--io); }
+  .splash::before { transition: opacity 1.2s var(--io); }
+  .splash.fase2 .splash-escena { opacity: .6; transition: opacity 1.6s var(--io) 1s; }
+  .splash.fase2 .splash-marca { transition: opacity 1.4s var(--io) .45s; }
+  .splash.fase2 .splash-rol { transition: opacity 1.4s var(--io) .45s; }
+  .splash.fase2 .splash-cargando { transition: opacity .9s var(--io) 1.9s; }
+  .splash.fase2 .splash-eslogan { transition: opacity 1s var(--io) 2.1s; }
+  .splash .by { transition: bottom 1s var(--io), font-size 1s var(--io), color 1s var(--io); }
+  .splash-marca::before { display: none; }
+  .splash-cargando i { animation: none; opacity: .8; }
+  .splash-eslogan { background: none; }
+  @media (prefers-reduced-motion: reduce) { .splash .splash-centro, .splash::before, .splash.fase2 .splash-escena, .splash.fase2 .splash-marca, .splash.fase2 .splash-rol, .splash.fase2 .splash-cargando, .splash.fase2 .splash-eslogan, .splash .by { transition: none; } }
 
   /* ---------- Actualización obligatoria (pantalla completa, no se puede
      cerrar hasta descargar) — mismo criterio que DAOMA. ---------- */
@@ -1420,15 +1459,15 @@
   .rb-pop { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center;
     padding: 24px; background: rgba(11,34,54,0.55); }
   .rb-pop[hidden] { display: none; }
-  .rb-pop-caja { width: 100%; max-width: 360px; background: #fff; color: #11304A; border-radius: 14px; padding: 22px 20px 16px;
+  .rb-pop-caja { width: 100%; max-width: 360px; background: #fff; color: #11304A; border-radius: var(--r-card); padding: 22px 20px 16px;
     box-shadow: 0 0 0 1px var(--border); border-top: 6px solid var(--acento, #0EA5B0); max-height: 80vh; overflow-y: auto; }
   .rb-pop-caja.error { border-top-color: #B3392B; }
   .rb-pop-caja.ok { border-top-color: #0B7A4B; }
-  .rb-pop-texto { margin: 0 0 18px; font: 500 16px/1.45 "Montserrat", system-ui, sans-serif; white-space: pre-line; word-wrap: break-word; }
-  .rb-pop-campo { width: 100%; box-sizing: border-box; margin: 0 0 18px; padding: 11px 12px; font: 16px "Montserrat", system-ui, sans-serif;
-    border: 1px solid #C9D3DE; border-radius: 12px; }
+  .rb-pop-texto { margin: 0 0 18px; font: 500 16px/1.45 "IBM Plex Sans", system-ui, sans-serif; white-space: pre-line; word-wrap: break-word; }
+  .rb-pop-campo { width: 100%; box-sizing: border-box; margin: 0 0 18px; padding: 11px 12px; font: 16px "IBM Plex Sans", system-ui, sans-serif;
+    border: 1px solid #C9D3DE; border-radius: var(--r-input); }
   .rb-pop-botones { display: flex; gap: 10px; justify-content: flex-end; }
-  .rb-pop-botones button { min-width: 96px; padding: 11px 16px; border-radius: 12px; font: 600 15px "Montserrat", system-ui, sans-serif; cursor: pointer; border: 0; }
+  .rb-pop-botones button { min-width: 96px; padding: 11px 16px; border-radius: var(--r-btn); font: 600 15px "IBM Plex Sans", system-ui, sans-serif; cursor: pointer; border: 0; }
   .rb-pop-si { background: #11304A; color: #fff; }
   .rb-pop-no { background: #E8EEF3; color: #11304A; }
   .rb-pop-si:disabled { opacity: .45; cursor: default; }
@@ -1456,7 +1495,7 @@
     body.cond-pantalla:not(.modo-admin) #panelPedidos .hoja-asa span { width: 44px; height: 5px; background: #D9DFE3; border-radius: 3px; }
     body.cond-pantalla:not(.modo-admin) .kpi-card { background: #F2F4F5; border: 1px solid #D9DFE3; border-radius: 20px; padding: 14px 16px; box-shadow: none; }
     body.cond-pantalla:not(.modo-admin) .kpi-etiqueta { font-size: 15px; font-weight: 600; color: #4E5A6C; }
-    body.cond-pantalla:not(.modo-admin) .kpi-valor { font-size: 36px; font-weight: 800; letter-spacing: -.03em; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .kpi-valor { font-size: 36px; font-weight: 700; letter-spacing: -.03em; color: #0A2236; }
     body.cond-pantalla:not(.modo-admin) .btn-conexion { background: #14B8C4; color: #07182A; min-height: 60px; border-radius: 8px; font-size: 18px; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
     body.cond-pantalla:not(.modo-admin) .btn-conexion.desconectar { background: var(--danger); color: #fff; box-shadow: none; }
   }
@@ -1467,17 +1506,17 @@
     body.cond-pantalla:not(.modo-admin) .pe-hoja { max-width: none; border-radius: 28px 28px 0 0; padding: 20px 20px calc(18px + env(safe-area-inset-bottom)); }
     body.cond-pantalla:not(.modo-admin) .pe-barra { height: 8px; background: #D9DFE3; }
     body.cond-pantalla:not(.modo-admin) .pe-barra span { background: #14B8C4; }
-    body.cond-pantalla:not(.modo-admin) .pe-etiqueta { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #FFE9D6; color: #A04A00; font-size: 14px; font-weight: 800; letter-spacing: 0; text-transform: none; }
+    body.cond-pantalla:not(.modo-admin) .pe-etiqueta { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #FFE9D6; color: #A04A00; font-size: 14px; font-weight: 700; letter-spacing: 0; text-transform: none; }
     body.cond-pantalla:not(.modo-admin) .pe-etiqueta::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #EF6D19; }
-    body.cond-pantalla:not(.modo-admin) .pe-precio { font-size: 40px; font-weight: 800; letter-spacing: -.03em; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .pe-precio { font-size: 40px; font-weight: 700; letter-spacing: -.03em; color: #0A2236; }
     body.cond-pantalla:not(.modo-admin) .pe-linea { font-size: 17px; font-weight: 700; color: #0A2236; }
     body.cond-pantalla:not(.modo-admin) .pe-pto { border-color: #EF6D19; }
     body.cond-pantalla:not(.modo-admin) .pe-pto-d { background: #14B8C4; border-color: #14B8C4; border-radius: 3px; }
     body.cond-pantalla:not(.modo-admin) .pe-aceptar { min-height: 60px; border-radius: 8px; background: #14B8C4; color: #07182A; font-size: 20px; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(20, 184, 196, .55); }
     body.cond-pantalla:not(.modo-admin) .pe-segundo .btn { min-height: 56px; border-radius: 8px; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 16px; font-weight: 600; }
     body.cond-pantalla:not(.modo-admin) .tarjeta-viaje { border-radius: 24px; padding: 16px 18px; background: #fff; border: 0; box-shadow: 0 12px 32px -10px rgba(7, 24, 42, .45); }
-    body.cond-pantalla:not(.modo-admin) .tv-et { font-size: 13px; font-weight: 800; letter-spacing: .04em; color: #08626A; }
-    body.cond-pantalla:not(.modo-admin) .tv-dir { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
+    body.cond-pantalla:not(.modo-admin) .tv-et { font-size: 13px; font-weight: 700; letter-spacing: .04em; color: #08626A; }
+    body.cond-pantalla:not(.modo-admin) .tv-dir { font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #0A2236; }
     body.cond-pantalla:not(.modo-admin) .tv-sub { font-size: 15px; font-weight: 600; color: #4E5A6C; }
     body.cond-pantalla:not(.modo-admin) .tv-mas { width: 44px; height: 44px; background: #F2F4F5; color: #11304A; }
     body.cond-pantalla:not(.modo-admin) .tv-act { min-height: 56px; border-radius: 8px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font-size: 14px; font-weight: 600; }
@@ -1491,34 +1530,36 @@
      botones 60 px radio 18, chips 48, campos 52, documentos con filas hielo y barra turquesa; sin la barra vieja en las pantallas de ajuste. Solo teléfono y solo conductor
      (el admin no cambia); mismos ids, handlers y textos (los legales no se tocan). Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
   @media (max-width: 899px) {
-    body:not(.modo-admin) .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    body:not(.modo-admin) .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: var(--r-card) 0 0 var(--r-card); padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
     body:not(.modo-admin) .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
     body:not(.modo-admin) .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
-    body:not(.modo-admin) .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
-    body:not(.modo-admin) .menu-lateral-quien strong { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    body:not(.modo-admin) .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 700; }
+    body:not(.modo-admin) .menu-lateral-quien strong { font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: #11304A; }
     body:not(.modo-admin) .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
-    body:not(.modo-admin) .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
-    body:not(.modo-admin) .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body:not(.modo-admin) .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    body:not(.modo-admin) .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: var(--r-btn); background: #F2F4F5; font-size: 26px; color: #11304A; }
+    body:not(.modo-admin) .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body:not(.modo-admin) .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; color: #0A2236; }
     body:not(.modo-admin) .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item)::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
     body:not(.modo-admin) .menu-lateral-item:active, body:not(.modo-admin) .menu-grupo:active { background: #E3F6F8; }
     body:not(.modo-admin) .menu-sub { padding: 0 0 6px 12px; background: transparent; }
-    body:not(.modo-admin) .menu-sub-item { min-height: 48px; margin-bottom: 6px; padding: 0 16px; background: #fff; border: 1.5px solid #D9DFE3; border-radius: 14px; font-size: 16px; font-weight: 600; color: #0A2236; }
+    body:not(.modo-admin) .menu-sub-item { min-height: 48px; margin-bottom: 6px; padding: 0 16px; background: #fff; border: 1.5px solid #D9DFE3; border-radius: var(--r-btn); font-size: 16px; font-weight: 600; color: #0A2236; }
     body:not(.modo-admin) .menu-pie { margin-top: 14px; padding-top: 0; border-top: 0; }
-    body:not(.modo-admin) .menu-pie-item { min-height: 48px; background: none; padding: 0 16px; border-radius: 12px; font-size: 15px; font-weight: 600; color: #08626A; }
+    body:not(.modo-admin) .menu-pie-item { min-height: 48px; background: none; padding: 0 16px; border-radius: var(--r-btn); font-size: 15px; font-weight: 600; color: #08626A; }
     body:not(.modo-admin) .ajustes-cab { gap: 10px; margin: 0 0 16px; }
-    body:not(.modo-admin) .ajustes-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
-    body:not(.modo-admin) .ajustes-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
+    body:not(.modo-admin) .ajustes-cab h2 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    body:not(.modo-admin) .ajustes-cab button { width: 44px; height: 44px; border-radius: var(--r-btn); background: #F2F4F5; color: #11304A; }
     body.aj-solo:not(.modo-admin) { background: #fff; }
     body.aj-solo:not(.modo-admin) .topbar { display: none; }
     body.aj-solo:not(.modo-admin) #panelAjustes { padding-top: max(14px, env(safe-area-inset-top)); }
-    body:not(.modo-admin) #panelAjustes .card, body:not(.modo-admin) #panelAjustes details.aj-solo-item { background: #F2F4F5; border: 0; border-radius: 18px; box-shadow: none; padding: 16px; }
-    body:not(.modo-admin) #panelAjustes .btn:not(.btn-chico) { min-height: 60px; border-radius: 8px; font-size: 17px; font-weight: 600; }
-    body:not(.modo-admin) #panelAjustes .btn.btn-chico { min-height: 48px; border-radius: 8px; font-size: 15px; font-weight: 600; }
-    body:not(.modo-admin) #panelAjustes .campo input, body:not(.modo-admin) #panelAjustes .campo select, body:not(.modo-admin) #panelAjustes .campo textarea { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
-    body:not(.modo-admin) .docs-grupo { font-size: 17px; font-weight: 800; letter-spacing: -.01em; color: #11304A; }
-    body:not(.modo-admin) .docs-lista > * { background: #F2F4F5; border: 0; border-radius: 16px; }
+    body:not(.modo-admin) #panelAjustes .card, body:not(.modo-admin) #panelAjustes details.aj-solo-item { background: #F2F4F5; border: 0; border-radius: var(--r-card); box-shadow: none; padding: 16px; }
+    body:not(.modo-admin) #panelAjustes .btn:not(.btn-chico) { min-height: 60px; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; }
+    body:not(.modo-admin) #panelAjustes .btn.btn-chico { min-height: 48px; border-radius: var(--r-btn); font-size: 15px; font-weight: 600; }
+    body:not(.modo-admin) #panelAjustes .btn.btn-chico:not(.btn-ok):not(.btn-danger):not(.btn-peligro) { background: #E3F6F8; border: 1.5px solid #14B8C4; color: #08626A; box-shadow: none; }
+    body:not(.modo-admin) #panelAjustes .campo input, body:not(.modo-admin) #panelAjustes .campo select, body:not(.modo-admin) #panelAjustes .campo textarea { min-height: 52px; border-radius: var(--r-input); border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+    body:not(.modo-admin) .docs-grupo { font-size: 17px; font-weight: 700; letter-spacing: -.01em; color: #11304A; }
+    body:not(.modo-admin) .docs-lista > * { background: #F2F4F5; border: 0; border-radius: var(--r-card); }
     body:not(.modo-admin) .mem-relleno { background: #14B8C4; }
-    body:not(.modo-admin) .docs-lista .btn { min-height: 48px; }
+    body:not(.modo-admin) .docs-lista .btn { min-height: 48px; border-radius: var(--r-btn); }
+    body:not(.modo-admin) .docs-lista .btn.btn-chico:not(.btn-ok):not(.btn-danger):not(.btn-peligro) { background: #E3F6F8; border: 1.5px solid #14B8C4; color: #08626A; box-shadow: none; }
     body:not(.modo-admin) .docs-lista .btn.btn-ok { background: #14B8C4; color: #07182A; }
   }
   /* Sin movimiento lateral (pedido de Alberto, 31-oct-2026): la hoja inferior, su contenedor, el menú y la página NO se arrastran de lado. Con overflow-y: auto el eje X
@@ -1543,7 +1584,7 @@
   /* Botón de peligro rojo «D» (Alberto, 1-nov-2026: «el rojo tiene estilo antiguo»): misma familia que el calipso D pero en rojo semántico: texto blanco ≥ 4,5:1, degradado sutil, filo de luz de 1 px que respeta el radio 18,
      borde inferior sólido más oscuro de 3 px, presionado que baja 3 px y deshabilitado con color propio. Sin halo naranja ni destello (el rojo no compite con el naranja del mapa). Misma altura (60 px) que «Iniciar», para que el cambio Iniciar/Desconectar no salte. */
   :root { --btn-peligro-grad: linear-gradient(180deg, #C2483A 0%, #B3392B 52%, #A03023 100%); }
-  .btn.btn-danger:not(#peRechazar), button.btn-peligro, button.btn-conexion.desconectar, body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar { position: relative; min-height: 60px; border: none; border-radius: 18px; background: var(--btn-peligro-grad); color: #FFFFFF; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B, 0 12px 22px -10px rgba(179, 57, 43, .45); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn.btn-danger:not(#peRechazar), button.btn-peligro, button.btn-conexion.desconectar, body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar { position: relative; min-height: 60px; border: none; border-radius: var(--r-btn); background: var(--btn-peligro-grad); color: #FFFFFF; font-weight: 600; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B, 0 12px 22px -10px rgba(179, 57, 43, .45); transition: transform .08s ease, box-shadow .08s ease; }
   .btn.btn-danger:not(#peRechazar):active:not(:disabled), button.btn-peligro:active:not(:disabled), button.btn-conexion.desconectar:active:not(:disabled), body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar:active:not(:disabled) { transform: translateY(3px); background: linear-gradient(180deg, #B3392B, #A03023); box-shadow: inset 0 2px 4px rgba(60, 12, 8, .35), 0 0 0 #7C241B, 0 4px 10px -6px rgba(179, 57, 43, .45); }
   .btn.btn-danger:not(#peRechazar):disabled, button.btn-peligro:disabled, button.btn-conexion.desconectar:disabled, body.cond-pantalla:not(.modo-admin) button.btn-conexion.desconectar:disabled { opacity: 1; background: #EBC9C5; color: #7F352D; box-shadow: none; transform: none; }
   /* Panel de inicio del administrador (aprobado por Alberto, 31-oct-2026): fondo 5 Niebla de Aurora, 6 indicadores de vidrio y barra inferior Panel · Mapa · Más. Solo administrador;
@@ -1552,14 +1593,14 @@
   body.modo-admin.admin-vista-panel .admin-panel { display: block; position: fixed; left: 50%; transform: translateX(-50%); width: 100%; max-width: 560px; top: var(--topbar-h, 96px); bottom: 0; z-index: 3; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding: 14px 16px calc(var(--nav-h-adm, 92px) + 12px); color: #fff; background: linear-gradient(180deg, rgba(7, 24, 42, .05), rgba(7, 24, 42, .45) 50%, rgba(7, 24, 42, .88)), #07182A url(img/fondo-admin-aurora.webp) center top / cover no-repeat; }
   body.admin-vista-panel { background: #07182A; }
   body.admin-vista-panel #condMapa, body.admin-vista-panel #panelPedidos, body.admin-vista-panel .pestana-conexion { display: none !important; }
-  .ap-titulo { margin: 4px 0 2px; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; color: #fff; }
+  .ap-titulo { margin: 4px 0 2px; font-size: 28px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; color: #fff; }
   .ap-act { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #B7C6D2; }
   .ap-act i { width: 8px; height: 8px; border-radius: 50%; background: #5FD3DB; }
   .ap-aviso { margin: 0 0 12px; padding: 14px 16px; border-radius: 20px; background: #fff; color: #0A2236; box-shadow: 0 14px 34px -14px rgba(0, 0, 0, .6); }
   .ap-aviso[hidden], .ap-alerta[hidden] { display: none; }
-  .ap-pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px; padding: 6px 12px; border-radius: 999px; background: #FDEBDD; color: #9A3F05; font-size: 14px; font-weight: 800; }
+  .ap-pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px; padding: 6px 12px; border-radius: 999px; background: #FDEBDD; color: #9A3F05; font-size: 14px; font-weight: 700; }
   .ap-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #EF6D19; }
-  .ap-aviso b { display: block; font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
+  .ap-aviso b { display: block; font-size: 19px; font-weight: 700; letter-spacing: -.01em; }
   .ap-aviso p { margin: 2px 0 10px; font-size: 15px; color: #4E5A6C; overflow-wrap: anywhere; }
   .ap-aviso .btn { min-height: 52px; font-size: 16px; }
   .ap-alerta { margin: 0 0 12px; padding: 10px 14px; border-radius: 16px; background: rgba(255, 212, 121, .16); border: 1px solid rgba(255, 212, 121, .4); color: #FFD479; font-size: 15px; font-weight: 700; }
@@ -1567,7 +1608,7 @@
   .ap-k { display: block; width: 100%; padding: 11px 14px 10px; text-align: left; font: inherit; color: #fff; border-radius: 20px; background: rgba(11, 34, 56, .72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .14); cursor: pointer; }
   .ap-k:active { background: rgba(20, 184, 196, .22); }
   .ap-ic { width: 22px; height: 22px; fill: none; stroke: #5FD3DB; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-  .ap-k b { display: block; margin-top: 2px; font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+  .ap-k b { display: block; margin-top: 2px; font-size: 30px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
   .ap-k span { font-size: 14px; font-weight: 600; color: #B7C6D2; white-space: nowrap; }
   .ap-k.at { border-color: rgba(239, 109, 25, .55); } .ap-k.at .ap-ic { stroke: #EF6D19; }
   .ap-k.am .ap-ic { stroke: #FFD479; }
@@ -1584,16 +1625,16 @@
     body.modo-admin #panelPedidos .hoja-asa { margin: 0 -20px; }
     body.modo-admin #panelPedidos .hoja-asa span { width: 44px; height: 5px; background: #D9DFE3; border-radius: 3px; }
     body.modo-admin .flota-ver { gap: 10px; margin: 6px 0 10px; }
-    body.modo-admin .flota-ver-btn { min-height: 48px; border-radius: 999px; background: #fff; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 15px; font-weight: 800; }
+    body.modo-admin .flota-ver-btn { min-height: 48px; border-radius: 999px; background: #fff; border: 1.5px solid #D9DFE3; color: #0A2236; font-size: 15px; font-weight: 700; }
     body.modo-admin .flota-ver-btn.activo { background: #E3F6F8; border-color: #14B8C4; color: #08626A; }
     body.modo-admin .flota-chip { background: #F2F4F5; border-radius: 999px; font-weight: 700; color: #0A2236; }
     body.modo-admin .flota-fila { margin-bottom: 8px; padding: 12px 14px; background: #F2F4F5; border: 0; border-radius: 16px; }
     body.modo-admin .flota-fila.sel { background: #E3F6F8; }
-    body.modo-admin .flota-quien strong { font-size: 16px; font-weight: 800; color: #0A2236; }
-    body.modo-admin .flota-titulo { margin: 14px 2px 8px; font-size: 13px; font-weight: 800; letter-spacing: .05em; color: #4E5A6C; }
+    body.modo-admin .flota-quien strong { font-size: 16px; font-weight: 700; color: #0A2236; }
+    body.modo-admin .flota-titulo { margin: 14px 2px 8px; font-size: 13px; font-weight: 700; letter-spacing: .05em; color: #4E5A6C; }
     body.modo-admin .flota-detalle { border-radius: 18px; background: #F2F4F5; }
     body.modo-admin .flota-aviso { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; margin: 4px 0 10px; padding: 12px 14px; text-align: left; font: inherit; color: #0A2236; background: #FDEBDD; border: 1.5px solid #EF6D19; border-radius: 18px; cursor: pointer; }
-    body.modo-admin .flota-aviso strong { font-size: 17px; font-weight: 800; }
+    body.modo-admin .flota-aviso strong { font-size: 17px; font-weight: 700; }
     body.modo-admin .flota-aviso > span:last-child { font-size: 14px; color: #4E5A6C; overflow-wrap: anywhere; }
     body.modo-admin .flota-aviso[hidden] { display: none; }
     body.modo-admin .flota-aviso .ap-pill { background: #fff; }
@@ -1611,24 +1652,25 @@
     body.modo-admin.cond-pantalla .brand-movil { display: none; }
     body.modo-admin.cond-pantalla .brand-sub { padding: 4px 10px; border-radius: 999px; background: rgba(255, 212, 121, .16); border: 1px solid rgba(255, 212, 121, .4); color: #FFD479; font-size: 13px; font-weight: 700; line-height: 1.2; }
     body.modo-admin.cond-pantalla .btn-menu-cond { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .12); background: rgba(11, 34, 56, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 2px 10px rgba(0, 0, 0, .28); }
-    body.modo-admin .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: 28px 0 0 28px; padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
+    body.modo-admin .menu-lateral { width: min(86vw, 340px); background: #fff; border-radius: var(--r-card) 0 0 var(--r-card); padding: calc(18px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); }
     body.modo-admin .menu-lateral.abierto { box-shadow: -8px 0 32px rgba(7, 24, 42, .25); }
     body.modo-admin .menu-lateral-cab { gap: 14px; padding-bottom: 6px; margin-bottom: 14px; border-bottom: 0; }
-    body.modo-admin .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 800; }
-    body.modo-admin .menu-lateral-quien strong { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: #11304A; }
+    body.modo-admin .menu-lateral-avatar { width: 52px; height: 52px; background: #11304A; font-size: 20px; font-weight: 700; }
+    body.modo-admin .menu-lateral-quien strong { font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: #11304A; }
     body.modo-admin .menu-lateral-quien span { font-size: 14px; color: #4E5A6C; }
-    body.modo-admin .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; font-size: 26px; color: #11304A; }
-    body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body.modo-admin .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: 18px; font-size: 17px; font-weight: 700; color: #0A2236; }
+    body.modo-admin .menu-lateral-cerrar { width: 44px; height: 44px; border-radius: var(--r-btn); background: #F2F4F5; font-size: 26px; color: #11304A; }
+    body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body.modo-admin .menu-grupo { min-height: 56px; margin-bottom: 8px; padding: 0 16px; background: #F2F4F5; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; color: #0A2236; }
     body.modo-admin .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item)::after { content: ""; flex: none; width: 9px; height: 9px; margin-left: auto; border-top: 2px solid #4E5A6C; border-right: 2px solid #4E5A6C; transform: rotate(45deg); }
     body.modo-admin .menu-lateral-item:active { background: #E3F6F8; }
-    body.modo-admin .menu-lateral-seccion { margin: 16px 4px 8px; padding: 0; border-bottom: 0; font-size: 13px; font-weight: 800; letter-spacing: .05em; color: #4E5A6C; }
+    body.modo-admin .menu-lateral-seccion { margin: 16px 4px 8px; padding: 0; border-bottom: 0; font-size: 13px; font-weight: 700; letter-spacing: .05em; color: #4E5A6C; }
     body.modo-admin .adm-pantalla { background: #fff; padding-left: 20px; padding-right: 20px; }
     body.modo-admin .adm-pantalla .ajustes-cab { gap: 10px; padding: 6px 0 12px; border-bottom: 0; }
-    body.modo-admin .adm-pantalla .ajustes-cab h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
-    body.modo-admin .adm-pantalla .ajustes-cab button { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F5; color: #11304A; }
-    body.modo-admin .adm-pantalla .btn:not(.btn-chico) { min-height: 60px; border-radius: 8px; font-size: 17px; font-weight: 600; }
-    body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: 8px; font-size: 15px; font-weight: 600; }
-    body.modo-admin .adm-pantalla .campo input, body.modo-admin .adm-pantalla .campo select, body.modo-admin .adm-pantalla .campo textarea, body.modo-admin .adm-pantalla input[type=text], body.modo-admin .adm-pantalla input[type=search] { min-height: 52px; border-radius: 14px; border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
+    body.modo-admin .adm-pantalla .ajustes-cab h2 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #11304A; }
+    body.modo-admin .adm-pantalla .ajustes-cab button { width: 44px; height: 44px; border-radius: var(--r-btn); background: #F2F4F5; color: #11304A; }
+    body.modo-admin .adm-pantalla .btn:not(.btn-chico) { min-height: 60px; border-radius: var(--r-btn); font-size: 17px; font-weight: 600; }
+    body.modo-admin .adm-pantalla .btn.btn-chico { min-height: 48px; border-radius: var(--r-btn); font-size: 15px; font-weight: 600; }
+    body.modo-admin .adm-pantalla .btn.btn-chico:not(.btn-ok):not(.btn-danger):not(.btn-peligro) { background: #E3F6F8; border: 1.5px solid #14B8C4; color: #08626A; box-shadow: none; }
+    body.modo-admin .adm-pantalla .campo input, body.modo-admin .adm-pantalla .campo select, body.modo-admin .adm-pantalla .campo textarea, body.modo-admin .adm-pantalla input[type=text], body.modo-admin .adm-pantalla input[type=search] { min-height: 52px; border-radius: var(--r-input); border: 1.5px solid #D9DFE3; background: #fff; font-size: 16px; font-weight: 600; color: #0A2236; }
   }
   /* Web de computador (≥900 px, 3-nov-2026): conductor y administrador dejan de ser una columna de celular.
      Barra de arriba de lado a lado, panel de 420 px a la izquierda (sin asa ni alturas) y el mapa ocupa el resto;
@@ -2925,7 +2967,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 91;
+  var APP_VERSION = 92;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -3774,6 +3816,7 @@
       { id: "costos", titulo: "Costos", nodos: [tarjetas[0]] },
       { id: "hora", titulo: "Valor hora", nodos: [tarjetas[1]] },
       { id: "franjas", titulo: "Franjas", nodos: [franjas] },
+      { id: "semana", titulo: "Semana", nodos: [armarPanelSemana()] },
       { id: "explicar", titulo: "Explicar", nodos: [armarPanelExplicar()] }
     ]);
     var pieT = envolver(pt, "adm-fijo", [document.getElementById("btnGuardarTarifas"), document.getElementById("tarifasMsg")]);
@@ -5858,6 +5901,7 @@
       if (!res.ok) { rbAlerta(res.error || "No se pudieron cargar las tarifas."); return; }
       if (res.tipo_combustible !== undefined) document.getElementById("tipoCombustible").value = res.tipo_combustible || "";
       tarifasPropias = res.tarifas;
+      if (MODO === "admin") v1Cargar(res.tarifas);
       if (MODO !== "admin") pintarModoTarifa(res.modo_tarifa, res.solicitud_tarifa); else pintarAvisoTarifas();
       CAMPOS_TARIFA.forEach(function (c) {
         if (res.tarifas[c] !== undefined) document.getElementById(c).value = res.tarifas[c];
@@ -5874,13 +5918,15 @@
   // las de la red; conductor: las de su vehículo). Lo usan el botón Guardar y
   // el aviso del combustible de los jueves — mandar solo un campo borraría los
   // demás valores propios del conductor en el servidor.
-  function guardarTarifasDelFormulario() {
+  function guardarTarifasDelFormulario(incluirV1) {
     var tarifas = {};
     CAMPOS_TARIFA.forEach(function (c) {
       var el = document.getElementById(c);
       tarifas[c] = el.type === "number" ? parseFloat(el.value) || 0 : el.value;
     });
     tarifas.diasPuntaTodoElDia = diasPuntaSeleccionados;
+    // Tarifas v1 (pestaña «Semana»): solo desde el botón Guardar y solo si ya vienen del servidor o el admin las editó.
+    if (incluirV1 && v1 && MODO === "admin" && v1Incluir()) Object.assign(tarifas, v1ATarifas(v1));
     var cuerpo = { accion: "guardar_tarifas", tarifas: tarifas };
     if (MODO !== "admin") {
       cuerpo = { accion: "guardar_mis_tarifas", tipo_combustible: document.getElementById("tipoCombustible").value };
@@ -5889,14 +5935,20 @@
     return apiPost(cuerpo);
   }
 
-  document.getElementById("btnGuardarTarifas").addEventListener("click", function () {
+  document.getElementById("btnGuardarTarifas").addEventListener("click", async function () {
     // El resultado va SIEMPRE en el pop-up flotante (no en una línea que puede quedar fuera de la vista).
     var boton = this, msg = document.getElementById("tarifasMsg");
     msg.textContent = ""; msg.className = "msg";
+    if (MODO === "admin" && v1 && v1Cambio()) {
+      var errV1 = v1Validar(v1);
+      if (errV1) { rbAlerta(errV1); return; }
+      if (!(await rbConfirmar("Los cambios de franjas, dinámica y cobro rigen en el acto para todos: pasajeros, conductores y pedidos nuevos. ¿Guardar?"))) return;
+    }
     boton.disabled = true;
-    guardarTarifasDelFormulario().then(function (res) {
+    guardarTarifasDelFormulario(true).then(function (res) {
       boton.disabled = false;
       if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudieron guardar los cambios."); return; }
+      if (MODO === "admin" && v1 && v1Incluir()) { v1.orig = JSON.stringify(v1ATarifas(v1)); v1.desdeServidor = true; v1PintarCampos(); }
       if (MODO !== "admin") {   // lo guardado pasa a ser «lo actual» en el cuadro comparativo
         tarifasPropias = Object.assign({}, tarifasPropias || {});
         CAMPOS_MI_VEHICULO.forEach(function (c) { tarifasPropias[c] = parseFloat(document.getElementById(c).value) || 0; });
@@ -5909,7 +5961,7 @@
   /* Explicar un precio (solo admin, pestaña «Explicar» de Tarifas de la red). El cálculo es del servidor (acción explicar_precio, sin guardar nada);
      acá solo se pide y se pinta. Contrato: diseno/CONTRATO-EXPLICAR-PRECIO.md. Los porcentajes (cargo, membresía) sí se ven: es pantalla de administración. */
   function pesosAdm(n) { return Math.round(Number(n) || 0).toLocaleString("es-CL"); }
-  var NIVEL_TXT = { VALLE: "Valle", PUNTA: "Punta", FUERTE: "Punta fuerte" };
+  var NIVEL_TXT = { VALLE: "Valle", MEDIA: "Media", PUNTA: "Punta", FUERTE: "Punta fuerte" };
   function htmlExplicacion(r) {
     function p(n) { return pesosAdm(n) + " pesos"; }
     function dec(n) { return String(n).replace(".", ","); }
@@ -5974,6 +6026,234 @@
         '<label class="campo-label" for="xpTlitro">Precio del litro (pesos)</label><input type="number" id="xpTlitro" inputmode="numeric">' +
         '<label class="campo-label" for="xpTfinTarde">Fin de la punta de la tarde</label><input type="time" id="xpTfinTarde"></details>' +
       '<div id="xpResultado" aria-live="polite"></div>';
+    return d;
+  }
+  /* ---------------------------------------------------------------
+     TARIFAS V1 (admin, pestaña «Semana» de Tarifas de la red): franjas por día, dinámica por día y hora, mínima, km y peaje de regreso en vacío.
+     Se leen con accion=tarifas y se guardan con guardar_tarifas (formato de diseno/TARIFAS-V1.json: franjasSemana y demandaTabla, días 0 = domingo a 6,
+     minuto de inicio 0-1439). La validación de acá es más estricta que la del servidor a propósito (tope propio de la dinámica) y la vista previa
+     usa explicar_precio (vigentes vs. con los cambios, sin guardar nada). No toca precios ni el servidor.
+     --------------------------------------------------------------- */
+  var V1_DIAS = [1, 2, 3, 4, 5, 6, 0];
+  var V1_DIA_CORTO = { 0: "Dom", 1: "Lun", 2: "Mar", 3: "Mié", 4: "Jue", 5: "Vie", 6: "Sáb" };
+  var V1_DIA_LARGO = { 0: "domingo", 1: "lunes", 2: "martes", 3: "miércoles", 4: "jueves", 5: "viernes", 6: "sábado" };
+  var V1_NIVELES = ["VALLE", "MEDIA", "PUNTA"], V1_NIVEL_TXT = { VALLE: "Valle", MEDIA: "Media", PUNTA: "Punta" };
+  // Propuesta aprobada (diseno/TARIFAS-V1.json): se usa solo si el servidor aún no tiene tablas guardadas (rigen las constantes de respaldo).
+  var V1_PROPUESTA = {
+    fr: { 0: [[0, "PUNTA"], [360, "MEDIA"], [1020, "PUNTA"], [1260, "MEDIA"]], 1: [[0, "MEDIA"], [600, "VALLE"], [1020, "MEDIA"], [1260, "VALLE"]], 2: [[0, "MEDIA"], [600, "VALLE"], [1020, "MEDIA"], [1260, "VALLE"]], 3: [[0, "MEDIA"], [600, "VALLE"], [1020, "MEDIA"], [1260, "VALLE"]], 4: [[0, "MEDIA"], [600, "VALLE"], [1020, "MEDIA"], [1260, "VALLE"]], 5: [[0, "MEDIA"], [600, "VALLE"], [1020, "MEDIA"], [1260, "VALLE"]], 6: [[0, "PUNTA"], [360, "MEDIA"], [1020, "PUNTA"]] },
+    de: { 0: [[0, 1.07], [360, 1]], 1: [[0, 1], [360, 1.06], [600, 1], [1020, 1], [1260, 1]], 2: [[0, 1], [360, 1.06], [600, 1], [1020, 1], [1260, 1]], 3: [[0, 1], [360, 1.06], [600, 1], [1020, 1], [1260, 1]], 4: [[0, 1], [360, 1.06], [600, 1], [1020, 1], [1260, 1]], 5: [[0, 1], [360, 1.02], [600, 1], [1020, 1.06], [1260, 1.09]], 6: [[0, 1.04], [360, 1], [1260, 1.06]] }
+  };
+  var v1 = null;   // estado del editor: { fr, de, tope, dinamica, media, minima, kmU, kmL, peajeVacio, diaFr, diaDe, orig, desdeServidor, tocado }
+
+  function v1HoraAMin(s) {
+    var m = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(String(s || ""));
+    return m ? Number(m[1]) * 60 + Number(m[2]) : -1;
+  }
+  function v1MinAHora(n) {
+    n = Math.round(Number(n)) || 0;
+    var h = Math.floor(n / 60), m = n % 60;
+    return (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+  }
+  function v1Validar(v) {
+    var coma = function (n) { return String(n).replace(".", ","); };
+    var miles = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
+    var num = function (x) { return typeof x === "number" && isFinite(x); };
+    if (!num(v.tope) || v.tope < 1 || v.tope > 3) return "El tope de la dinámica debe estar entre 1 y 3.";
+    var tablas = [["fr", "Franjas del "], ["de", "Dinámica del "]];
+    for (var k = 0; k < tablas.length; k++) {
+      for (var d = 0; d < 7; d++) {
+        var tr = v[tablas[k][0]] && v[tablas[k][0]][d], pre = tablas[k][1] + V1_DIA_LARGO[d] + ": ";
+        if (!Array.isArray(tr) || !tr.length) return pre + "agrega al menos un tramo.";
+        for (var i = 0; i < tr.length; i++) {
+          var min = tr[i][0];
+          if (!num(min) || min % 1 !== 0 || min < 0 || min > 1439) return pre + "hay una hora inválida.";
+          if (i === 0 && min !== 0) return pre + "el primer tramo debe partir a las 00:00.";
+          if (i > 0 && min <= tr[i - 1][0]) return pre + "las horas deben ir en orden, sin repetirse.";
+          if (k === 0 && V1_NIVELES.indexOf(tr[i][1]) === -1) return pre + "elige valle, media o punta.";
+          if (k === 1 && (!num(tr[i][1]) || tr[i][1] < 1 || tr[i][1] > v.tope)) return pre + "el factor debe estar entre 1 y " + coma(v.tope) + ".";
+        }
+      }
+    }
+    if (!num(v.minima) || v.minima < 0 || v.minima > 20000) return "La tarifa mínima debe estar entre 0 y " + miles(20000) + " pesos.";
+    if (!num(v.kmU) || v.kmU < 0 || v.kmU > 1000) return "El valor por km urbano debe estar entre 0 y " + miles(1000) + " pesos.";
+    if (!num(v.kmL) || v.kmL < 0 || v.kmL > 1000) return "El valor por km largo debe estar entre 0 y " + miles(1000) + " pesos.";
+    if (!num(v.media) || v.media < 1000 || v.media > 100000) return "La hora media debe estar entre " + miles(1000) + " y " + miles(100000) + " pesos.";
+    return "";
+  }
+  // Lo que se manda a guardar_tarifas / explicar_precio (claves del servidor; días como «0» a «6»).
+  function v1ATarifas(v) {
+    var fr = {}, de = {};
+    for (var d = 0; d < 7; d++) {
+      fr[d] = v.fr[d].map(function (t) { return [t[0], t[1]]; });
+      de[d] = v.de[d].map(function (t) { return [t[0], t[1]]; });
+    }
+    return { franjasSemana: fr, demandaTabla: de, demandaTope: v.tope, demandaDinamica: !!v.dinamica, valorHoraMedia: v.media, tarifaMinima: v.minima, tarifaKmUrbano: v.kmU, tarifaKmLargo: v.kmL, peajeRegresoVacio: !!v.peajeVacio };
+  }
+  // Estado del editor desde las tarifas del servidor. Tablas null = aún rigen las constantes: se arranca con la propuesta v1 y no se manda nada hasta que el admin edite.
+  function v1Desde(t) {
+    t = t || {};
+    var clon = function (o) { return JSON.parse(JSON.stringify(o)); };
+    var cifra = function (x, por) { return typeof x === "number" && isFinite(x) ? x : por; };
+    var fr = {}, de = {};
+    for (var d = 0; d < 7; d++) {
+      fr[d] = clon(t.franjasSemana && t.franjasSemana[d] ? t.franjasSemana[d] : V1_PROPUESTA.fr[d]);
+      de[d] = clon(t.demandaTabla && t.demandaTabla[d] ? t.demandaTabla[d] : V1_PROPUESTA.de[d]);
+    }
+    return {
+      fr: fr, de: de, tope: cifra(t.demandaTope, 1.3), dinamica: t.demandaDinamica !== false, media: cifra(t.valorHoraMedia, 12000), minima: cifra(t.tarifaMinima, 1500),
+      kmU: cifra(t.tarifaKmUrbano, 120), kmL: cifra(t.tarifaKmLargo, 0), peajeVacio: t.peajeRegresoVacio !== false,
+      diaFr: 1, diaDe: 1, desdeServidor: !!(t.franjasSemana && t.demandaTabla), tocado: false
+    };
+  }
+  function v1Cargar(tarifas) {
+    v1 = v1Desde(tarifas);
+    v1.orig = JSON.stringify(v1ATarifas(v1));
+    v1Pintar();
+  }
+  function v1Cambio() { return !!v1 && JSON.stringify(v1ATarifas(v1)) !== v1.orig; }
+  function v1Incluir() { return !!v1 && (v1.desdeServidor || v1.tocado); }
+  function v1Barra(tr) {
+    var h = '<div class="v1-barra" aria-hidden="true">';
+    for (var i = 0; i < tr.length; i++) {
+      var fin = i + 1 < tr.length ? tr[i + 1][0] : 1440;
+      if (fin > tr[i][0] && V1_NIVELES.indexOf(tr[i][1]) !== -1) h += '<span class="v1-seg v1-s-' + tr[i][1] + '" style="flex:' + (fin - tr[i][0]) + '"></span>';
+    }
+    return h + '</div><div class="v1-horas" aria-hidden="true"><span>0 h</span><span>6 h</span><span>12 h</span><span>18 h</span><span>24 h</span></div>';
+  }
+  function v1PintarEditor(tipo) {
+    var cont = document.getElementById(tipo === "fr" ? "v1Fr" : "v1De");
+    if (!cont || !v1) return;
+    var dia = tipo === "fr" ? v1.diaFr : v1.diaDe, tr = v1[tipo][dia];
+    var h = '<div class="v1-dias" role="group" aria-label="Día de la semana">';
+    V1_DIAS.forEach(function (d) { h += '<button type="button" class="v1-dia' + (d === dia ? " activo" : "") + '" data-v1dia="' + d + '" aria-pressed="' + (d === dia) + '">' + V1_DIA_CORTO[d] + '</button>'; });
+    h += '</div>';
+    if (tipo === "fr") h += '<div id="v1BarraFr">' + v1Barra(tr) + '</div><div class="v1-leyenda"><span class="v1-chip v1-c-VALLE">Valle</span><span class="v1-chip v1-c-MEDIA">Media</span><span class="v1-chip v1-c-PUNTA">Punta</span></div>';
+    h += '<div class="v1-cab"><span>Desde</span><span>' + (tipo === "fr" ? "Nivel" : "Factor (1 = sin recargo)") + '</span><span></span></div>';
+    tr.forEach(function (t, i) {
+      h += '<div class="v1-fila"><input type="time" class="v1-h" data-i="' + i + '" value="' + v1MinAHora(t[0]) + '" aria-label="Desde, tramo ' + (i + 1) + '"' + (i === 0 ? " disabled" : "") + '>';
+      if (tipo === "fr") {
+        h += '<select class="v1-n" data-i="' + i + '" aria-label="Nivel, tramo ' + (i + 1) + '">' + V1_NIVELES.map(function (n) { return '<option value="' + n + '"' + (n === t[1] ? " selected" : "") + '>' + V1_NIVEL_TXT[n] + '</option>'; }).join("") + '</select>';
+      } else {
+        h += '<input type="number" class="v1-f" data-i="' + i + '" step="0.01" min="1" inputmode="decimal" value="' + t[1] + '" aria-label="Factor, tramo ' + (i + 1) + '">';
+      }
+      h += i === 0 ? '<span></span>' : '<button type="button" class="v1-x" data-v1del="' + i + '" aria-label="Quitar el tramo ' + (i + 1) + '">&times;</button>';
+      h += '</div>';
+    });
+    h += '<div class="v1-acc"><button type="button" class="btn btn-secundario" data-v1add="1">Agregar tramo</button><button type="button" class="btn btn-secundario" data-v1copy="1">Copiar a los demás días</button></div>';
+    cont.innerHTML = h;
+    cont.dataset.tipo = tipo;
+  }
+  function v1PintarCampos() {
+    var f = function (id, valor) { var el = document.getElementById(id); if (el) el.value = isFinite(valor) ? valor : ""; };
+    f("v1Tope", v1.tope); f("v1Media", v1.media); f("v1Minima", v1.minima); f("v1KmU", v1.kmU); f("v1KmL", v1.kmL);
+    var a = document.getElementById("v1Dinamica"), b = document.getElementById("v1PeajeVacio");
+    if (a) a.checked = !!v1.dinamica;
+    if (b) b.checked = !!v1.peajeVacio;
+    var s = document.getElementById("v1Estado");
+    if (s) s.textContent = v1.desdeServidor ? "" : "Todavía rigen las tablas de respaldo del servidor. Esta es la propuesta v1: se activa al guardar.";
+  }
+  function v1Pintar() {
+    if (!v1 || !document.getElementById("v1Fr")) return;
+    v1PintarEditor("fr"); v1PintarEditor("de"); v1PintarCampos();
+  }
+  function v1ProximaFecha(dia) {
+    var d = new Date();
+    d.setDate(d.getDate() + ((dia - d.getDay() + 7) % 7));
+    var dos = function (n) { return (n < 10 ? "0" : "") + n; };
+    return d.getFullYear() + "-" + dos(d.getMonth() + 1) + "-" + dos(d.getDate());
+  }
+  function v1VistaPrevia() {
+    var btn = document.getElementById("v1BtnPrev"), res0 = document.getElementById("v1Prev");
+    var err = v1Validar(v1);
+    if (err) { rbAlerta(err); return; }
+    var dia = Number(document.getElementById("v1PrevDia").value), hora = document.getElementById("v1PrevHora").value;
+    var km = parseFloat(String(document.getElementById("v1PrevKm").value).replace(",", ".")), min = parseFloat(String(document.getElementById("v1PrevMin").value).replace(",", "."));
+    if (v1HoraAMin(hora) < 0) { rbAlerta("Elige la hora del viaje de ejemplo."); return; }
+    if (!(km > 0) || !(min > 0)) { rbAlerta("Escribe los km y los minutos del viaje de ejemplo."); return; }
+    var base = { accion: "explicar_precio", km: km, minutos: min, peaje: 0, fecha: v1ProximaFecha(dia), hora: hora, ida_vuelta: "NO" };
+    btn.disabled = true; btn.textContent = "Calculando...";
+    Promise.all([apiPost(base), apiPost(Object.assign({}, base, { tarifas: v1ATarifas(v1) }))]).then(function (r) {
+      btn.disabled = false; btn.textContent = "Ver precio de ejemplo";
+      var a = r[0], b = r[1];
+      if (!a || !a.ok || !b || !b.ok) { rbAlerta((a && !a.ok && a.error) || (b && !b.ok && b.error) || "No se pudo calcular el precio de ejemplo."); return; }
+      var pa = a.redondeos.precio_pasajero, pb = b.redondeos.precio_pasajero, qa = a.conductor.queda, qb = b.conductor.queda;
+      var dif = function (x, y) { var d = y - x; return d === 0 ? "sin cambio" : (d > 0 ? "+" : "-") + pesosAdm(Math.abs(d)) + " pesos"; };
+      var col = function (tit, x, q, niv) { return '<div><small>' + tit + '</small><strong>' + pesosAdm(x) + ' pesos</strong><span class="xp-nivel">' + escapar(NIVEL_TXT[niv] || niv) + '</span><small>Al conductor le queda ' + pesosAdm(q) + ' pesos</small></div>'; };
+      res0.innerHTML = '<div class="v1-prev">' + col("Hoy", pa, qa, a.bloque.nivel) + col("Con tus cambios", pb, qb, b.bloque.nivel) + '</div>' +
+        '<p class="xp-regla"><b>Precio al pasajero: ' + dif(pa, pb) + '.</b> Conductor: ' + dif(qa, qb) + '.</p>' +
+        '<p class="xp-nota">' + V1_DIA_LARGO[dia] + ' ' + escapar(hora) + ', ' + String(km).replace(".", ",") + ' km y ' + String(min).replace(".", ",") + ' min, sin peajes. Incluye el cargo de la app. No se guardó nada.</p>';
+    }).catch(function () { btn.disabled = false; btn.textContent = "Ver precio de ejemplo"; rbAlerta(TEXTO_SIN_CONEXION); });
+  }
+  function armarPanelSemana() {
+    var d = document.createElement("div");
+    d.className = "xp-form v1-form";
+    d.innerHTML =
+      '<p class="nota">Cambia las franjas, la dinámica y el cobro sin tocar código. Revisa el precio de ejemplo y guarda con «Guardar cambios».</p>' +
+      '<p class="v1-estado" id="v1Estado" aria-live="polite"></p>' +
+      '<h3 class="xp-sec">Franjas por día</h3>' +
+      '<p class="nota" style="margin:0;">Valle, media o punta según la hora. Cada día parte a las 00:00.</p>' +
+      '<div id="v1Fr"></div>' +
+      '<h3 class="xp-sec">Dinámica por día y hora</h3>' +
+      '<p class="v1-aviso" role="note">Cambiar la dinámica rige en el acto para todos: pasajeros, conductores y pedidos nuevos.</p>' +
+      '<label class="xp-check"><input type="checkbox" id="v1Dinamica" data-v1="dinamica">Dinámica activa</label>' +
+      '<label class="campo-label" for="v1Tope">Tope del factor (hasta 3)</label><input type="number" id="v1Tope" data-v1="tope" step="0.01" min="1" max="3" inputmode="decimal">' +
+      '<div id="v1De"></div>' +
+      '<h3 class="xp-sec">Cobro</h3>' +
+      '<div class="xp-par"><div><label class="campo-label" for="v1Minima">Mínima (pesos)</label><input type="number" id="v1Minima" data-v1="minima" step="100" min="0" inputmode="numeric"></div>' +
+      '<div><label class="campo-label" for="v1Media">Hora media (pesos)</label><input type="number" id="v1Media" data-v1="media" step="500" min="1000" inputmode="numeric"></div></div>' +
+      '<div class="xp-par"><div><label class="campo-label" for="v1KmU">Km corto (pesos)</label><input type="number" id="v1KmU" data-v1="kmU" step="5" min="0" inputmode="numeric"></div>' +
+      '<div><label class="campo-label" for="v1KmL">Km largo (pesos)</label><input type="number" id="v1KmL" data-v1="kmL" step="5" min="0" inputmode="numeric"></div></div>' +
+      '<label class="xp-check"><input type="checkbox" id="v1PeajeVacio" data-v1="peajeVacio">Cobrar el peaje del regreso en vacío (peaje ×2)</label>' +
+      '<p class="nota" style="margin:0;">Valle y punta se editan en la pestaña «Valor hora».</p>' +
+      '<h3 class="xp-sec">Vista previa de un viaje</h3>' +
+      '<p class="nota" style="margin:0;">Compara el precio de hoy con el que quedaría con tus cambios. No guarda nada.</p>' +
+      '<div class="xp-par"><div><label class="campo-label" for="v1PrevDia">Día</label><select id="v1PrevDia">' + V1_DIAS.map(function (x) { return '<option value="' + x + '">' + V1_DIA_LARGO[x].charAt(0).toUpperCase() + V1_DIA_LARGO[x].slice(1) + '</option>'; }).join("") + '</select></div>' +
+      '<div><label class="campo-label" for="v1PrevHora">Hora</label><input type="time" id="v1PrevHora" value="08:00"></div></div>' +
+      '<div class="xp-par"><div><label class="campo-label" for="v1PrevKm">Km</label><input type="number" id="v1PrevKm" value="10" step="0.1" min="0" inputmode="decimal"></div>' +
+      '<div><label class="campo-label" for="v1PrevMin">Minutos</label><input type="number" id="v1PrevMin" value="25" step="1" min="0" inputmode="numeric"></div></div>' +
+      '<button type="button" class="btn btn-secundario" id="v1BtnPrev">Ver precio de ejemplo</button>' +
+      '<div id="v1Prev" aria-live="polite"></div>';
+    d.addEventListener("click", function (ev) {
+      if (!v1) return;
+      var cont = ev.target.closest("#v1Fr, #v1De"), tipo = cont && cont.dataset.tipo;
+      var dia = ev.target.closest("[data-v1dia]");
+      if (dia && tipo) { v1[tipo === "fr" ? "diaFr" : "diaDe"] = Number(dia.dataset.v1dia); v1PintarEditor(tipo); return; }
+      var del = ev.target.closest("[data-v1del]");
+      if (del && tipo) { v1[tipo][tipo === "fr" ? v1.diaFr : v1.diaDe].splice(Number(del.dataset.v1del), 1); v1.tocado = true; v1PintarEditor(tipo); return; }
+      if (ev.target.closest("[data-v1add]") && tipo) {
+        var tr = v1[tipo][tipo === "fr" ? v1.diaFr : v1.diaDe], ult = tr[tr.length - 1];
+        if (ult[0] >= 1439) { rbAlerta("El día ya no admite más tramos después de las 23:59."); return; }
+        tr.push([Math.min(ult[0] + 60, 1439), ult[1]]); v1.tocado = true; v1PintarEditor(tipo); return;
+      }
+      if (ev.target.closest("[data-v1copy]") && tipo) {
+        var origen = tipo === "fr" ? v1.diaFr : v1.diaDe;
+        rbConfirmar("¿Copiar los tramos del " + V1_DIA_LARGO[origen] + " a los demás días?").then(function (si) {
+          if (!si) return;
+          for (var x = 0; x < 7; x++) if (x !== origen) v1[tipo][x] = JSON.parse(JSON.stringify(v1[tipo][origen]));
+          v1.tocado = true; v1PintarEditor(tipo);
+        });
+        return;
+      }
+      if (ev.target.closest("#v1BtnPrev")) v1VistaPrevia();
+    });
+    d.addEventListener("change", function (ev) {
+      if (!v1) return;
+      var el = ev.target, cont = el.closest("#v1Fr, #v1De"), tipo = cont && cont.dataset.tipo;
+      if (tipo) {
+        var tr = v1[tipo][tipo === "fr" ? v1.diaFr : v1.diaDe], i = Number(el.dataset.i);
+        if (!tr[i]) return;
+        if (el.classList.contains("v1-h")) tr[i][0] = v1HoraAMin(el.value);
+        else if (el.classList.contains("v1-n")) tr[i][1] = el.value;
+        else if (el.classList.contains("v1-f")) tr[i][1] = parseFloat(String(el.value).replace(",", "."));
+        v1.tocado = true;
+        if (tipo === "fr") { var b = document.getElementById("v1BarraFr"); if (b) b.innerHTML = v1Barra(tr); }
+        return;
+      }
+      var campo = el.dataset && el.dataset.v1;
+      if (!campo) return;
+      v1[campo] = el.type === "checkbox" ? el.checked : parseFloat(String(el.value).replace(",", "."));
+      v1.tocado = true;
+    });
     return d;
   }
   // Autocompletado de Google en origen y destino (si ya cargó el mapa); guarda las coordenadas elegidas para no depender del texto.
