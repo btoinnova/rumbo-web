@@ -217,7 +217,7 @@ html, body { margin: 0; height: 100%; background: #07182A; overflow: hidden; }
   }
   var T0 = null, running = true;
   function tick(now) {
-    if (T0 === null) T0 = now + 1100;   // la ruta arranca cuando la ciudad ya se ve (splash calmo)
+    if (T0 === null) T0 = now + 600;   // la ruta arranca cuando la ciudad ya se ve (splash calmo; sin la carita inicial de 0,5 s)
     var t = (now - T0) / 1000, p = 0;
     if (t < .2) { setFase("pide"); p = 0; }
     else if (t < 3.0) { setFase("sigue"); p = ease((t - .2) / 2.8); }

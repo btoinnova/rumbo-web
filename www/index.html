@@ -233,6 +233,10 @@
     display: flex; gap: 8px; align-items: flex-start;
   }
   .precio-nota svg { margin-top: 1px; }
+  .tyc-nuevo .rb-pop-caja p { margin: 0 0 16px; font-size: 16px; line-height: 1.5; text-align: left; }
+  .tyc-nuevo-acc { display: flex; gap: 10px; }
+  .tyc-nuevo-acc .btn { flex: 1; min-height: 48px; }
+  .precio-cancela { margin: 10px 0 0; font-size: 15px; line-height: 1.4; color: var(--text-2); }   /* regla de cancelación antes de solicitar (Ley 19.496 art. 3 b y 12 A) */
 
   /* ---------- Ruta (origen → destino conectados) ---------- */
   .ruta { display: grid; grid-template-columns: 20px 1fr; gap: 0 12px; align-items: center; }
@@ -829,6 +833,10 @@
   .transf-fila .transf-copiar { flex: none; width: auto; min-width: 84px; }
   .fin-total { font-size: 28px; font-weight: 700; line-height: 1.2; margin: 2px 0 2px; font-variant-numeric: tabular-nums; }
   .fin-sub { font-size: 16px; color: var(--text-2); }
+  .fin-saldo { margin: 14px auto 0; max-width: 340px; text-align: left; }
+  .fin-saldo-fila { display: flex; justify-content: space-between; gap: 12px; font-size: 16px; padding: 4px 0; font-variant-numeric: tabular-nums; }
+  .fin-saldo-fila.total { font-weight: 700; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 8px; }
+  .fin-saldo .fin-sub { margin-top: 8px; }
   body.viaje-terminado #etaConductor, body.viaje-terminado .pasos, body.viaje-terminado #estadoDetalle, body.viaje-terminado #distanciaConductor,
   body.viaje-terminado #avisoDerivado, body.viaje-terminado #tarjetaConductorAsignado, body.viaje-terminado #cardRecorrido, body.viaje-terminado #btnCompartirViaje { display: none !important; }
   body.viaje-terminado #btnNuevoPedido { position: sticky; bottom: 0; width: 100%; margin-top: 8px; min-height: 54px; font-size: 16px; z-index: 5; background: var(--surface); box-shadow: 0 0 0 1px var(--border); }
@@ -1192,7 +1200,7 @@
   /* Splash calmo (Alberto, 10-nov-2026; propuesta B de diseno/apps/splash-propuesta): entradas ease-in-out y escalonadas, menos piezas (sin halo del logo, puntos fijos, sin banda del eslogan, ciudad más tenue)
      y un solo movimiento: la ruta y el auto (splash-escena.html). La fase 1 (carita quieta 0-0,5 s) y el logo no cambian de lugar, medida ni aspecto. */
   .splash { --io: cubic-bezier(.45, 0, .55, 1); }
-  .splash .splash-centro { transition: opacity 1s var(--io); }
+  .splash .splash-centro { opacity: 0; transition: none; }   /* sin la primera carita (Alberto, 10-nov-2026): parte directo en la fase 2 */
   .splash::before { transition: opacity 1.2s var(--io); }
   .splash.fase2 .splash-escena { opacity: .6; transition: opacity 1.6s var(--io) 1s; }
   .splash.fase2 .splash-marca { transition: opacity 1.4s var(--io) .45s; }
@@ -1300,6 +1308,8 @@
   /* PIN y espera del pasajero: ventana flotante sobre el mapa y pastilla del PIN. */
   .llegada-pop { position: fixed; left: 12px; right: 12px; top: calc(var(--topbar-h, 91px) + 12px); z-index: 62; max-width: 420px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #fff; color: #0A2236; border-radius: 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); }
   .llegada-pop[hidden] { display: none; }
+  .llegada-cuenta { margin: 0; font-size: 16px; line-height: 1.4; color: var(--text); }
+  .llegada-cuenta .llegada-reloj { display: block; margin-top: 4px; font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--primary); }
   .llegada-pop h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
   .llegada-pop #esperaRecogida { margin: 0; }
   .llegada-pop #pinInicio { margin: 0; }
@@ -1513,7 +1523,7 @@
   .rb-pop-caja.peligro .rb-pop-no { background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94; }
   .rb-pop-caja.peligro .rb-pop-si { background: var(--btn-peligro-grad); color: #FFFFFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 0 0 1px rgba(255, 255, 255, .12), 0 3px 0 #7C241B; }
   .rb-pop-caja.peligro .rb-pop-botones button:active { transform: translateY(3px); box-shadow: none; }
-  .aviso-cancel-gratis { margin: -6px 0 10px; font-size: 13px; font-weight: 600; color: #08626A; order: 1; }
+  .aviso-cancel-gratis { margin: -6px 0 10px; font-size: 15px; font-weight: 600; color: #08626A; order: 1; }
   .aviso-cancel-gratis[hidden] { display: none; }
   /* Cambiar conductor (1-nov-2026): botón secundario hielo de 48 px arriba de «Cancelar viaje» (rojo D); pop-up con tarjetas de motivo de 56 px. «Sí, cambiar» va en turquesa D (no es peligro: no cuesta nada). */
   .btn#btnCambiarConductor { min-height: 48px; border-radius: var(--r-btn); background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; font-weight: 600; box-shadow: none; }
@@ -1531,6 +1541,24 @@
   .rb-pop-caja.cambio .rb-pop-si { background: var(--btn-d-grad); color: #04121F; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .14), 0 3px 0 #0C8A94; }
   .rb-pop-caja.cambio .rb-pop-si:disabled { background: #BCE6EA; color: #4F7D85; box-shadow: none; }
   .rb-pop-caja.cambio .rb-pop-no { background: #F2F4F5; color: #0A2236; box-shadow: none; }
+  /* En viaje: jerarquía de botones (Alberto, 12-nov-2026: «organiza los botones que quedan»). De arriba abajo: estado y conductor, avance, las acciones seguras juntas y con el mismo estilo
+     (Compartir, Editar viaje, Terminar viaje, Cambiar conductor), el recorrido y, al final y separado, «Cancelar viaje» en rojo. Todos de 48 px o más. */
+  body.pas-pantalla #segHoja #pasosViaje { order: 7; }
+  body.pas-pantalla #segHoja #accionesSeg { order: 20; display: grid; grid-template-columns: 1fr; margin: 16px 0 8px; }
+  body.pas-pantalla #segHoja #btnEditarViaje { order: 21; }
+  body.pas-pantalla #segHoja #btnTerminarViaje { order: 22; }
+  body.pas-pantalla #segHoja #btnCambiarConductor { order: 23; }
+  body.pas-pantalla #segHoja #avisoSinCambios { order: 24; }
+  body.pas-pantalla #segHoja #cardRecorrido { order: 30; }
+  body.pas-pantalla #segHoja #btnCancelarViaje { order: 90; }
+  body.pas-pantalla #segHoja #accionesSeg .btn,
+  body.pas-pantalla #segHoja #btnEditarViaje,
+  body.pas-pantalla #segHoja #btnTerminarViaje,
+  body.pas-pantalla #segHoja #btnCambiarConductor { width: 100%; min-height: 48px; padding: 0 18px; margin: 0 0 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 600; background: #F2F4F5; border: 1.5px solid #D9DFE3; color: #0A2236; border-radius: var(--r-btn); box-shadow: none; }
+  body.pas-pantalla #segHoja #accionesSeg .btn:active:not(:disabled), body.pas-pantalla #segHoja #btnEditarViaje:active:not(:disabled), body.pas-pantalla #segHoja #btnTerminarViaje:active:not(:disabled), body.pas-pantalla #segHoja #btnCambiarConductor:active:not(:disabled) { background: #E3F6F8; }
+  body.pas-pantalla #segHoja #btnEditarViaje[style*="display:none"], body.pas-pantalla #segHoja #btnTerminarViaje[style*="display:none"], body.pas-pantalla #segHoja #btnCambiarConductor[style*="display:none"] { display: none; }
+  body.pas-pantalla #segHoja #btnCancelarViaje { min-height: 48px; margin-top: 24px; margin-bottom: 8px; }
+
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro, pastillas con punto y hoja del pasajero. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. */
   .btn-primario { background: linear-gradient(180deg, #1B4F78, #11304A); color: #FFFFFF; box-shadow: 0 10px 26px -10px rgba(7,24,42,.7), 0 2px 0 rgba(255,255,255,.25) inset; min-height: 56px; font-size: 17px; font-weight: 700; }
   .btn-primario:hover:not(:disabled) { background: linear-gradient(180deg, #22608F, #16405F); }
@@ -1589,7 +1617,7 @@
     var ifr = s.querySelector(".splash-escena");
     function cargarEscena() { try { if (!ifr || ifr.getAttribute("src") || matchMedia("(prefers-reduced-motion: reduce)").matches) return; } catch (e) {} ifr.setAttribute("src", ifr.getAttribute("data-src")); }
     if (document.readyState === "complete") cargarEscena(); else addEventListener("load", cargarEscena);
-    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 500); }
+    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, 0); }
     var h = document.documentElement;
     if (h.classList.contains("nativo") && !h.classList.contains("bordes-ok")) {
       var o = new MutationObserver(function () { if (h.classList.contains("bordes-ok")) { o.disconnect(); ir(); } });
@@ -1765,6 +1793,10 @@
             <svg class="ico ico-sm" aria-hidden="true"><use href="#i-info"/></svg>
             <span>Precio estimado. El final depende del viaje real.</span>
           </p>
+          <p class="precio-cancela" id="avisoDemanda" hidden></p>
+          <p class="precio-cancela" id="avisoCancelacion">Cancelas sin costo los primeros 3 minutos desde que se asigna tu conductor. Después, 1.200 pesos.</p>
+          <p class="precio-cancela" id="avisoNoPresentacion">Si tu conductor llega al punto de encuentro y no apareces en 3 minutos, se cobra 1.200 pesos.</p>
+          <p class="precio-cancela" id="avisoSaldo" hidden></p>
         </section>
         <ul class="wiz-resumen" id="wizResumen" aria-label="Resumen del viaje"></ul>
       </div>
@@ -1787,14 +1819,21 @@
    </div>
 
    <!-- Términos y condiciones (texto generado desde legal/tyc-pasajero.md con scripts/generar-tyc.js) -->
+   <!-- Nueva versión de los T&C (12-nov-2026, abogado): sin aceptarla no se piden viajes. -->
+   <div class="rb-pop tyc-nuevo" id="tycNuevo" hidden role="dialog" aria-modal="true" aria-labelledby="tycNuevoTx">
+     <div class="rb-pop-caja">
+       <p id="tycNuevoTx">Actualizamos los Términos y Condiciones de Rumbo Móvil (versión 2026-11-11-tyc7). Cambios principales: si cancelas pasados 3 minutos desde que se asigna tu conductor, se cobra 1.200 pesos; registro de cotizaciones por 90 días; verificación de identidad; datos de contacto. Para seguir pidiendo viajes debes leerlos y aceptarlos.</p>
+       <div class="tyc-nuevo-acc"><button type="button" class="btn btn-secundario" id="tycNuevoVer">Ver términos</button><button type="button" class="btn btn-primario" id="tycNuevoAcepto">Acepto</button></div>
+     </div>
+   </div>
    <div class="modal-opc pagina" id="modalTyc" hidden role="dialog" aria-labelledby="modalTycTit">
      <div class="modal-opc-hoja">
        <div class="pagina-cab"><button type="button" data-cierra="modalTyc" aria-label="Volver">&#8249;</button><h3 id="modalTycTit">Términos y condiciones</h3></div>
        <div class="tyc-cuerpo" id="tycCuerpo" tabindex="0">
 <!--TYC-PASAJERO-INICIO-->
-<p>Plataforma: Rumbo, aplicación desarrollada y operada por BTo Innova SpA, RUT 78.533.592-9 (nombre comercial "BTo Innova soluciones"), titular de las obligaciones que estos Términos atribuyen a Rumbo. En adelante, "Rumbo".</p>
-<p>Versión: 2026-10-25-tyc6 · 25 de octubre de 2026.</p>
-<p>Al crear su cuenta y marcar la casilla "Acepto", el Pasajero declara haber leído y aceptado íntegramente los presentes Términos y Condiciones. Rumbo conservará registro de la fecha, la hora y la versión aceptadas. Estos Términos y las condiciones comerciales pueden cambiar más adelante, lo que será informado oportunamente a través de la aplicación.</p>
+<p>Plataforma: <strong>Rumbo Móvil</strong>, aplicación desarrollada y operada por BTo Innova SpA, RUT 78.533.592-9 (nombre comercial "BTo Innova soluciones"), titular de las obligaciones que estos Términos atribuyen a la plataforma. En adelante, "Rumbo".</p>
+<p>Versión: 2026-11-11-tyc7 · 11 de noviembre de 2026.</p>
+<p>Al crear su cuenta y marcar la casilla "Acepto", el Pasajero declara haber leído y aceptado íntegramente los presentes Términos y Condiciones. Rumbo conservará registro de la fecha, la hora y la versión aceptadas. Estos Términos y las condiciones comerciales pueden cambiar más adelante, lo que será informado a través de la aplicación antes de su entrada en vigencia.</p>
 <h4>1. Naturaleza del servicio</h4>
 <p>1.1. Rumbo es una plataforma tecnológica de intermediación que vincula a los pasajeros con conductores independientes. Rumbo no es una empresa de transportes, no presta el servicio de conducción, no es propietaria de los vehículos ni empleadora de los conductores.</p>
 <p>1.2. Cada viaje aceptado por un conductor constituye un contrato privado de arriendo de vehículo con chofer, regido por el Código Civil, celebrado entre el Pasajero y el Conductor. Rumbo actúa en calidad de mandataria e intermediaria tecnológica: calcula el valor del viaje, recauda el pago cuando este se efectúa con tarjeta y lo traspasa al Conductor.</p>
@@ -1802,32 +1841,44 @@
 <h4>2. Cuenta del Pasajero</h4>
 <p>El Pasajero debe ser mayor de 18 años y proporcionar información veraz, completa y actualizada. Es responsable de la confidencialidad de su clave y de toda actividad realizada con su cuenta. Desde la sección "Mi cuenta" podrá solicitar una copia de sus datos o eliminar su cuenta.</p>
 <h4>3. Precio</h4>
-<p>3.1. Con anterioridad a solicitar el viaje, el Pasajero conocerá su valor, calculado en función de la ruta, el tiempo estimado y los peajes obligatorios del trayecto. Si existe una ruta alternativa por autopista, la aplicación informa su costo adicional estimado, que solo se cobra si el vehículo efectivamente la utiliza.</p>
-<p>3.2. Dentro de la ciudad, el valor informado antes de solicitar el viaje es un precio estimativo: se calcula con la ruta, el tiempo y los peajes obligatorios del trayecto, y es el que se cobra, sin reajuste por tráfico ni por mayor duración del trayecto, salvo que el Pasajero cambie el destino, el punto de recogida o las paradas, que exceda el tiempo de espera contratado o el tiempo de espera sin costo en la recogida, o que el vehículo utilice efectivamente autopistas con peaje no incluidas en el valor informado, caso en que se agrega el valor de los peajes utilizados, conforme a la tarifa vigente y verificado con la ubicación del viaje. Fuera de la ciudad, mientras la diferencia entre el viaje efectivamente realizado y el cotizado se mantenga dentro de la tolerancia informada en la aplicación, se cobrará el valor cotizado; fuera de ella, el valor final podrá reajustarse a la conclusión del viaje, calculándose en función del tiempo y la distancia efectivamente recorridos, únicamente por las siguientes causas: cambio del destino o del punto de recogida, paradas agregadas o suprimidas, un recorrido sustancialmente más largo o lento que el estimado, o tráfico extraordinario. El reajuste no podrá exceder el límite máximo informado previamente en la aplicación. Si el Pasajero modifica el destino o agrega paradas, se le informará el nuevo valor y, cuando el aumento sea relevante, el cambio requerirá su aceptación expresa.</p>
-<p>3.3. La espera en el punto de recogida dispone de un tiempo sin costo; excedido este, se cobrará conforme a la tarifa vigente.</p>
-<p>3.4. Si el Pasajero estima que el valor final se vio incrementado por un desvío o error de ruta del Conductor, podrá reclamarlo a través de la sección "Ayuda y reclamos" de la aplicación. Rumbo evaluará el caso y, si corresponde, ajustará el cobro.</p>
+<p>3.1. Antes de solicitar el viaje, el Pasajero conoce su valor <strong>estimado</strong> en pesos chilenos, calculado con la distancia y el tiempo estimados del trayecto, el valor por hora de la franja horaria del viaje (valle, media, punta o fuerte, según el día y la hora; las franjas y los valores vigentes se informan en la aplicación) y, cuando el trayecto contemple autopistas, el valor <strong>aproximado</strong> de los peajes, que se destaca en la cotización ("Incluye $X de peaje de autopista"). El trayecto y la ruta efectivos, incluido si se usa o no una autopista, dependen de las condiciones del viaje y se acuerdan entre el Pasajero y el Conductor a bordo del vehículo; la aplicación no los impone. Los viajes desde o hacia el aeropuerto consideran el regreso del vehículo, según se informa en la cotización.</p>
+<p>3.2. Dentro de la ciudad, el valor informado antes de solicitar el viaje es un precio estimativo y es el que se cobra, sin reajuste por tráfico ni por mayor duración del trayecto, salvo que el Pasajero cambie el destino, el punto de recogida o las paradas, que exceda el tiempo de espera contratado o el tiempo de espera sin costo en la recogida, o que el vehículo utilice efectivamente autopistas con peaje no incluidas en el valor informado, caso en que se agrega el valor de los peajes utilizados, conforme a la tarifa vigente y verificado con la ubicación del viaje. Fuera de la ciudad, mientras la diferencia entre el viaje efectivamente realizado y el cotizado se mantenga dentro de la tolerancia informada en la aplicación, se cobrará el valor cotizado; fuera de ella, el valor final podrá reajustarse a la conclusión del viaje, en función del tiempo y la distancia efectivamente recorridos, únicamente por las siguientes causas: cambio del destino o del punto de recogida, paradas agregadas o suprimidas, un recorrido sustancialmente más largo o lento que el estimado, o tráfico extraordinario. El reajuste no podrá exceder el límite máximo informado previamente en la aplicación. Si el Pasajero modifica el destino o agrega paradas, se le informará el nuevo valor y, cuando el aumento sea relevante, el cambio requerirá su aceptación expresa.</p>
+<p>3.3. La espera en el punto de recogida dispone de un tiempo sin costo; excedido este, se cobrará conforme a la tarifa vigente informada en la aplicación.</p>
+<p>3.4. Si el Pasajero estima que el valor final no corresponde al trayecto realizado, podrá reclamarlo a través de la sección "Ayuda y reclamos" de la aplicación. Rumbo evaluará el caso y, si corresponde, ajustará el cobro.</p>
+<p>3.5. <strong>Peajes.</strong> El valor de los peajes de autopista que se informa en la cotización es aproximado. Puede actualizarse, al alza o a la baja, si la concesionaria cobra un valor real distinto o si el peaje no se utiliza. El valor real se contrasta con la factura o estado de cuenta oficial que la autopista entrega al Conductor una vez que informa oficialmente el monto, y la diferencia se ajusta en el valor del viaje. Cuando la diferencia se conoce después del viaje, se cobra o devuelve a la tarjeta con que el Pasajero pagó; si pagó en efectivo o por transferencia, no se le cobra esa diferencia y, si fuera a su favor, puede solicitar su devolución en "Ayuda y reclamos".</p>
+<p>3.6. <strong>Alta demanda.</strong> En los horarios de mayor demanda que la aplicación informa, el valor por hora que se usa para el componente de <strong>tiempo</strong> del viaje puede aumentar, con un máximo de 30 %; el aumento no se aplica a los combustibles ni a los peajes. Los días, los tramos horarios y el porcentaje vigentes se informan siempre en la aplicación y pueden variar. El aumento se muestra en la cotización antes de solicitar el viaje (por ejemplo: "Alta demanda ×1,06") y, una vez solicitado, el valor informado no cambia por este motivo. Rumbo puede desactivarlo cuando no corresponda.</p>
 <h4>4. Cargo por uso de la aplicación</h4>
-<p>Cada viaje comprende un cargo por el uso de la aplicación, el cual se encuentra incorporado en el precio total informado al Pasajero, sin que procedan cobros adicionales posteriores por este concepto. Dicho cargo financia el procesamiento de los pagos, la seguridad, el soporte y el funcionamiento del software. Su monto podrá ser modificado mediante notificación previa a través de la aplicación, aplicándose la modificación exclusivamente a los viajes solicitados con posterioridad a dicha notificación. En todo caso, el Pasajero conocerá el precio final antes de confirmar el viaje.</p>
+<p>Cada viaje comprende un cargo por el uso de la aplicación, incorporado en el precio total informado al Pasajero, sin que procedan cobros adicionales posteriores por este concepto. Dicho cargo financia el procesamiento de los pagos, la seguridad, el soporte y el funcionamiento del software. Su monto podrá ser modificado mediante notificación previa a través de la aplicación, aplicándose exclusivamente a los viajes solicitados con posterioridad a ella. En todo caso, el Pasajero conocerá el precio final estimado antes de confirmar el viaje.</p>
 <h4>5. Formas de pago</h4>
-<p>5.1. El Pasajero elige la forma de pago antes de solicitar el viaje: tarjeta de crédito o débito, a través de un procesador de pagos externo, efectivo o transferencia al Conductor. Podrá cambiarla mientras el viaje no esté pagado. Si la forma elegida no pudiera completarse (por ejemplo, el Conductor no tiene datos de transferencia), el Pasajero elegirá nuevamente al término del viaje.</p>
+<p>5.1. El Pasajero elige la forma de pago antes de solicitar el viaje: tarjeta de crédito o débito, a través de un procesador de pagos externo, efectivo o transferencia al Conductor. Podrá cambiarla mientras el viaje no esté pagado. Si la forma elegida no pudiera completarse, el Pasajero elegirá nuevamente al término del viaje.</p>
 <p>5.2. En los pagos con tarjeta, Rumbo recauda el monto por cuenta del Conductor y se lo traspasa. En caso de pago en cuotas, los intereses son cobrados por el banco o emisor, y no por Rumbo.</p>
 <p>5.3. En los pagos en efectivo o por transferencia, el pago se entenderá recibido cuando el Conductor lo confirme. Si el Pasajero ya hubiere pagado con tarjeta, el Conductor no podrá exigir un nuevo pago.</p>
+<p>5.4. El cargo de cancelación del cap. 7, cuando corresponda, se cobra con la tarjeta registrada del Pasajero. Si no pudiera cobrarse en ese momento, no se acumulará a viajes siguientes ni se impedirá el uso de la aplicación por ello.</p>
 <h4>6. PIN de inicio</h4>
 <p>Cuando el Conductor se dirija al punto de recogida o esté por llegar, la aplicación exhibirá al Pasajero un PIN de inicio. El Pasajero deberá entregarlo al Conductor antes de abordar el vehículo, y sin dicho PIN el viaje no podrá iniciarse. Esta medida tiene por objeto que el Pasajero aborde el vehículo correcto, por lo que no debe compartirse con terceros ni con anticipación. Si el PIN se extravía o se bloquea, el Pasajero podrá solicitar uno nuevo desde la aplicación.</p>
-<h4>7. Cancelaciones</h4>
-<p>El Pasajero podrá cancelar el viaje desde la aplicación. Hoy la cancelación no tiene costo.</p>
-<h4>8. Conductor habitual y asignación</h4>
-<p>Si el Pasajero ingresa mediante el código QR de un Conductor, su solicitud se ofrecerá en primer lugar a este. Si no se encontrare disponible o no respondiere, se ofrecerá a otro Conductor disponible, con el fin de evitar esperas prolongadas. Al término del viaje, el Pasajero podrá calificar al Conductor.</p>
+<h4>7. Cancelación y cambio de conductor</h4>
+<p>7.1. El Pasajero puede cancelar el viaje desde la aplicación en cualquier momento antes de abordar, es decir, antes de que el viaje se inicie con el PIN. Iniciado el viaje, este se termina con el ajuste del cap. 3.</p>
+<p>7.2. Si todavía no hay un conductor asignado, cancelar no tiene costo, sin importar cuánto tiempo haya pasado.</p>
+<p>7.3. Con un conductor asignado, cancelar no tiene costo durante los primeros 3 minutos contados desde que se asigna el vehículo. Pasado ese plazo, se cobra un cargo fijo por cancelación, cuyo monto vigente se informa en la aplicación antes de confirmar la cancelación (hoy, $1.200). El cargo compensa al Conductor por el tiempo y el combustible ya destinados al viaje, y cubre el costo de la transacción electrónica de Rumbo; $900 se abonan al Conductor. El cargo se cobra con la tarjeta registrada; por ahora no se cobra cuando el Pasajero eligió efectivo o transferencia.</p>
+<p>7.4. En las reservas rige la misma regla del 7.3: sin costo si aún no hay Conductor asignado o dentro de los 3 minutos desde la asignación; pasado ese plazo, cargo fijo de $1.200, aunque falte tiempo para la hora de la reserva. La aplicación informa esta regla y el monto antes de confirmar la reserva.</p>
+<p>7.5. En lugar de cancelar, el Pasajero puede solicitar el <strong>cambio de conductor o de vehículo</strong> (por ejemplo, porque el vehículo no corresponde, el conductor está lejos o demora, o prefiere otro). El cambio <strong>no tiene costo</strong> y mantiene el precio y la hora de solicitud. Con cada nueva asignación comienzan nuevamente los 3 minutos del 7.3. El conductor reemplazado no recibe sanción.</p>
+<h4>8. Conductor habitual, asignación y reservas</h4>
+<p>8.1. Si el Pasajero ingresa mediante el código QR de un Conductor, su solicitud se ofrecerá en primer lugar a este. Si no se encontrare disponible o no respondiere, se ofrecerá a otro Conductor disponible, con el fin de evitar esperas prolongadas. Al término del viaje, el Pasajero podrá calificar al Conductor.</p>
+<p>8.2. En las reservas (viajes para una hora posterior), si según su ubicación el Conductor asignado no alcanza a llegar a tiempo, Rumbo podrá reasignar la reserva a otro Conductor que sí llegue, e informará al Pasajero. La reasignación no cambia el precio.</p>
 <h4>9. Comunicaciones y protección de datos personales</h4>
 <p>9.1. El Conductor no tiene acceso al teléfono ni al correo electrónico del Pasajero. La comunicación se realiza a través del chat de Rumbo. Se prohíbe acordar viajes o pagos al margen de la aplicación; toda propuesta en tal sentido deberá ser reportada.</p>
-<p>9.2. La ubicación del Pasajero se comparte en tiempo real con el Conductor solo desde cinco minutos antes de la hora reservada o, en los viajes inmediatos, cuando el Conductor se encuentra a cinco minutos o menos del punto de recogida, y hasta que el viaje finaliza y el Pasajero desciende del vehículo. Se utiliza únicamente para la localización y el seguimiento, y se elimina al término o cancelación del viaje, conservándose solo los kilómetros y minutos medidos. El Pasajero puede denegar el permiso de ubicación sin que ello impida el funcionamiento del servicio.</p>
-<p>9.3. Los datos personales se tratan para administrar la cuenta y los viajes, procesar los pagos, remitir avisos, brindar seguridad y soporte, y cumplir la normativa vigente. Adicionalmente, la aplicación registra un identificador anónimo de esta instalación (sin nombre ni datos personales) con fines estadísticos. Los datos de la tarjeta son procesados por un proveedor externo y Rumbo no los almacena. El tratamiento se funda en la ejecución del contrato de intermediación, en el consentimiento del Pasajero y en el cumplimiento de obligaciones legales. Los datos no se comercializan ni se transfieren a terceros ajenos a la prestación del servicio, salvo mandato legal o requerimiento de autoridad competente. El Pasajero puede ejercer sus derechos de acceso, rectificación, supresión, oposición, portabilidad y bloqueo, en los términos de la ley de protección de datos personales aplicable, desde la sección "Mi cuenta" o mediante el canal de soporte de la aplicación.</p>
+<p>9.2. La ubicación del Pasajero se comparte en tiempo real con el Conductor solo desde cinco minutos antes de la hora reservada o, en los viajes inmediatos, cuando el Conductor se encuentra a cinco minutos o menos del punto de recogida, y hasta que el viaje finaliza y el Pasajero desciende del vehículo. Se utiliza únicamente para la localización, el seguimiento y la medición del recorrido del cap. 3, y se elimina al término o cancelación del viaje, conservándose solo los kilómetros y minutos medidos. El Pasajero puede denegar el permiso de ubicación sin que ello impida el funcionamiento del servicio.</p>
+<p>9.3. Los datos personales se tratan para administrar la cuenta y los viajes, procesar los pagos, remitir avisos, brindar seguridad y soporte, y cumplir la normativa vigente. La aplicación registra además un identificador anónimo de la instalación con fines estadísticos. Los datos de la tarjeta son procesados por un proveedor externo y Rumbo no los almacena. El tratamiento se funda en la ejecución del contrato de intermediación, en el consentimiento del Pasajero y en el cumplimiento de obligaciones legales. Los datos no se comercializan ni se transfieren a terceros ajenos a la prestación del servicio, salvo mandato legal o requerimiento de autoridad competente. El Pasajero puede ejercer sus derechos de acceso, rectificación, supresión, oposición, portabilidad y bloqueo, en los términos de la ley de protección de datos personales aplicable, desde "Mi cuenta" o por el canal de soporte de la aplicación.</p>
+<p>9.4. <strong>Registro de cotizaciones.</strong> Cada vez que el Pasajero calcula un viaje, Rumbo registra la consulta, aunque no solicite el viaje: las direcciones y coordenadas de origen y destino, la ruta, la distancia y el tiempo estimados, el precio calculado y un identificador de la instalación, sin nombre ni teléfono. Se usa para calcular y verificar precios, detectar errores de direcciones o de rutas, mejorar la precisión del servicio y atender reclamos. Se conserva por 90 días y luego se elimina automáticamente; si el Pasajero elimina su cuenta, las cotizaciones registradas desde su instalación se eliminan a más tardar a los 90 días de registradas.</p>
+<p>9.5. <strong>Verificación de identidad.</strong> Para habilitar ciertas funciones, la aplicación puede solicitar la cédula de identidad (frente y reverso, con su fecha de vencimiento) y fotografías del rostro. Son datos personales sensibles y solo se tratan con la autorización expresa del Pasajero, otorgada por separado de estos Términos, con la finalidad exclusiva de verificar su identidad mediante revisión visual por personal autorizado de Rumbo, sin reconocimiento facial automatizado. Se almacenan con acceso restringido, no se comparten con los Conductores, y las imágenes se eliminan a los 30 días de subidas, conservándose solo el resultado de la verificación; si nadie las hubiera revisado a los 90 días, se eliminan igualmente y la verificación queda rechazada. También se eliminan al eliminar la cuenta. El Pasajero puede eliminarlas en cualquier momento desde "Mi cuenta" y revocar la autorización; sin ella no podrá usar las funciones que dependan de la verificación.</p>
 <h4>10. Responsabilidad</h4>
 <p>El Conductor es responsable del estado y mantenimiento del vehículo, de la vigencia de su documentación, de la contratación de los seguros exigidos por la normativa vigente (entre ellos el Seguro Obligatorio de Accidentes Personales, que cubre por muerte y lesiones a los ocupantes del vehículo en un accidente) y del cumplimiento de las normas de tránsito durante la conducción. Rumbo responde por el funcionamiento de la plataforma y por el proceso de cobro, así como por aquello que la ley no permita excluir. Nada de lo dispuesto en estos Términos limita los derechos que la ley reconoce al Pasajero en su calidad de consumidor. El Pasajero es responsable de los daños que cause al vehículo.</p>
 <h4>11. Propiedad intelectual</h4>
-<p>Los derechos de propiedad intelectual e industrial sobre Rumbo (código fuente, diseños, marcas, logotipos y textos) pertenecen a BTo Innova SpA o se encuentran licenciados a su favor. El Pasajero dispone únicamente de una licencia de uso personal, revocable, no exclusiva e intransferible para utilizar la aplicación conforme a estos Términos. Se prohíbe su reproducción, modificación, descompilación o cualquier explotación no autorizada.</p>
+<p>Los derechos de propiedad intelectual e industrial sobre Rumbo Móvil (código fuente, diseños, marcas, logotipos y textos) pertenecen a BTo Innova SpA o se encuentran licenciados a su favor. El Pasajero dispone únicamente de una licencia de uso personal, revocable, no exclusiva e intransferible para utilizar la aplicación conforme a estos Términos. Se prohíbe su reproducción, modificación, descompilación o cualquier explotación no autorizada.</p>
 <h4>12. Modificaciones, reclamos y legislación aplicable</h4>
-<p>Estos Términos y las condiciones comerciales (precios, cargos, porcentajes, plazos y beneficios) pueden cambiar más adelante. Las modificaciones serán informadas en la aplicación antes de su entrada en vigencia; se aplicarán únicamente a los viajes solicitados con posterioridad al aviso, nunca a los ya solicitados. Los reclamos podrán presentarse a través de la sección "Ayuda y reclamos" de la aplicación. Estos Términos se rigen por la ley chilena. Las controversias podrán someterse previamente a los canales de atención de Rumbo, sin que ello restrinja el derecho del Pasajero, en su calidad de consumidor, a recurrir ante el juzgado de policía local de su domicilio o del domicilio de Rumbo, conforme a la Ley N° 19.496. Si la Ley N° 21.553 resultare aplicable a la plataforma, estos Términos se entenderán adaptados a sus disposiciones. Si alguna disposición de estos Términos fuere declarada nula o inaplicable, las restantes mantendrán plena vigencia.</p>
+<p>Estos Términos y las condiciones comerciales (precios, franjas, cargos, porcentajes, plazos y beneficios) pueden cambiar más adelante. Las modificaciones serán informadas en la aplicación antes de su entrada en vigencia; se aplicarán únicamente a los viajes solicitados con posterioridad al aviso, nunca a los ya solicitados.</p>
+<p>Identificación y reclamos: BTo Innova SpA, RUT 78.533.592-9, domicilio en la comuna de Ñuñoa, Región Metropolitana; correo contacto@rumbomovil.cl; teléfono y WhatsApp +56 9 2397 1471. La atención es telefónica, por mensajería y dentro de la aplicación; Rumbo no atiende en oficina abierta al público. Los reclamos podrán presentarse a través de la sección "Ayuda y reclamos" de la aplicación, por esos medios o a ese correo.</p>
+<p>Estos Términos se rigen por la ley chilena. Las controversias podrán someterse previamente a los canales de atención de Rumbo, sin que ello restrinja el derecho del Pasajero, en su calidad de consumidor, a recurrir ante el juzgado de policía local de su domicilio o del domicilio de Rumbo, conforme a la Ley N° 19.496. Si la Ley N° 21.553 resultare aplicable a la plataforma, estos Términos se entenderán adaptados a sus disposiciones. Si alguna disposición de estos Términos fuere declarada nula o inaplicable, las restantes mantendrán plena vigencia.</p>
 <!--TYC-PASAJERO-FIN-->
        </div>
        <button type="button" class="btn btn-primario" data-cierra="modalTyc" style="margin-top:12px;">Cerrar</button>
@@ -1968,6 +2019,7 @@
     <!-- PIN y espera en ventana flotante (Alberto, 7-nov-2026): se abre sola al llegar el conductor; «Entendido» la deja en la pastilla del PIN. -->
     <div class="llegada-pop" id="llegadaPop" role="dialog" aria-labelledby="llegadaPopTit" hidden>
       <h2 id="llegadaPopTit">Tu PIN para iniciar el viaje</h2>
+      <p class="llegada-cuenta" id="llegadaCuenta" hidden aria-live="polite"><span id="llegadaCuentaTx"></span> <strong class="llegada-reloj" id="llegadaCuentaReloj"></strong></p>
       <div id="llegadaPopCuerpo"></div>
       <button type="button" class="btn btn-ok llegada-pop-ok" id="llegadaPopEntendido">Entendido</button>
     </div>
@@ -1986,6 +2038,10 @@
       <div class="fin-total" id="finTotal"></div>
       <div class="fin-sub" id="finSub"></div>
       <div class="fin-sub" id="finNota" style="display:none;"></div>
+      <div class="fin-saldo" id="finSaldoBloque" hidden>
+        <div id="finSaldoFilas"></div>
+        <p class="fin-sub" id="finSaldoNota"></p>
+      </div>
     </div>
     <!-- Cómo pagar un viaje terminado: Mercado Pago, efectivo o transferencia (con los datos del conductor para copiar). -->
     <section class="card pago-card" id="cardPago" style="display:none;">
@@ -2075,6 +2131,7 @@
       <ol class="recorrido" id="listaRecorrido"></ol>
     </section>
     <button type="button" class="btn btn-chico" id="btnEditarViaje" style="display:none;width:100%;margin-bottom:8px;">Editar viaje</button>
+    <button type="button" class="btn btn-secundario" id="btnTerminarViaje" style="display:none;width:100%;margin-bottom:8px;">Terminar viaje</button>
     <div class="acciones-seg" id="accionesSeg" style="display:none;">
       <button type="button" class="btn" id="btnSegCompartir" aria-label="Compartir mi viaje en vivo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="17" cy="6" r="2.6"/><circle cx="17" cy="18" r="2.6"/><path d="M8.3 10.8l6.4-3.4M8.3 13.2l6.4 3.4"/></svg><span>Compartir</span></button>
     </div>
@@ -2844,7 +2901,7 @@
   // Versión del texto que se le muestra al pasajero al marcar el
   // checkbox — si el texto cambia, subir este número: así, ante un
   // reclamo, se puede probar QUÉ decía el texto que aceptó (Ley 21.719).
-  var VERSION_POLITICA = "2026-10-25-tyc6";   // versión de los T&C y la política que se aceptan al registrarse
+  var VERSION_POLITICA = "2026-11-11-tyc7";   // versión de los T&C y la política que se aceptan al registrarse
 
   // El QR/link de cada conductor trae ?c=<conductor_id>. Se guarda en
   // localStorage para que, si el pasajero cierra y vuelve a abrir sin el
@@ -2865,13 +2922,13 @@
     el.hidden = false; el.classList.remove("oculta");
     if (window.__splashFase2) window.__splashFase2();
     splashDesde = Date.now();
-    setTimeout(ocultarSplash, 4000);
+    setTimeout(ocultarSplash, 3500);
   }
   function ocultarSplash() {
     var el = document.getElementById("splashIngresando");
     if (el.hidden) return;
     var desde = Math.max(splashDesde, window.__splashVis || 0);   // 4 s desde que se ve la carita (igual en las tres apps)
-    var espera = Math.min(4000, Math.max(0, 4000 - (Date.now() - desde)));
+    var espera = Math.min(3500, Math.max(0, 3500 - (Date.now() - desde)));
     setTimeout(function () {
       el.classList.add("oculta");
       setTimeout(function () { el.hidden = true; }, 380);
@@ -3068,7 +3125,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 96;
+  var APP_VERSION = 97;
   var URL_APK_PASAJERO = "https://github.com/btoinnova/rumbo-web/releases/download/latest/rumbo.apk";
   var esAppNativa = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   function revisarActualizacion(versionServidor) {
@@ -3933,6 +3990,7 @@
         return;
       }
       guardarSesionPasajero(res);
+      if (crear && res.pasajero) guardarLocalSeguro("rumbo_tyc_ok_" + res.pasajero.pasajero_id, VERSION_POLITICA);   // acaba de aceptar la versión vigente al registrarse
       var gv = leerViajeGuardado();   // lo guardado de OTRA cuenta no se hereda
       if (gv && res.pasajero && gv.pasajero_id !== res.pasajero.pasajero_id) { borrarViajeLocal(); if (pedidoActualId) document.getElementById("btnNuevoPedido").click(); }
       msg.textContent = "";
@@ -4326,6 +4384,8 @@
 
     document.getElementById("outTipoTarifa").textContent = (d.fueraDeSantiago ? "Fuera de Santiago" : "En ciudad") + " · " + (d.nivel === "FUERTE" ? "Punta fuerte" : d.punta ? "Punta" : "Valle");
     pintarPrecioHeroe(document.getElementById("total"), total);
+    var tAD = textoAltaDemanda(calcularTarifaHoraria().factorDemanda), eAD = document.getElementById("avisoDemanda");
+    eAD.textContent = tAD; eAD.hidden = !tAD;
 
     // Un solo ítem por dato: distancia y tiempo muestran el valor POR
     // TRAMO (ida y vuelta son simétricas, mismo km/min en cada sentido),
@@ -5229,6 +5289,7 @@
       if (primeroVacio) primeroVacio.focus();
       return;
     }
+    if (!tycPasajeroAlDia()) { document.getElementById("tycNuevo").hidden = false; return; }   // nueva versión de los T&C: sin aceptarla no se pide
     if (!rutaActual) {
       pedirTexto.textContent = "Calcula el precio para solicitar.";
       pedirTexto.className = "nota error";
@@ -5621,6 +5682,8 @@
     if (asc) asc.hidden = !(!!pedidoActualId && !viajeCerrado && ecc === "tope");
     var bc = document.getElementById("btnCancelarViaje");   // buscando, conductor en camino o conductor llegó: nunca después de iniciar el viaje con el PIN
     if (bc) bc.style.display = !!pedidoActualId && !viajeCerrado && puedeCancelarViaje(res) ? "block" : "none";
+    var btv = document.getElementById("btnTerminarViaje");   // solo con el viaje en curso y si el servidor lo permite (puede_terminar_viaje)
+    if (btv) btv.style.display = !!pedidoActualId && !viajeCerrado && res.puede_terminar_viaje === true ? "block" : "none";
     var e = document.getElementById("btnEditarViaje");
     if (e) {
       // Solo antes de llegar al destino: en la espera o el regreso de un viaje de ida y vuelta el servidor no lo permite.
@@ -5718,14 +5781,14 @@
       sincronizarViaje();
     }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
   });
-  // Cancelación del pasajero (decisión de Alberto, 1-nov-2026): en cualquier momento antes de abordar; pasados 3 minutos desde que se ASIGNÓ el conductor se cobran 1.500 pesos, antes no hay cargo; sin conductor nunca se cobra.
+  // Cancelación del pasajero (decisión de Alberto, 1-nov-2026): en cualquier momento antes de abordar; pasados 3 minutos desde que se ASIGNÓ el conductor se cobran 1.200 pesos (respaldo en la app; el servidor manda cancelacion_costo), antes no hay cargo; sin conductor nunca se cobra.
   // El reloj es el del SERVIDOR (asignado_en + servidor_ahora; si cambia de conductor, la nueva asignación reinicia los 3 minutos): el desfase se mide al recibir cada estado y se aplica al reloj del teléfono.
-  var relojCancelacion = { pedido: "", conductor: false, asignadoMs: 0, desfaseMs: 0, gratisMin: 3, costo: 1500 };
+  var relojCancelacion = { pedido: "", conductor: false, asignadoMs: 0, desfaseMs: 0, gratisMin: 3, costo: 1200 };
   function guardarRelojCancelacion(res) {
     if (!res) return;
     var sol = Date.parse(res.asignado_en), srv = Date.parse(res.servidor_ahora), hay = isFinite(sol) && isFinite(srv);
     // «conductor» = hay conductor asignado (CONFIRMADO). Sin conductor (buscando / sin conductor) NUNCA se cobra, pase el tiempo que pase: el estado manda.
-    relojCancelacion = { pedido: pedidoActualId, conductor: res.estado === "CONFIRMADO", asignadoMs: hay ? sol : 0, desfaseMs: hay ? srv - Date.now() : 0, gratisMin: Number(res.cancelacion_gratis_min) > 0 ? Number(res.cancelacion_gratis_min) : 3, costo: Number(res.cancelacion_costo) > 0 ? Number(res.cancelacion_costo) : 1500 };
+    relojCancelacion = { pedido: pedidoActualId, conductor: res.estado === "CONFIRMADO", asignadoMs: hay ? sol : 0, desfaseMs: hay ? srv - Date.now() : 0, gratisMin: Number(res.cancelacion_gratis_min) > 0 ? Number(res.cancelacion_gratis_min) : 3, costo: Number(res.cancelacion_costo) > 0 ? Number(res.cancelacion_costo) : 1200, forma: res.forma_pago };
   }
   // Aviso discreto bajo el título de la hoja: solo los 3 minutos iniciales de una asignación (hora del servidor).
   function avisoCancelGratisVisible(ahoraMs, r) {
@@ -5742,13 +5805,68 @@
   }
   function pesosCancelacion(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " pesos"; }
   // ahoraMs = reloj del teléfono; se corrige con el desfase medido contra el servidor (r.desfaseMs). Sin la hora de asignación del servidor no se promete «sin costo»: se dice la regla completa.
+  // Saldo pendiente por una cancelación (abogado + Alberto, 11-nov-2026): se informa ANTES de pedir, sin sumarlo al valor mostrado; se suma al terminar el viaje. Sin intereses.
+  function textoSaldoConfirmar(saldo) {
+    saldo = Number(saldo);
+    return saldo > 0 ? "Tienes un saldo pendiente de " + pesosCancelacion(saldo) + " por una cancelación anterior. No se suma ahora: se sumará al terminar este viaje." : "";
+  }
+  // Al finalizar con saldo: viaje, saldo y total por separado. null = nada que mostrar.
+  function filasFinConSaldo(res) {
+    var saldo = Number(res && res.saldo_pendiente) || 0, viaje = Number(res && res.total) || 0;
+    if (!(saldo > 0)) return null;
+    return { filas: [["Viaje", fmt(viaje)], ["Saldo pendiente por una cancelación", fmt(saldo)], ["Total a pagar", fmt(viaje + saldo)]],
+             nota: "Tenías un saldo pendiente de " + pesosCancelacion(saldo) + " por una cancelación. Se suma a este viaje. No tiene intereses." };
+  }
+  function pintarFinSaldo(res) {
+    var d = filasFinConSaldo(res), bloque = document.getElementById("finSaldoBloque");
+    bloque.hidden = !d;
+    if (!d) return;
+    var cont = document.getElementById("finSaldoFilas"); cont.innerHTML = "";
+    d.filas.forEach(function (f, i) {
+      var fila = document.createElement("div"); fila.className = "fin-saldo-fila" + (i === d.filas.length - 1 ? " total" : "");
+      var a = document.createElement("span"), b = document.createElement("span"); a.textContent = f[0]; b.textContent = f[1];
+      fila.appendChild(a); fila.appendChild(b); cont.appendChild(fila);
+    });
+    document.getElementById("finSaldoNota").textContent = d.nota;
+  }
+  // Aceptación de la versión vigente de los T&C (abogado, 12-nov-2026): vale la guardada en el teléfono (por cuenta) o la que devuelve el servidor (cuenta.version_politica).
+  function tycAlDia(local, servidor, version) { return !!version && (local === version || servidor === version); }
+  // Alta demanda (T&C 3.6): con factor mayor que 1 se avisa en «Confirma tu viaje», con el número real.
+  function textoAltaDemanda(f) { f = Math.round(Number(f) * 100) / 100; return f > 1 ? "Tarifa con alta demanda ×" + String(f).replace(".", ",") : ""; }
+  var tycServidor = "", tycVerPendiente = false;
+  function clavePolitica() { var s = obtenerSesionPasajero(); return "rumbo_tyc_ok_" + ((s && s.pasajero && s.pasajero.pasajero_id) || ""); }
+  function tycPasajeroAlDia() { return tycAlDia(leerLocalSeguro(clavePolitica()), tycServidor, VERSION_POLITICA); }
+  document.body.appendChild(document.getElementById("tycNuevo"));   // fuera de la vista de cotizar: se ve desde cualquier pantalla
+  document.getElementById("tycNuevoVer").addEventListener("click", function () { tycVerPendiente = true; document.getElementById("tycNuevo").hidden = true; abrirModalOpc("modalTyc"); });
+  new MutationObserver(function () { if (document.getElementById("modalTyc").hidden && tycVerPendiente) { tycVerPendiente = false; if (!tycPasajeroAlDia()) document.getElementById("tycNuevo").hidden = false; } }).observe(document.getElementById("modalTyc"), { attributes: true, attributeFilter: ["hidden"] });
+  document.getElementById("tycNuevoAcepto").addEventListener("click", function () { guardarLocalSeguro(clavePolitica(), VERSION_POLITICA); document.getElementById("tycNuevo").hidden = true; document.getElementById("btnPedir").click(); });
+  var saldoCuenta = 0;   // mi_cuenta_pasajero.saldo_pendiente: cancelaciones sin cobrar
+  function pintarAvisoSaldo() {
+    var el = document.getElementById("avisoSaldo"), tx = textoSaldoConfirmar(saldoCuenta);
+    el.textContent = tx; el.hidden = !tx;
+  }
   function textoCancelacion(ahoraMs, r) {
     if (r && r.conductor === false) return { cobra: false, texto: "Cancelar no tiene costo." };   // sin conductor asignado no se cobra nada nunca
-    if (!r || !isFinite(r.asignadoMs) || !r.asignadoMs) return { cobra: null, texto: "Cancelar no tiene costo si pasaron menos de 3 minutos desde que se asignó tu conductor; después cuesta 1.500 pesos." };
+    if (!r || !isFinite(r.asignadoMs) || !r.asignadoMs) return { cobra: null, texto: "Cancelar no tiene costo si pasaron menos de 3 minutos desde que se asignó tu conductor; después cuesta 1.200 pesos." };
     var pasoMin = r.gratisMin;
-    if (ahoraMs + (r.desfaseMs || 0) - r.asignadoMs > pasoMin * 60000) return { cobra: true, texto: "Cancelar cuesta " + pesosCancelacion(r.costo) + " porque pasaron más de " + pasoMin + " minutos desde que se asignó tu conductor." };
+    if (ahoraMs + (r.desfaseMs || 0) - r.asignadoMs > pasoMin * 60000) {
+      var extra = r.forma === "EFECTIVO" || r.forma === "TRANSFERENCIA" ? " Quedará un saldo pendiente de " + pesosCancelacion(r.costo) + " que se sumará al terminar tu próximo viaje."   // efectivo/transferencia: no se cobra ahora, queda como saldo
+        : r.forma === "MERCADOPAGO" ? " Se cobrará a tu tarjeta." : "";
+      return { cobra: true, texto: "Cancelar cuesta " + pesosCancelacion(r.costo) + " porque pasaron más de " + pasoMin + " minutos desde que se asignó tu conductor." + extra };
+    }
     return { cobra: false, texto: "Cancelar no tiene costo." };
   }
+  document.getElementById("btnTerminarViaje").addEventListener("click", async function () {
+    var s = obtenerSesionPasajero(), b = this;
+    if (!pedidoActualId || !s || !s.token) return;
+    if (!(await rbConfirmar("¿Terminar el viaje aquí? Se cobra lo recorrido, con un mínimo de 1.500 pesos", { si: "Sí, terminar", no: "Seguir viaje" }))) return;
+    b.disabled = true;
+    apiPost({ accion: "terminar_viaje_pasajero", pasajero_token: s.token, pedido_id: pedidoActualId }).then(function (res) {
+      b.disabled = false;
+      if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo terminar el viaje."); return; }
+      sincronizarViaje();   // el cierre sale por el camino normal
+    }).catch(function () { b.disabled = false; rbAlerta(TEXTO_SIN_CONEXION); });
+  });
   document.getElementById("btnCancelarViaje").addEventListener("click", async function () {
     var s = obtenerSesionPasajero(), b = this;
     if (!pedidoActualId || !s || !s.token) return;
@@ -6034,7 +6152,34 @@
     document.getElementById("pinChip").addEventListener("click", abrirLlegadaPop);
     document.getElementById("llegadaPopEntendido").addEventListener("click", minimizarLlegadaPop);
   })();
+  // Llegada del conductor (T&C 7.6): 3 minutos de espera con cuenta regresiva; después se cobra el cargo. La hora la registra el servidor (GPS): llegada_registrada_en / llegada_recogida_en o segundos_restantes_de_espera.
+  function segundosLlegadaRestantes(res, recibidoMs, ahoraMs) {
+    var s = res.segundos_restantes_de_espera, srv = Date.parse(res.servidor_ahora), ll = Date.parse(res.llegada_registrada_en);   // solo la llegada que registra el servidor por GPS cuenta para cobrar
+    var pasado = (ahoraMs - recibidoMs) / 1000, rest;
+    if (s !== undefined && s !== null && s !== "" && isFinite(Number(s))) rest = Number(s) - pasado;
+    else if (isFinite(srv) && isFinite(ll)) rest = 180 - (srv - ll) / 1000 - pasado;
+    else return null;
+    return Math.max(0, Math.round(rest));
+  }
+  function textoLlegadaEspera(rest, costo) {
+    var m = Math.floor(rest / 60), sg = rest % 60;
+    return { linea: "Tu conductor llegó. Tienes 3 minutos; después se cobra " + pesosCancelacion(costo) + ".", cuenta: rest > 0 ? m + ":" + (sg < 10 ? "0" : "") + sg : "Pasaron los 3 minutos" };
+  }
+  var llegadaCuentaEstado = null;   // { rest0, desde, costo } mientras el conductor espera en el punto de encuentro
+  function pintarLlegadaCuenta() {
+    var caja = document.getElementById("llegadaCuenta");
+    if (!llegadaCuentaEstado) { caja.hidden = true; return; }
+    var rest = Math.max(0, Math.round(llegadaCuentaEstado.rest0 - (Date.now() - llegadaCuentaEstado.desde) / 1000)), tx = textoLlegadaEspera(rest, llegadaCuentaEstado.costo);
+    document.getElementById("llegadaCuentaTx").textContent = tx.linea; document.getElementById("llegadaCuentaReloj").textContent = tx.cuenta; caja.hidden = false;
+  }
+  setInterval(pintarLlegadaCuenta, 1000);
+  function pintarLlegadaEspera(res) {
+    var rest = res.conductor_llego && res.estado === "CONFIRMADO" && !res.viaje_iniciado ? segundosLlegadaRestantes(res, Date.now(), Date.now()) : null;
+    llegadaCuentaEstado = rest === null ? null : { rest0: rest, desde: Date.now(), costo: Number(res.cancelacion_costo) > 0 ? Number(res.cancelacion_costo) : 1200 };
+    pintarLlegadaCuenta();
+  }
   function pintarPinInicio(res) {
+    pintarLlegadaEspera(res);
     var caja = document.getElementById("pinInicio");
     var pin = res.estado === "CONFIRMADO" && !res.viaje_iniciado ? String(res.pin_inicio || "") : "";
     caja.hidden = !pin;
@@ -6178,6 +6323,7 @@
     document.body.classList.add("viaje-terminado");
     document.getElementById("cardFin").style.display = "block";
     document.getElementById("finTotal").textContent = fmt(Number(res.total) || 0);
+    pintarFinSaldo(res);   // con saldo pendiente por una cancelación: viaje, saldo y total por separado
     var fp = res.forma_pago, pagado = res.estado_pago === "PAGADO";
     document.getElementById("finTitulo").textContent = pagado ? "Viaje finalizado" : "Has llegado a tu destino";
     document.getElementById("finLabel").textContent = pagado ? "Valor del viaje:" : "El pago por el viaje es:";
@@ -7298,6 +7444,8 @@ function svgAuto(rumbo, color, tipo) {
     return apiPost({ accion: "mi_cuenta_pasajero", pasajero_token: sesion.token }).then(function (r) {
       if (!r || !r.ok) return;
       tarjetasInfo = r.tarjetas || tarjetasInfo; tarjetaGuardada = r.tarjeta || null;
+      saldoCuenta = Number(r.saldo_pendiente) || 0; pintarAvisoSaldo();
+      tycServidor = (r.cuenta && r.cuenta.version_politica) || "";
       pintarTarjetaPantalla();
     }).catch(function () {});
   }
@@ -7606,6 +7754,7 @@ function svgAuto(rumbo, color, tipo) {
   }
 
   function pintarResumenPaso2() {
+    pintarAvisoSaldo(); refrescarTarjeta();   // saldo pendiente por cancelación: se informa antes de pedir
     var o = textoOpcionesViaje();
     var nParadas = obtenerParadas().length;
     var filas = [
@@ -7697,7 +7846,7 @@ function svgAuto(rumbo, color, tipo) {
   pintarChipsViaje();
 
   cargarTarifas();
-  if (!document.getElementById("splashIngresando").hidden) { splashDesde = performance.timing.navigationStart || Date.now(); setTimeout(ocultarSplash, 4000); }
+  if (!document.getElementById("splashIngresando").hidden) { splashDesde = performance.timing.navigationStart || Date.now(); setTimeout(ocultarSplash, 3500); }
   cargarGoogleMaps();
   mostrarAvisoInstalarApp();
   if (bioActivada() && !obtenerSesionPasajero()) { modoCuenta = "ingresar"; pintarModoCuenta(); }

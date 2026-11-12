@@ -1143,6 +1143,9 @@
   .opcion-viaje { display: block; width: 100%; min-height: 56px; margin-bottom: 8px; padding: 0 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); font: inherit; font-size: 16px; font-weight: 500; color: var(--text); text-align: left; cursor: pointer; }
   .opcion-viaje:disabled { opacity: .55; }
   .opcion-viaje.peligro { color: var(--danger); }
+  .tv-nopres { display: block; width: 100%; margin-top: 8px; min-height: 48px; padding: 8px 12px; border-radius: var(--r-btn); border: 1.5px solid var(--danger); background: var(--surface); color: var(--danger); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; font-variant-numeric: tabular-nums; }
+  .tv-nopres:disabled { border-color: var(--border); color: var(--text-2); cursor: not-allowed; }
+  .tv-nopres[hidden] { display: none !important; }
   .tv-sec, .tv-otros, .tv-editar-rapido { display: block; width: 100%; margin-top: 4px; min-height: 38px; border: none; border-radius: 12px; background: var(--surface); color: var(--text-2); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; box-shadow: 0 0 0 1px var(--border); }
   .accion-viaje .nav-pie { position: static; margin: 0 0 8px; box-shadow: 0 0 0 1px var(--border); }
   /* El chat flotante va justo encima del botón, a la derecha (JS fija --tv-bub). */
@@ -1409,7 +1412,7 @@
   /* Splash calmo (Alberto, 10-nov-2026; propuesta B de diseno/apps/splash-propuesta): entradas ease-in-out y escalonadas, menos piezas (sin halo del logo, puntos fijos, sin banda del eslogan, ciudad más tenue)
      y un solo movimiento: la ruta y el auto (splash-escena.html). La fase 1 (carita quieta 0-0,5 s) y el logo no cambian de lugar, medida ni aspecto. */
   .splash { --io: cubic-bezier(.45, 0, .55, 1); }
-  .splash .splash-centro { transition: opacity 1s var(--io); }
+  .splash .splash-centro { opacity: 0; transition: none; }   /* sin la primera carita (Alberto, 10-nov-2026): parte directo en la fase 2 */
   .splash::before { transition: opacity 1.2s var(--io); }
   .splash.fase2 .splash-escena { opacity: .6; transition: opacity 1.6s var(--io) 1s; }
   .splash.fase2 .splash-marca { transition: opacity 1.4s var(--io) .45s; }
@@ -1457,6 +1460,11 @@
   .rb-pop { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center;
     padding: 24px; background: rgba(11,34,54,0.55); }
   .rb-pop[hidden] { display: none; }
+  .tyc-nuevo .rb-pop-caja p { margin: 0 0 16px; font-size: 16px; line-height: 1.5; text-align: left; }
+  .tyc-nuevo-texto { max-height: 38vh; overflow-y: auto; margin: 0 0 16px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r-card); font-size: 15px; line-height: 1.45; text-align: left; }
+  .tyc-nuevo-texto[hidden] { display: none; }
+  .tyc-nuevo-acc { display: flex; gap: 10px; }
+  .tyc-nuevo-acc .btn { flex: 1; min-height: 48px; }
   .rb-pop-caja { width: 100%; max-width: 360px; background: #fff; color: #11304A; border-radius: var(--r-card); padding: 22px 20px 16px;
     box-shadow: 0 0 0 1px var(--border); border-top: 6px solid var(--acento, #0EA5B0); max-height: 80vh; overflow-y: auto; }
   .rb-pop-caja.error { border-top-color: #B3392B; }
@@ -1747,7 +1755,7 @@
     var ifr = s.querySelector(".splash-escena");
     function cargarEscena() { try { if (!ifr || ifr.getAttribute("src") || matchMedia("(prefers-reduced-motion: reduce)").matches) return; } catch (e) {} ifr.setAttribute("src", ifr.getAttribute("data-src")); }
     if (document.readyState === "complete") cargarEscena(); else addEventListener("load", cargarEscena);
-    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, rapido ? 0 : 500); }
+    function ir() { var rapido = false; try { rapido = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {} setTimeout(function () { s.classList.add("fase2"); }, 0); }
     var h = document.documentElement;
     if (h.classList.contains("nativo") && !h.classList.contains("bordes-ok")) {
       var o = new MutationObserver(function () { if (h.classList.contains("bordes-ok")) { o.disconnect(); ir(); } });
@@ -2451,7 +2459,7 @@
     <section class="card"><div class="tyc-cuerpo" tabindex="0">
 <!--TYC-CONDUCTOR-INICIO-->
 <p>Plataforma: Rumbo, aplicación desarrollada y operada por BTo Innova SpA, RUT 78.533.592-9 (nombre comercial "BTo Innova soluciones"), titular de las obligaciones que estos Términos atribuyen a Rumbo. En adelante, "Rumbo".</p>
-<p>Versión: 2026-10-23-tyc6 · 23 de octubre de 2026.</p>
+<p>Versión: 2026-11-11-tyc6.1 · 11 de noviembre de 2026.</p>
 <p>Al registrarse y marcar la casilla "Acepto", el Conductor declara haber leído y aceptado íntegramente los presentes Términos y Condiciones, que constituyen el contrato de prestación de servicios de trabajador independiente de plataformas digitales entre Rumbo y el Conductor. Rumbo conservará registro de la fecha, la hora y la versión aceptadas. Estos Términos y las condiciones comerciales pueden cambiar más adelante, lo que será informado oportunamente a través de la aplicación.</p>
 <h4>1. Partes y domicilio</h4>
 <p>1.1. Las partes son Rumbo, individualizada arriba, y el Conductor, persona natural cuyos datos de identificación (nombre completo, RUT, teléfono y correo electrónico) constan en su registro en la aplicación.</p>
@@ -2478,6 +2486,7 @@
 <p>6.2. Contacto: el Conductor no tiene acceso al teléfono ni al correo electrónico del Pasajero; la comunicación se realiza a través del chat de Rumbo. Los datos del Pasajero solo podrán utilizarse para la ejecución del viaje.</p>
 <p>6.3. Se prohíbe acordar viajes, precios o pagos al margen de la aplicación con pasajeros conocidos a través de Rumbo.</p>
 <p>6.4. Precio: el Conductor cobrará el valor calculado por Rumbo, con los ajustes y esperas que correspondan, sin que pueda cobrar un monto distinto.</p>
+<p>6.5. Cancelación del Pasajero: si el Pasajero cancela cuando aún no hay conductor asignado, o dentro de los primeros 3 minutos desde que se asigna el viaje a un Conductor, no hay cargo. Pasado ese plazo, el Pasajero paga un cargo fijo de cancelación (hoy, $1.200) y el Conductor recibe una compensación fija (hoy, $900), no sujeta a membresía; los $300 restantes corresponden a Rumbo por el costo de la transacción electrónica. La compensación se abona solo cuando el cargo haya sido efectivamente cobrado al Pasajero; por ahora el cargo se cobra únicamente cuando el Pasajero tiene tarjeta registrada, y si no pudo cobrarse, no corresponde compensación. Lo mismo rige para las reservas, aunque falte tiempo para su hora. Si el Pasajero cambia de conductor, el Conductor reemplazado no recibe compensación ni sanción. El monto vigente se informa en la aplicación.</p>
 <h4>7. Zona geográfica y valor de los viajes</h4>
 <p>7.1. Zona geográfica: los viajes se ofrecen dentro del territorio de Chile, en las zonas informadas en la aplicación.</p>
 <p>7.2. El valor de cada viaje se expresa en pesos chilenos y se calcula según la distancia y el tiempo del trayecto, los peajes, las esperas y los ajustes informados en la aplicación antes de cada viaje. Su variación depende únicamente de esas condiciones objetivas y no queda al arbitrio de Rumbo.</p>
@@ -2490,7 +2499,7 @@
 <p>El precio informado al Pasajero incluye un cargo por uso de la aplicación, que no forma parte del ingreso del Conductor y pertenece a Rumbo. Cuando el Pasajero paga en efectivo o por transferencia, el Conductor percibe el monto íntegro y adeuda a Rumbo la membresía y dicho cargo; cuando paga con tarjeta, el Conductor no se ve afectado.</p>
 <h4>11. Pagos y liquidación</h4>
 <p>11.1. Los pagos con tarjeta se procesan a través de Mercado Pago e ingresan a la cuenta de Rumbo. Rumbo calcula el saldo del Conductor y se lo transfiere periódicamente a la cuenta bancaria registrada por este en "Mi dinero → Recibo de pagos".</p>
-<p>11.2. El saldo corresponde a lo cobrado con tarjeta, menos la membresía, menos lo adeudado por viajes pagados en efectivo o por transferencia, y menos lo ya transferido. Si el saldo resultare negativo, se descontará de los siguientes cobros con tarjeta.</p>
+<p>11.2. El saldo corresponde a lo cobrado con tarjeta, más las compensaciones por cancelación cobradas (cláusula 6.5), menos la membresía, menos lo adeudado por viajes pagados en efectivo o por transferencia, y menos lo ya transferido. Si el saldo resultare negativo, se descontará de los siguientes cobros con tarjeta.</p>
 <p>11.3. El Conductor es responsable de que los datos bancarios registrados le pertenezcan y sean correctos. Rumbo podrá solicitar la confirmación de todo cambio de cuenta y podrá retener o diferir una liquidación si detectare datos alterados, un reclamo, una devolución o un contracargo, hasta su aclaración. La alteración de los registros constituye causal de suspensión.</p>
 <h4>12. Conexión, desconexión y seguridad</h4>
 <p>Por razones de seguridad y de resguardo de la salud del Conductor, Rumbo aplica los siguientes criterios: el PIN de inicio de cada viaje, el aviso de cada viaje con su origen y destino antes de aceptarlo, y un límite de horas de conducción continuas con la aplicación conectada. Cumplido el límite, el Conductor queda desconectado y recupera su tiempo completo tras un descanso mínimo. El viaje en curso se finaliza con normalidad. La aplicación avisa cuando restan pocas horas. Los tiempos máximos de conexión y de desconexión vigentes se informan en la aplicación. El Conductor no es sancionado por rechazar viajes ni por no conectarse.</p>
@@ -2670,6 +2679,7 @@
   <div class="tv-info" id="tvInfo" hidden><strong id="tvInfoEta"></strong><span id="tvInfoQuien"></span></div>
   <button type="button" class="tv-accion" id="tvAccion"><span class="tv-tirador" id="tvTirador" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span><span class="tv-texto" id="tvTexto"></span></button>
   <button type="button" class="tv-sec" id="tvSec" hidden></button>
+  <button type="button" class="tv-nopres" id="tvNoPres" hidden></button>
   <button type="button" class="tv-editar-rapido" id="tvEditarRapido" hidden>Editar viaje</button>
   <button type="button" class="tv-otros" id="tvOtros" hidden></button>
 </div>
@@ -2774,6 +2784,14 @@
 </div>
 
 <!-- Opciones del viaje: Finalizar sin iniciar, Editar viaje y Ver itinerario en un solo lugar (no sueltos bajo el botón). -->
+<!-- Nueva versión de los T&C del conductor (12-nov-2026, abogado): sin aceptarla no se conecta. -->
+<div class="rb-pop tyc-nuevo solo-conductor" id="tycNuevoCond" hidden role="dialog" aria-modal="true" aria-labelledby="tycNuevoCondTx">
+  <div class="rb-pop-caja">
+    <p id="tycNuevoCondTx">Actualizamos los Términos y Condiciones del Conductor (versión 2026-11-11-tyc6.1). Cambio: si el pasajero cancela pasados 3 minutos desde la asignación, paga 1.200 pesos y tú recibes 900 pesos cuando el cargo se cobre. Para seguir conectándote debes leerlos y aceptarlos.</p>
+    <div class="tyc-nuevo-texto" id="tycNuevoCondTexto" hidden></div>
+    <div class="tyc-nuevo-acc"><button type="button" class="btn btn-secundario" id="tycNuevoCondVer">Ver términos</button><button type="button" class="btn btn-primario" id="tycNuevoCondAcepto">Acepto</button></div>
+  </div>
+</div>
 <div class="modal-fondo" id="modalOpcionesViaje" hidden>
   <div class="modal-hoja">
     <h2 style="margin:0 0 12px;font-size:18px;">Opciones del viaje</h2>
@@ -2965,7 +2983,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 92;
+  var APP_VERSION = 93;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -3064,13 +3082,13 @@
     el.hidden = false; el.classList.remove("oculta");
     if (window.__splashFase2) window.__splashFase2();
     splashDesde = Date.now();
-    setTimeout(ocultarSplash, 4000);
+    setTimeout(ocultarSplash, 3500);
   }
   function ocultarSplash() {
     var el = document.getElementById("splashIngresando");
     if (el.hidden) return;
     var desde = Math.max(splashDesde, window.__splashVis || 0);   // 4 s desde que se ve la carita (igual en las tres apps)
-    var espera = Math.min(4000, Math.max(0, 4000 - (Date.now() - desde)));
+    var espera = Math.min(3500, Math.max(0, 3500 - (Date.now() - desde)));
     setTimeout(function () {
       el.classList.add("oculta");
       setTimeout(function () { el.hidden = true; }, 380);
@@ -3539,7 +3557,20 @@
   document.getElementById("btnVolverIngreso").addEventListener("click", function () { mostrarRegistro(false); });
 
   // Versión de los T&C del conductor que se aceptan al registrarse (ver legal/tyc-conductor.md).
-  var VERSION_TYC_CONDUCTOR = "2026-10-23-tyc6";
+  var VERSION_TYC_CONDUCTOR = "2026-11-11-tyc6.1";
+  // Nueva aceptación (abogado, 12-nov-2026): sin aceptar la versión vigente el conductor no se conecta. Se guarda en el teléfono (por cuenta, con try/catch) y se manda al servidor al conectar.
+  function tycConductorAlDia(aceptada, version) { return !!version && aceptada === version; }
+  function claveTycConductor() { var s = obtenerSesion(); return "rumbo_tyc_cond_ok_" + ((s && s.conductor && s.conductor.conductor_id) || ""); }
+  document.getElementById("tycNuevoCondVer").addEventListener("click", function () {
+    var caja = document.getElementById("tycNuevoCondTexto");
+    if (!caja.innerHTML) caja.innerHTML = document.querySelector("#acordeonTycConductor .tyc-cuerpo").innerHTML;
+    caja.hidden = !caja.hidden;
+  });
+  document.getElementById("tycNuevoCondAcepto").addEventListener("click", function () {
+    guardarLocalSeguro(claveTycConductor(), VERSION_TYC_CONDUCTOR);
+    document.getElementById("tycNuevoCond").hidden = true;
+    alternarConexion();   // sigue con lo que quería hacer: conectarse
+  });
   // Muestra los T&C debajo de la casilla, sin salir del registro (el texto es el mismo de Ajustes).
   document.getElementById("verTycConductor").addEventListener("click", function () {
     var caja = document.getElementById("tycRegistro");
@@ -7309,6 +7340,30 @@
     })();
   }
 
+  // Cancelar por no presentación (T&C 7.6): solo tras 3 minutos desde la llegada que registra el servidor (GPS). Cuenta regresiva; al cumplirse, el botón dice lo que recibe el conductor.
+  var NOPRES_COMPENSACION = 900, NOPRES_CARGO = 1200;
+  // Solo cuenta la llegada que registra el SERVIDOR por GPS (llegada_registrada_en): el botón «Llegué» no sirve para cobrar.
+  function llegadaGpsActiva(p) { return p.llegada_gps_activa === true; }
+  function segundosNoPresentacion(p, ahoraMs, recibidoMs) {
+    var ll = Date.parse(p.llegada_registrada_en), s = p.segundos_restantes_de_espera;
+    if (isFinite(ll)) return Math.max(0, Math.round(180 - (ahoraMs - ll) / 1000));
+    if (s !== undefined && s !== null && s !== "" && isFinite(Number(s))) return Math.max(0, Math.round(Number(s) - (ahoraMs - (recibidoMs === undefined ? ahoraMs : recibidoMs)) / 1000));
+    return null;
+  }
+  function textoNoPresentacion(rest) {
+    if (rest > 0) return "Cancelar por no presentación · disponible en " + Math.floor(rest / 60) + ":" + (rest % 60 < 10 ? "0" : "") + (rest % 60);
+    return "Cancelar por no presentación · recibes " + NOPRES_COMPENSACION + " pesos";
+  }
+  var noPresEstado = null;   // { p, rec } del viaje en foco, para el reloj de 1 s
+  function actualizarNoPresentacion() {
+    var b = document.getElementById("tvNoPres");
+    if (!b || b.hidden || !noPresEstado) return;
+    var rest = segundosNoPresentacion(noPresEstado.p, Date.now(), noPresEstado.rec);
+    if (rest === null) { b.hidden = true; return; }
+    b.textContent = textoNoPresentacion(rest);
+    b.disabled = rest > 0 || tvOcupado;
+  }
+  setInterval(actualizarNoPresentacion, 1000);
   function modeloTarjeta(p) {
     var puntos = puntosDelViaje(p), quien = nomP(p.nombre || "el pasajero");
     if (p.estado_pago === "PENDIENTE") {
@@ -7323,11 +7378,11 @@
     if (etapa === "recoger") {
       var sec = { texto: "Finalizar sin iniciar", accion: "cerrar" };   // pasajero que no sube: siempre se puede cerrar y cobrar
       return llegoARecogida(p)
-        ? { etapa: "recogida", id: p.pedido_id, etiqueta: "Pasajero", titulo: quien, sub: "Llegaste a " + puntos[0].dir,
+        ? { etapa: "recogida", id: p.pedido_id, etiqueta: "Pasajero", titulo: quien, sub: p.llegada_registrada_en ? "Llegaste al punto de encuentro. El pasajero tiene 3 minutos." : "Llegaste a " + puntos[0].dir,
             boton: { texto: "Iniciar viaje", accion: "iniciar", clase: "", slide: "iniciar viaje" },
             crono: llegadaIso(p) ? { desde: llegadaIso(p), incluidaMin: ESPERA_RECOGIDA_GRATIS_MIN, modo: "recogida", titulo: "Espera del pasajero", valorHora: Number(p.valor_hora) || 0 } : null, secundario: sec, punto: puntos[0], nav: { puntos: puntos, indice: 0 } }
         : { etapa: "recoger", id: p.pedido_id, etiqueta: "Recoger a", titulo: quien, sub: puntos[0].dir,
-            boton: salioABuscar(p) ? { texto: "Llegué", accion: "llegue-recogida", clase: "", slide: "confirmar llegada" } : { texto: "Ir a buscar", accion: "ir-buscar", clase: "", slide: "ir a buscar" },
+            boton: salioABuscar(p) ? (llegadaGpsActiva(p) ? { texto: "Yendo al punto de encuentro", accion: "esperar-llegada", clase: "", deshabilitado: true } : { texto: "Llegué", accion: "llegue-recogida", clase: "", slide: "confirmar llegada" }) : { texto: "Ir a buscar", accion: "ir-buscar", clase: "", slide: "ir a buscar" },   // con la llegada por GPS activa (servidor: llegada_gps_activa) no hay botón «Llegué»; apagada o sin el dato, sigue como antes
             crono: null, secundario: sec, punto: puntos[0], nav: { puntos: puntos, indice: 0 } };
     }
     if (etapa === "espera") {
@@ -7557,7 +7612,11 @@
       b.dataset.desliza = m.boton.slide ? "1" : "";
       b.dataset.accion = m.boton.accion; b.dataset.id = m.id; b.dataset.siguiente = m.boton.siguiente !== undefined ? String(m.boton.siguiente) : "";
     }
-    b.disabled = tvOcupado;
+    b.disabled = tvOcupado || !!m.boton.deshabilitado;   // «Yendo al punto de encuentro»: informativo hasta que el servidor registre la llegada
+    var np = document.getElementById("tvNoPres");
+    noPresEstado = { p: p, rec: Date.now() };
+    np.hidden = !(m.etapa === "recogida" && segundosNoPresentacion(p, Date.now(), noPresEstado.rec) !== null);
+    np.dataset.id = m.id; actualizarNoPresentacion();
     var sc = document.getElementById("tvSec");
     if (m.secundario) { sc.hidden = false; sc.textContent = m.secundario.texto; sc.dataset.accion = m.secundario.accion; sc.dataset.id = m.id; } else sc.hidden = true;
     var otros = pedidosEnCursoActuales.length - 1, ot = document.getElementById("tvOtros");
@@ -7795,6 +7854,16 @@
       })).catch(function (err) { rbAlerta(TEXTO_SIN_CONEXION); });
       return;
     }
+    if (tipo === "esperar-llegada") return;   // botón informativo (deshabilitado): la llegada la registra el servidor
+    if (tipo === "no-presentacion") {
+      if (!(await rbConfirmar("Se cancela el viaje por no presentación del pasajero. Se le cobran " + NOPRES_CARGO + " pesos y tú recibes " + NOPRES_COMPENSACION + " pesos cuando se cobre. ¿Cancelar el viaje?"))) return;
+      conBotonOcupado(apiPost({ accion: "cancelar_no_presentacion", pedido_id: id }).then(function (res) {
+        if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo cancelar el viaje."); return; }
+        rbAlerta("Viaje cancelado por no presentación.", "ok");
+        refrescarViajes();
+      }).catch(function () { rbAlerta(TEXTO_SIN_CONEXION); }));
+      return;
+    }
     if (tipo === "esperar-comprobante") {
       rbAlerta("Esperando el comprobante PDF del pasajero. Con él podrás confirmar el pago.");
       return;
@@ -7968,6 +8037,7 @@
     });
   })();
   document.getElementById("tvSec").addEventListener("click", function () { accionViaje(this.dataset.accion, this.dataset.id); });
+  document.getElementById("tvNoPres").addEventListener("click", function () { accionViaje("no-presentacion", this.dataset.id); });
   document.getElementById("tvIr").addEventListener("click", function () {
     var p = elegirFoco(pedidosEnCursoActuales, focoManualId), m = p ? modeloTarjeta(p) : null;
     if (m && m.nav) abrirNavegacion(m.nav.puntos, m.nav.indice);
@@ -9452,6 +9522,7 @@
   function alternarConexion() {
     if (docsResumen && !docsResumen.habilitado) { avisarDocsPendientes(); return; }
     var deseado = !conectadoManual;
+    if (deseado && MODO === "conductor" && !tycConductorAlDia(leerLocalSeguro(claveTycConductor()), VERSION_TYC_CONDUCTOR)) { document.getElementById("tycNuevoCond").hidden = false; return; }   // sin aceptar los T&C vigentes no se conecta
     // Conectarse es seguro y se deshace solo; desconectarse corta los viajes nuevos: se confirma.
     // Desconectarse es inmediato, sin ventana de confirmación (decisión de Alberto, 24-oct-2026); se vuelve a conectar con "Iniciar".
     Promise.resolve(true)
@@ -9459,7 +9530,7 @@
         if (!si) return;
         conectadoManual = deseado; // optimista: se nota al toque, sin esperar la red
         pintarEstadoTablero();
-        apiPost({ accion: "cambiar_mi_conexion", conectado: deseado }).then(function (res) {
+        apiPost({ accion: "cambiar_mi_conexion", conectado: deseado, terminos_version: VERSION_TYC_CONDUCTOR }).then(function (res) {
           if (res && res.jornada) jornadaActual = res.jornada;
           if (!res || !res.ok) {
             conectadoManual = !deseado; pintarEstadoTablero();
@@ -10057,7 +10128,7 @@
   }
 
   var sesionGuardada = obtenerSesion();
-  if (!document.getElementById("splashIngresando").hidden) { splashDesde = performance.timing.navigationStart || Date.now(); setTimeout(ocultarSplash, 4000); }
+  if (!document.getElementById("splashIngresando").hidden) { splashDesde = performance.timing.navigationStart || Date.now(); setTimeout(ocultarSplash, 3500); }
   // Una sesión guardada de otro tipo de cuenta (p. ej. entraste como admin en
   // este navegador y ahora abres el panel de conductor) no se reutiliza.
   if (sesionGuardada && sesionGuardada.token && !cuentaPermitida(sesionGuardada.conductor)) {
