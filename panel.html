@@ -1078,7 +1078,7 @@
     width: calc(100% - 20px); max-width: 428px; max-height: 38vh; overflow: hidden; padding: 11px 14px; border-radius: 14px;
     background: var(--surface); border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--border);
   }
-  .tarjeta-viaje[hidden], .accion-viaje[hidden], .tv-crono[hidden], .tv-sec[hidden], .tv-otros[hidden], .tv-editar-rapido[hidden] { display: none !important; }
+  .tarjeta-viaje[hidden], .accion-viaje[hidden], .tv-crono[hidden], .tv-sec[hidden], .tv-otros[hidden] { display: none !important; }
   .tv-fila { display: flex; align-items: flex-start; gap: 8px; }
   .tv-textos { flex: 1; min-width: 0; }
   .tv-et { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
@@ -1116,7 +1116,7 @@
   .pin-casillas input { width: 56px; height: 64px; text-align: center; font: inherit; font-size: 28px; font-weight: 700; color: var(--primary); border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface); }
   .pin-casillas input:focus { outline: none; border-color: #1FB3BF; box-shadow: 0 0 0 2px #1FB3BF; }
   /* Los tres botones sueltos viven ocultos (su estado manda) y se muestran dentro de "Opciones del viaje". */
-  .accion-viaje .tv-sec, .accion-viaje .tv-otros, .accion-viaje .tv-editar-rapido { display: none !important; }
+  .accion-viaje .tv-sec, .accion-viaje .tv-otros { display: none !important; }
   /* "Opciones del viaje" vive en la pestaña de arriba; "Editar viaje" va dentro de esas opciones (no suelto). */
   #itinerarioViaje #tvEditar { display: none !important; }
   /* Fila de acciones de la tarjeta de arriba (patrón de referentes de mercado): navegar, chat, editar y más. Cuatro botones iguales de 56 px. */
@@ -1128,7 +1128,6 @@
   .tv-navegar { position: fixed; right: 16px; bottom: calc(var(--tv-h, 120px) + 12px); z-index: 31; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px; border: none; border-radius: 24px; background: var(--primary); color: #fff; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; }
   .tv-navegar svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   body:not(.con-tarjeta) .tv-navegar { display: none !important; }
-  #tvActNav { display: none !important; }
   .comp-lienzo { flex: 1 1 auto; min-height: 120px; overflow: auto; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
   .comp-lienzo canvas { display: block; width: 100%; height: auto; }
   .tv-acciones { display: flex; gap: 8px; margin-top: 12px; }
@@ -1146,7 +1145,11 @@
   .tv-nopres { display: block; width: 100%; margin-top: 8px; min-height: 48px; padding: 8px 12px; border-radius: var(--r-btn); border: 1.5px solid var(--danger); background: var(--surface); color: var(--danger); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; font-variant-numeric: tabular-nums; }
   .tv-nopres:disabled { border-color: var(--border); color: var(--text-2); cursor: not-allowed; }
   .tv-nopres[hidden] { display: none !important; }
-  .tv-sec, .tv-otros, .tv-editar-rapido { display: block; width: 100%; margin-top: 4px; min-height: 38px; border: none; border-radius: 12px; background: var(--surface); color: var(--text-2); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; box-shadow: 0 0 0 1px var(--border); }
+  /* Cobro dentro de la tarjeta de arriba (Alberto, 12-nov-2026): bajo «Por cobrar», 48 px o más y fondo sólido (el del pie se perdía sobre el mapa). */
+  .tv-cobro { display: block; width: 100%; margin: 10px 0 0; min-height: 52px; padding: 8px 16px; border: 0; border-radius: var(--r-btn); background: #11304A; color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; }
+  .tv-cobro:disabled { opacity: .6; cursor: default; }
+  .tv-cobro[hidden] { display: none !important; }
+  .tv-sec, .tv-otros { display: block; width: 100%; margin-top: 4px; min-height: 38px; border: none; border-radius: 12px; background: var(--surface); color: var(--text-2); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; box-shadow: 0 0 0 1px var(--border); }
   .accion-viaje .nav-pie { position: static; margin: 0 0 8px; box-shadow: 0 0 0 1px var(--border); }
   /* El chat flotante va justo encima del botón, a la derecha (JS fija --tv-bub). */
   body.con-tarjeta .burbuja-chat { bottom: var(--tv-bub, 150px); }
@@ -1526,6 +1529,10 @@
     body.cond-pantalla:not(.modo-admin) .tv-sub { font-size: 15px; font-weight: 600; color: #4E5A6C; }
     body.cond-pantalla:not(.modo-admin) .tv-mas { width: 44px; height: 44px; background: #F2F4F5; color: #11304A; }
     body.cond-pantalla:not(.modo-admin) .tv-act { min-height: 56px; border-radius: 8px; border: 1.5px solid #D9DFE3; background: #F2F4F5; color: #0A2236; font-size: 14px; font-weight: 600; }
+    /* Cobro (12-nov-2026, «ahorremos botones»): un solo botón principal (#tvCobro); Chat y Más pasan a acciones discretas, sin recuadro. */
+    body.cond-pantalla .tarjeta-viaje.etapa-pago .tv-act { flex-direction: row; justify-content: center; gap: 8px; min-height: 44px; border: 0; background: transparent; box-shadow: none; font-size: 15px; font-weight: 600; color: #11304A; }
+    body.cond-pantalla .tarjeta-viaje.etapa-pago .tv-act svg { width: 20px; height: 20px; }
+    body.cond-pantalla .tarjeta-viaje.etapa-pago .tv-acciones { margin-top: 4px; }
     body.cond-pantalla:not(.modo-admin) .tv-info { border: 0; border-radius: 18px; background: #F2F4F5; }
     body.cond-pantalla:not(.modo-admin) .tv-accion { min-height: 64px; border-radius: 18px; background: linear-gradient(90deg, #11304A, #1D4A66); font-size: 17px; font-weight: 800; box-shadow: none; }
     body.cond-pantalla:not(.modo-admin) .tv-accion .tv-texto { padding: 0 20px 0 64px; text-align: right; }
@@ -1702,6 +1709,53 @@
     body.modo-admin .adm-pantalla { left: 0; right: 0; transform: none; width: auto; max-width: none; padding: 20px max(40px, calc((100% - 1120px) / 2)); }
     body.modo-admin .menu-lateral { width: 340px; }
     #listaConductores { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+  }
+  /* Estilo plantilla (conductor) (12-nov-2026, aprobado por Alberto): tarjeta de viaje con borde de 1 px y sombra chica, datos en filas, chips Chat/Editar/Más, barra inferior de ancho completo con el deslizador.
+     Radio 8, letra desde 15 px, trazo de íconos 1,5, sombras de 3 px. Solo estilos: ids, handlers y el deslizador (tirador + texto) intactos. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.cond-pantalla:not(.modo-admin) .tarjeta-viaje { width: calc(100% - 32px); padding: 4px 16px 12px; background: #fff; border: 1px solid #D5DEE5; border-radius: 8px; box-shadow: 0 1px 3px rgba(17, 48, 74, .12); max-height: 46vh; }
+    body.cond-pantalla:not(.modo-admin) .tv-fila { padding-top: 8px; }
+    body.cond-pantalla:not(.modo-admin) .tv-et { color: #5B6B7A; font-size: 15px; font-weight: 600; letter-spacing: .02em; text-transform: none; }
+    body.cond-pantalla:not(.modo-admin) .tv-dir { font-size: 18px; color: #11304A; }
+    body.cond-pantalla:not(.modo-admin) .tv-sub { font-size: 15px; color: #5B6B7A; }
+    body.cond-pantalla:not(.modo-admin) .tarjeta-viaje.etapa-pago .tv-dir { display: none; }
+    body.cond-pantalla:not(.modo-admin) .tv-filas { margin-top: 4px; }
+    body.cond-pantalla:not(.modo-admin) .tv-filas[hidden] { display: none; }
+    body.cond-pantalla:not(.modo-admin) .tv-dato { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; font-size: 16px; color: #5B6B7A; }
+    body.cond-pantalla:not(.modo-admin) .tv-dato b { color: #11304A; font-weight: 700; white-space: nowrap; }
+    body.cond-pantalla:not(.modo-admin) .tv-dato.total { margin-top: 4px; padding-top: 12px; border-top: 1px dashed #A9BAC7; font-size: 18px; }
+    body.cond-pantalla:not(.modo-admin) .tv-dato.total b { font-size: 20px; }
+    body.cond-pantalla:not(.modo-admin) .tv-acciones { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #D5DEE5; }
+    body.cond-pantalla:not(.modo-admin) .tv-act { flex-direction: row; gap: 8px; min-height: 48px; border-radius: 8px; border: 1px solid #D5DEE5; background: #fff; box-shadow: none; font-size: 15px; }
+    body.cond-pantalla:not(.modo-admin) .tv-act svg { width: 20px; height: 20px; stroke-width: 1.5; }
+    body.cond-pantalla:not(.modo-admin) .tv-cobro { border-radius: 8px; margin: 8px 0 0; min-height: 52px; }
+    body.cond-pantalla:not(.modo-admin) .tv-navegar { border-radius: 8px; right: 16px; }
+    body.cond-pantalla:not(.modo-admin) .accion-viaje { left: 0; right: 0; bottom: 0; transform: none; width: 100%; max-width: none; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid #D5DEE5; box-shadow: 0 -1px 3px rgba(17, 48, 74, .10); }
+    body.cond-pantalla:not(.modo-admin) .accion-viaje[hidden] { display: none; }
+    body.cond-pantalla:not(.modo-admin) .accion-viaje:has(> .tv-accion[style*="none"]) { display: none; }
+    body.cond-pantalla:not(.modo-admin) .tv-accion { border-radius: 8px; min-height: 52px; height: 52px; }
+    body.cond-pantalla:not(.modo-admin) .tv-accion .tv-tirador { left: 4px; top: 4px; width: 44px; height: 44px; border-radius: 8px; }
+    body.cond-pantalla:not(.modo-admin) .tv-info { font-size: 15px; }
+    body.cond-pantalla:not(.modo-admin) .vd-lista { background: #fff; border: 1px solid #D5DEE5; border-radius: 8px; box-shadow: 0 1px 3px rgba(17, 48, 74, .12); padding: 4px 16px; }
+    body.cond-pantalla:not(.modo-admin) .vd-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; font-size: 16px; }
+    body.cond-pantalla:not(.modo-admin) .vd-fila + .vd-fila { border-top: 1px dashed #D5DEE5; }
+    body.cond-pantalla:not(.modo-admin) .vd-fila dt { margin: 0; color: #5B6B7A; font-size: 16px; }
+    body.cond-pantalla:not(.modo-admin) .vd-fila dd { margin: 0; text-align: right; color: #11304A; font-weight: 600; font-size: 16px; }
+  }
+
+  /* Estilo plantilla (menús y pantallas internas) (12-nov-2026, aprobado por Alberto): conductor y administrador. Tarjetas blancas de 1 px, subítems con filete turquesa alineados al ancho de las tarjetas,
+     cabeceras de 56 px, lista de viajes y billetera en tarjetas. Solo estilos: ids, handlers y textos intactos. Va antes de «Rediseño etapa 2», que sigue siendo el último bloque. */
+  @media (max-width: 899px) {
+    body.cond-pantalla .menu-lateral-cab { padding: 12px 16px; margin: 0 0 12px; border-bottom: 1px dashed #BCCAD5; }
+    body.cond-pantalla .menu-lateral-item:not(.menu-sub-item):not(.menu-pie-item), body.cond-pantalla .menu-grupo { box-sizing: border-box; min-height: 52px; margin: 0 0 8px; padding: 0 16px; background: #fff; border: 1px solid #D5DEE5; border-radius: 8px; box-shadow: 0 1px 3px rgba(17, 48, 74, .12); font-size: 16px; font-weight: 600; color: #11304A; }
+    body.cond-pantalla .menu-sub-item { box-sizing: border-box; width: calc(100% - 12px); margin: 0 0 8px 12px; min-height: 48px; padding: 0 16px; background: #fff; border: 1px solid #D5DEE5; border-left: 3px solid #14B8C4; border-radius: 8px; box-shadow: none; font-size: 16px; font-weight: 600; color: #11304A; }
+    body.cond-pantalla .menu-pie-item { min-height: 48px; background: none; border: 0; box-shadow: none; color: #08626A; }
+    body.cond-pantalla .menu-lateral-cerrar { border-radius: 8px; }
+    body.cond-pantalla .ajustes-cab { padding: 8px 16px; min-height: 56px; background: #fff; border-bottom: 1px solid #D5DEE5; }
+    body.cond-pantalla .ajustes-cab h2 { font-size: 18px; font-weight: 700; color: #11304A; }
+    body.cond-pantalla .ajustes-cab button { border-radius: 8px; }
+    body.cond-pantalla .mv-item, body.cond-pantalla .gan-bloque { background: #fff; border: 1px solid #D5DEE5; border-radius: 8px; box-shadow: 0 1px 3px rgba(17, 48, 74, .12); margin-bottom: 12px; padding: 12px 16px; }
+    body.cond-pantalla .mv-fila strong, body.cond-pantalla .mv-fila span { color: #11304A; }
   }
   /* Rediseño etapa 2 (maquetas de diseno/apps): botón principal turquesa, secundario claro y pastillas con punto. Solo estilos de clases: ids y handlers intactos; --r-card y --r-btn no se tocan. La hoja y «Iniciar» del conductor van en la etapa 5. */
   .btn-primario { background: linear-gradient(180deg, #1B4F78, #11304A); color: #FFFFFF; box-shadow: 0 10px 26px -10px rgba(7,24,42,.7), 0 2px 0 rgba(255,255,255,.25) inset; min-height: 56px; font-size: 17px; font-weight: 700; }
@@ -2459,7 +2513,7 @@
     <section class="card"><div class="tyc-cuerpo" tabindex="0">
 <!--TYC-CONDUCTOR-INICIO-->
 <p>Plataforma: Rumbo, aplicación desarrollada y operada por BTo Innova SpA, RUT 78.533.592-9 (nombre comercial "BTo Innova soluciones"), titular de las obligaciones que estos Términos atribuyen a Rumbo. En adelante, "Rumbo".</p>
-<p>Versión: 2026-11-11-tyc6.1 · 11 de noviembre de 2026.</p>
+<p>Versión: 2026-11-12-tyc6.2 · 12 de noviembre de 2026.</p>
 <p>Al registrarse y marcar la casilla "Acepto", el Conductor declara haber leído y aceptado íntegramente los presentes Términos y Condiciones, que constituyen el contrato de prestación de servicios de trabajador independiente de plataformas digitales entre Rumbo y el Conductor. Rumbo conservará registro de la fecha, la hora y la versión aceptadas. Estos Términos y las condiciones comerciales pueden cambiar más adelante, lo que será informado oportunamente a través de la aplicación.</p>
 <h4>1. Partes y domicilio</h4>
 <p>1.1. Las partes son Rumbo, individualizada arriba, y el Conductor, persona natural cuyos datos de identificación (nombre completo, RUT, teléfono y correo electrónico) constan en su registro en la aplicación.</p>
@@ -2486,7 +2540,7 @@
 <p>6.2. Contacto: el Conductor no tiene acceso al teléfono ni al correo electrónico del Pasajero; la comunicación se realiza a través del chat de Rumbo. Los datos del Pasajero solo podrán utilizarse para la ejecución del viaje.</p>
 <p>6.3. Se prohíbe acordar viajes, precios o pagos al margen de la aplicación con pasajeros conocidos a través de Rumbo.</p>
 <p>6.4. Precio: el Conductor cobrará el valor calculado por Rumbo, con los ajustes y esperas que correspondan, sin que pueda cobrar un monto distinto.</p>
-<p>6.5. Cancelación del Pasajero: si el Pasajero cancela cuando aún no hay conductor asignado, o dentro de los primeros 3 minutos desde que se asigna el viaje a un Conductor, no hay cargo. Pasado ese plazo, el Pasajero paga un cargo fijo de cancelación (hoy, $1.200) y el Conductor recibe una compensación fija (hoy, $900), no sujeta a membresía; los $300 restantes corresponden a Rumbo por el costo de la transacción electrónica. La compensación se abona solo cuando el cargo haya sido efectivamente cobrado al Pasajero; por ahora el cargo se cobra únicamente cuando el Pasajero tiene tarjeta registrada, y si no pudo cobrarse, no corresponde compensación. Lo mismo rige para las reservas, aunque falte tiempo para su hora. Si el Pasajero cambia de conductor, el Conductor reemplazado no recibe compensación ni sanción. El monto vigente se informa en la aplicación.</p>
+<p>6.5. Cancelación del Pasajero: si el Pasajero cancela cuando aún no hay conductor asignado, o dentro de los primeros 3 minutos desde que se asigna el viaje a un Conductor, no hay cargo. Pasado ese plazo, el Pasajero paga un cargo fijo de cancelación (hoy, $1.200 pesos) y el Conductor recibe una compensación fija (hoy, $900 pesos), no sujeta a membresía; los $300 pesos restantes corresponden a Rumbo por el costo de la transacción electrónica. La compensación se abona solo cuando el cargo haya sido efectivamente cobrado al Pasajero; por ahora el cargo se cobra únicamente cuando el Pasajero tiene tarjeta registrada, y si no pudo cobrarse, no corresponde compensación. Lo mismo rige para las reservas, aunque falte tiempo para su hora. Si el Pasajero cambia de conductor, el Conductor reemplazado no recibe compensación ni sanción. El monto vigente se informa en la aplicación.</p>
 <h4>7. Zona geográfica y valor de los viajes</h4>
 <p>7.1. Zona geográfica: los viajes se ofrecen dentro del territorio de Chile, en las zonas informadas en la aplicación.</p>
 <p>7.2. El valor de cada viaje se expresa en pesos chilenos y se calcula según la distancia y el tiempo del trayecto, los peajes, las esperas y los ajustes informados en la aplicación antes de cada viaje. Su variación depende únicamente de esas condiciones objetivas y no queda al arbitrio de Rumbo.</p>
@@ -2661,8 +2715,9 @@
     <div class="tv-textos"><div class="tv-et" id="tvEt"></div><div class="tv-dir" id="tvDir"></div><div class="tv-sub" id="tvSub"></div></div>
     <button type="button" class="tv-mas" id="tvMas" aria-label="Ver u ocultar el itinerario completo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
   </div>
+  <div class="tv-filas" id="tvFilas" hidden></div>
+  <button type="button" class="tv-cobro" id="tvCobro" hidden></button>
   <div class="tv-acciones" id="tvAcciones" hidden>
-    <button type="button" class="tv-act" id="tvActNav" aria-label="Navegar al punto del viaje"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 17-7-4-7 4 7-17z"/></svg><span id="tvActNavTx">Waze</span></button>
     <button type="button" class="tv-act" id="tvActChat" aria-label="Abrir el chat con el pasajero"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.7 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span>Chat</span><i class="tv-act-punto" id="tvActPunto" hidden>0</i></button>
     <button type="button" class="tv-act" id="tvActEditar" aria-label="Editar el viaje"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></svg><span>Editar</span></button>
     <button type="button" class="tv-act" id="tvActMas" aria-label="Más opciones del viaje"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3"/></svg><span>Más</span></button>
@@ -2680,7 +2735,6 @@
   <button type="button" class="tv-accion" id="tvAccion"><span class="tv-tirador" id="tvTirador" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span><span class="tv-texto" id="tvTexto"></span></button>
   <button type="button" class="tv-sec" id="tvSec" hidden></button>
   <button type="button" class="tv-nopres" id="tvNoPres" hidden></button>
-  <button type="button" class="tv-editar-rapido" id="tvEditarRapido" hidden>Editar viaje</button>
   <button type="button" class="tv-otros" id="tvOtros" hidden></button>
 </div>
 <div class="itinerario-viaje solo-conductor" id="itinerarioViaje" role="dialog" aria-label="Itinerario del viaje">
@@ -2787,7 +2841,7 @@
 <!-- Nueva versión de los T&C del conductor (12-nov-2026, abogado): sin aceptarla no se conecta. -->
 <div class="rb-pop tyc-nuevo solo-conductor" id="tycNuevoCond" hidden role="dialog" aria-modal="true" aria-labelledby="tycNuevoCondTx">
   <div class="rb-pop-caja">
-    <p id="tycNuevoCondTx">Actualizamos los Términos y Condiciones del Conductor (versión 2026-11-11-tyc6.1). Cambio: si el pasajero cancela pasados 3 minutos desde la asignación, paga 1.200 pesos y tú recibes 900 pesos cuando el cargo se cobre. Para seguir conectándote debes leerlos y aceptarlos.</p>
+    <p id="tycNuevoCondTx">Actualizamos los Términos y Condiciones del Conductor (versión 2026-11-12-tyc6.2). Cambio principal: compensación por cancelación del Pasajero: si cancela pasados 3 minutos desde la asignación, recibes $900 pesos una vez que el cargo se cobra. Para seguir conectándote debes leerlos y aceptarlos.</p>
     <div class="tyc-nuevo-texto" id="tycNuevoCondTexto" hidden></div>
     <div class="tyc-nuevo-acc"><button type="button" class="btn btn-secundario" id="tycNuevoCondVer">Ver términos</button><button type="button" class="btn btn-primario" id="tycNuevoCondAcepto">Acepto</button></div>
   </div>
@@ -2983,7 +3037,7 @@
     }).observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class"] });
   })();
 
-  var APP_VERSION = 93;
+  var APP_VERSION = 94;
   function revisarActualizacion(versionServidor) {
     // Solo tiene sentido dentro de la app instalada (Capacitor): la web
     // en el navegador siempre sirve el HTML más nuevo, no hay ningun .apk
@@ -3557,7 +3611,7 @@
   document.getElementById("btnVolverIngreso").addEventListener("click", function () { mostrarRegistro(false); });
 
   // Versión de los T&C del conductor que se aceptan al registrarse (ver legal/tyc-conductor.md).
-  var VERSION_TYC_CONDUCTOR = "2026-11-11-tyc6.1";
+  var VERSION_TYC_CONDUCTOR = "2026-11-12-tyc6.2";
   // Nueva aceptación (abogado, 12-nov-2026): sin aceptar la versión vigente el conductor no se conecta. Se guarda en el teléfono (por cuenta, con try/catch) y se manda al servidor al conectar.
   function tycConductorAlDia(aceptada, version) { return !!version && aceptada === version; }
   function claveTycConductor() { var s = obtenerSesion(); return "rumbo_tyc_cond_ok_" + ((s && s.conductor && s.conductor.conductor_id) || ""); }
@@ -4767,6 +4821,9 @@
         if (ver) { semanaPedida = Number(ver.getAttribute("data-ver-semana")) || 0; abrirPantallaAdmin("semana"); }
       });
     }
+    var hm = function (x) { var h = new Date(x); return isNaN(h.getTime()) ? "" : h.toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }); };
+    var mn = function (n) { return Number(n) > 0 ? Math.round(Number(n)) + " min" : ""; };
+    var kmt = function (n, medidos) { return Number(n) > 0 ? String(Number(n).toFixed(1)).replace(".", ",") + " km" + (medidos === false ? " (estimado)" : "") : ""; };   // km_medidos false = estimada
     var fila = function (rotulo, valor) { return valor ? '<div class="vd-fila"><dt>' + escapar(rotulo) + '</dt><dd>' + escapar(valor) + '</dd></div>' : ""; };
     var paradas = v.paradas ? String(v.paradas).split("|").filter(Boolean) : [];
     var cuando = origen === "viajes" ? fechaHoraLarga(v.fecha) : textoFechaMv(v.fecha_viaje, v.hora_viaje, "");
@@ -4782,7 +4839,7 @@
         '<button type="button" class="liq-ver" data-ver-semana="' + offsetSemanaDe(v.fecha) + '">Ver el resumen de la semana<span aria-hidden="true">›</span></button>';
     }
     cuerpo.innerHTML = (dsg ? cas : '<p class="vd-monto">' + escapar(fmt(v.monto)) + '</p><p class="vd-sub">' + escapar(ESTADO_TXT_MV[v.estado] || "") + '</p>') +
-      '<dl class="vd-lista">' + fila("Fecha y hora", dsg ? "" : cuando) + fila("Pasajero", nomP(v.nombre)) + fila("Desde", v.origen) +
+      '<dl class="vd-lista">' + fila("Fecha y hora", dsg ? "" : cuando) + fila("Hora de inicio", hm(v.inicio)) + fila("Hora de término", hm(v.fin)) + fila("Duración", mn(v.minutos_viaje)) + fila("Tiempo en abordar", mn(v.espera_abordaje_min)) + fila("Distancia", kmt(v.km_viaje, v.km_medidos === false ? false : true)) + fila("Pasajero", nomP(v.nombre)) + fila("Desde", v.origen) +
         paradas.map(function (x, i) { return fila("Parada " + (i + 1), x); }).join("") + fila("Hasta", v.destino) +
         fila("Ida y vuelta", v.ida_vuelta === "SI" ? "Sí" : "") + fila("Forma de pago", origen === "viajes" ? v.forma : "") +
         (origen === "viajes" ? fila("Calificación", v.calificado ? "Ya calificaste al pasajero" : "Pendiente") : "") + '</dl>' +
@@ -5812,7 +5869,7 @@
     mostrarPantalla("login");
   });
 
-  function fmt(n) { return "$" + Math.round(n || 0).toLocaleString("es-CL"); }
+  function fmt(n) { return "$" + Math.round(n || 0).toLocaleString("es-CL") + " pesos"; }
 
   // Lo que se cobra de un viaje: el monto final si ya se calculó, si no el
   // cotizado. cobroRealActivo lo informa el servidor (interruptor del backend).
@@ -6881,7 +6938,6 @@
     document.getElementById("edcMsg").textContent = ""; edcInvalidar();
     document.getElementById("modalEditarC").hidden = false;
   }
-  document.getElementById("tvEditarRapido").addEventListener("click", function () { document.getElementById("tvEditar").click(); });
   document.getElementById("tvEditar").addEventListener("click", function () {
     var p = elegirFoco(pedidosEnCursoActuales, focoManualId);
     // Si el cambio pendiente es del PASAJERO, el botón vuelve a abrir la ventana para responderlo.
@@ -7352,7 +7408,7 @@
   }
   function textoNoPresentacion(rest) {
     if (rest > 0) return "Cancelar por no presentación · disponible en " + Math.floor(rest / 60) + ":" + (rest % 60 < 10 ? "0" : "") + (rest % 60);
-    return "Cancelar por no presentación · recibes " + NOPRES_COMPENSACION + " pesos";
+    return "Cancelar por no presentación · recibes $" + NOPRES_COMPENSACION + " pesos";
   }
   var noPresEstado = null;   // { p, rec } del viaje en foco, para el reloj de 1 s
   function actualizarNoPresentacion() {
@@ -7368,11 +7424,15 @@
     var puntos = puntosDelViaje(p), quien = nomP(p.nombre || "el pasajero");
     if (p.estado_pago === "PENDIENTE") {
       var fp = p.forma_pago;
-      return { etapa: "pago", id: p.pedido_id, etiqueta: "Viaje terminado", titulo: "Por cobrar " + fmt(montoCobrar(p)),
-        sub: fp === "EFECTIVO" ? "El pasajero pagará en efectivo" : fp === "TRANSFERENCIA" ? (p.comprobante_subido ? "Transferencia con comprobante PDF recibido ✓" : "Esperando comprobante PDF del pasajero")
+      return { etapa: "pago", id: p.pedido_id, etiqueta: "Viaje terminado", titulo: "", filas: [["Viaje", fmt(montoCobrar(p))], ["Por cobrar", fmt(montoCobrar(p))]],
+        sub: fp === "EFECTIVO" ? "Cobra en efectivo" : fp === "TRANSFERENCIA" ? (p.comprobante_subido ? "Transferencia con comprobante PDF recibido ✓" : "Esperando comprobante PDF del pasajero")
           : (fp === "POR_ELEGIR" || !fp) ? "El pasajero está eligiendo cómo pagar" : "Esperando el pago por Mercado Pago",
+        // Cobro (12-nov-2026): en efectivo «Me pagó en efectivo» es el botón principal; con transferencia, el del comprobante; con tarjeta/Mercado Pago o sin elegir no hay botón principal
+        // (oculto) y «Me pagó en efectivo» queda como secundario, en «Más».
         boton: fp === "TRANSFERENCIA" && !p.comprobante_subido ? { texto: "Esperando el comprobante", accion: "esperar-comprobante", clase: "" }
-          : { texto: fp === "TRANSFERENCIA" ? "Recibí la transferencia" : fp === "EFECTIVO" ? "Recibí el efectivo" : "Me pagó en efectivo", accion: "efectivo", clase: "verde" }, crono: null, secundario: null, punto: null, nav: null };
+          : (fp === "EFECTIVO" || fp === "TRANSFERENCIA") ? { texto: fp === "TRANSFERENCIA" ? "Recibí la transferencia" : "Me pagó en efectivo", accion: "efectivo", clase: "verde" }
+          : { texto: "Esperando el pago", accion: "esperar-pago", clase: "", oculto: true },
+        crono: null, secundario: (fp === "EFECTIVO" || fp === "TRANSFERENCIA") ? null : { texto: "Me pagó en efectivo", accion: "efectivo" }, punto: null, nav: null };
     }
     var etapa = etapaDelViaje(p);
     if (etapa === "recoger") {
@@ -7442,7 +7502,7 @@
     var e = etaInfo[p.pedido_id] || (etaInfo[p.pedido_id] = {});
     document.getElementById("tvInfoEta").textContent = enRecogida && e.texto ? e.texto : "";
     document.getElementById("tvInfoEta").hidden = !(enRecogida && e.texto);
-    info.hidden = false;
+    info.hidden = m.etapa === "pago";   // en el cobro la tarjeta de arriba ya dice «Viaje terminado»: sin la barra repetida de abajo
     var nav = document.getElementById("tvNavegar"), ir = document.getElementById("tvIr");
     nav.hidden = !m.nav || m.etapa === "pago";
     document.getElementById("tvNavegarTx").textContent = "Navegar";
@@ -7464,11 +7524,9 @@
      burbuja del chat) siguen siendo los que mandan: la fila copia su estado y les pasa el toque. */
   function actualizarOpcionesViaje() {
     var q = function (id) { return document.getElementById(id); };
-    var ir = q("tvIr"), ed = q("tvEditarRapido"), sec = q("tvSec"), bur = q("burbujaChat"), n = q("burbujaChatN");
-    q("tvActNav").hidden = true;   // «Navegar» vive solo flotando sobre el mapa (tvNavegar); el menú de arriba ya no lo ofrece
-    q("tvActNavTx").textContent = String(ir.textContent || "").replace(/^Ir con /, "") || "GPS";
+    var ir = q("tvIr"), ed = q("tvEditar"), sec = q("tvSec"), bur = q("burbujaChat"), n = q("burbujaChatN");
     q("tvActEditar").hidden = ed.hidden; q("tvActEditar").disabled = ed.disabled;
-    q("tvActChat").hidden = bur.hidden && !document.querySelector("#chatPaneles [data-panel]");
+    q("tvActChat").hidden = bur.hidden && !document.querySelector("#chatPaneles [data-panel]");   // con la tarjeta de viaje la burbuja flotante NUNCA se ve (body.con-tarjeta .burbuja-chat display none): esta fila es el único acceso al chat
     q("tvActPunto").hidden = n.hidden; q("tvActPunto").textContent = n.textContent;
     q("tvActMas").hidden = sec.hidden;
     q("tvAcciones").hidden = [].every.call(q("tvAcciones").children, function (b) { return b.hidden; });
@@ -7530,7 +7588,7 @@
     }).catch(function () { soltandoViaje = false; rbAlerta(TEXTO_SIN_CONEXION); });
   }
   document.getElementById("btnSoltarCerrar").addEventListener("click", function () { document.getElementById("modalSoltar").hidden = true; });
-  [["tvActNav", "tvIr"], ["tvActEditar", "tvEditar"], ["tvActChat", "burbujaChat"]].forEach(function (par) {
+  [["tvActEditar", "tvEditar"], ["tvActChat", "burbujaChat"]].forEach(function (par) {
     document.getElementById(par[0]).addEventListener("click", function (ev) { ev.stopPropagation(); document.getElementById(par[1]).click(); });
   });
   document.getElementById("tvActMas").addEventListener("click", function (ev) { ev.stopPropagation(); abrirOpcionesViaje(); });
@@ -7581,6 +7639,13 @@
     document.getElementById("tvEt").textContent = m.etiqueta;
     document.getElementById("tvDir").textContent = m.titulo;
     document.getElementById("tvSub").textContent = m.sub;
+    var tf = document.getElementById("tvFilas"), fl = m.filas || [];
+    tf.textContent = "";
+    fl.forEach(function (f, i) {
+      var d = document.createElement("div"), l = document.createElement("span"), b = document.createElement("b");
+      d.className = "tv-dato" + (fl.length > 1 && i === fl.length - 1 ? " total" : ""); l.textContent = f[0]; b.textContent = f[1]; d.appendChild(l); d.appendChild(b); tf.appendChild(d);
+    });
+    tf.hidden = !fl.length;   // datos en filas (cobro: Viaje y Por cobrar), sin frases
     var cr = document.getElementById("tvCrono");
     if (m.crono) {
       cr.dataset.desde = m.crono.desde; cr.dataset.incluida = String(m.crono.incluidaMin);
@@ -7597,11 +7662,6 @@
     tvEd.hidden = !puedeEditar;
     tvEd.disabled = pendienteMio;
     tvEd.textContent = pendienteMio ? "Cambio enviado: esperando al pasajero" : pendienteDelPasajero ? "Responder el cambio del pasajero" : "Editar viaje";
-    // el mismo botón, a la vista bajo la acción principal (no hace falta abrir el itinerario)
-    var tvEdR = document.getElementById("tvEditarRapido");
-    tvEdR.hidden = !puedeEditar;
-    tvEdR.disabled = pendienteMio;
-    tvEdR.textContent = tvEd.textContent;
     document.getElementById("tvIr").textContent = gpsPreferido === "GOOGLE_MAPS" ? "Ir con Maps" : "Ir con Waze";
     var b = document.getElementById("tvAccion");
     // Un arrastre en curso no se repinta (el sondeo corre cada ~5 s y devolvería el tirador al inicio).
@@ -7612,7 +7672,11 @@
       b.dataset.desliza = m.boton.slide ? "1" : "";
       b.dataset.accion = m.boton.accion; b.dataset.id = m.id; b.dataset.siguiente = m.boton.siguiente !== undefined ? String(m.boton.siguiente) : "";
     }
-    b.disabled = tvOcupado || !!m.boton.deshabilitado;   // «Yendo al punto de encuentro»: informativo hasta que el servidor registre la llegada
+    b.disabled = tvOcupado || !!m.boton.deshabilitado;
+    b.style.display = m.etapa === "pago" ? "none" : "";   // en el cobro, el botón vive dentro de la tarjeta (#tvCobro)
+    var cb = document.getElementById("tvCobro"), enCobro = m.etapa === "pago" && !m.boton.oculto;
+    cb.hidden = !enCobro;
+    if (enCobro) { cb.textContent = m.boton.texto; cb.dataset.accion = m.boton.accion; cb.dataset.id = m.id; cb.disabled = tvOcupado; }   // «Yendo al punto de encuentro»: informativo hasta que el servidor registre la llegada
     var np = document.getElementById("tvNoPres");
     noPresEstado = { p: p, rec: Date.now() };
     np.hidden = !(m.etapa === "recogida" && segundosNoPresentacion(p, Date.now(), noPresEstado.rec) !== null);
@@ -7621,6 +7685,7 @@
     if (m.secundario) { sc.hidden = false; sc.textContent = m.secundario.texto; sc.dataset.accion = m.secundario.accion; sc.dataset.id = m.id; } else sc.hidden = true;
     var otros = pedidosEnCursoActuales.length - 1, ot = document.getElementById("tvOtros");
     if (otros > 0) { ot.hidden = false; ot.textContent = "Hay " + otros + (otros === 1 ? " viaje más" : " viajes más") + " · ver itinerario"; } else ot.hidden = true;
+    tv.classList.toggle("etapa-pago", m.etapa === "pago");   // en el cobro Chat y Más son discretos (ahorrar botones)
     tv.hidden = false; ac.hidden = false;
     document.body.classList.add("con-tarjeta");
     actualizarInfoViaje(p, m);
@@ -7770,6 +7835,7 @@
   function conBotonOcupado(promesa) {
     tvOcupado = true;
     document.getElementById("tvAccion").disabled = true;
+    document.getElementById("tvCobro").disabled = true;
     return promesa.then(function (r) { tvOcupado = false; pintarTarjetaViaje(); return r; },
                         function (e) { tvOcupado = false; pintarTarjetaViaje(); throw e; });
   }
@@ -7854,9 +7920,10 @@
       })).catch(function (err) { rbAlerta(TEXTO_SIN_CONEXION); });
       return;
     }
+    if (tipo === "esperar-pago") return;   // sin botón principal: se espera el pago por Mercado Pago o la elección del pasajero
     if (tipo === "esperar-llegada") return;   // botón informativo (deshabilitado): la llegada la registra el servidor
     if (tipo === "no-presentacion") {
-      if (!(await rbConfirmar("Se cancela el viaje por no presentación del pasajero. Se le cobran " + NOPRES_CARGO + " pesos y tú recibes " + NOPRES_COMPENSACION + " pesos cuando se cobre. ¿Cancelar el viaje?"))) return;
+      if (!(await rbConfirmar("Se cancela el viaje por no presentación del pasajero. Se le cobran $" + NOPRES_CARGO + " pesos y tú recibes $" + NOPRES_COMPENSACION + " pesos cuando se cobre. ¿Cancelar el viaje?"))) return;
       conBotonOcupado(apiPost({ accion: "cancelar_no_presentacion", pedido_id: id }).then(function (res) {
         if (!res || !res.ok) { rbAlerta((res && res.error) || "No se pudo cancelar el viaje."); return; }
         rbAlerta("Viaje cancelado por no presentación.", "ok");
@@ -8037,6 +8104,7 @@
     });
   })();
   document.getElementById("tvSec").addEventListener("click", function () { accionViaje(this.dataset.accion, this.dataset.id); });
+  document.getElementById("tvCobro").addEventListener("click", function () { accionViaje(this.dataset.accion, this.dataset.id); });
   document.getElementById("tvNoPres").addEventListener("click", function () { accionViaje("no-presentacion", this.dataset.id); });
   document.getElementById("tvIr").addEventListener("click", function () {
     var p = elegirFoco(pedidosEnCursoActuales, focoManualId), m = p ? modeloTarjeta(p) : null;
@@ -8475,7 +8543,7 @@
       rbAlerta("El pasajero eligió otro conductor.", "info");
     });
   }
-  function pesosAviso(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " pesos"; }
+  function pesosAviso(n) { return "$" + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " pesos"; }
   function avisarCancelacionesPasajero(lista) {
     (lista || []).forEach(function (c) {
       var clave = "rb_cancel_avisado_" + c.pedido_id;
